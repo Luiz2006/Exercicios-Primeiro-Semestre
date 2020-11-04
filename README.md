@@ -10,6 +10,7 @@
 
 # Icons
     :gift: new functionality;
+    :bug:  
     :white_check_mark: update;
     :cricket: Bug fix;
     :checkered_flag: release.
