@@ -5,11 +5,11 @@
 #PORTIFOLIO
     Developer portfolio.
 
-#Tasks
+##Tasks
     The control of tasks, versioning, of this project will be carried out on GitHub.
 
-# Icons
-    :gift: new functionality;
-    :white_check_mark: update;
-    :cricket: Bug fix;
-    :checkered_flag: release.
+##Icons
+🎁 new functionality; 
+✔️ update; 
+🦗 Bug fix; 
+🏁 release.
