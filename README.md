@@ -1,15 +1,15 @@
-# Exercicios Primeiro Semestre
- Exercicios do Primeiro Semestre de Engenharia de Software
+@First Semester Exercises
+ First Semester of Software Engineering Exercises.
 
 
 #PORTIFOLIO
-Portifólio do desenvolvedor.
+    Developer portfolio.
 
-#Tarefas
-O controle das tarefas, versionamento, desse projeto será realizado no GitHub
+#Tasks
+    The control of tasks, versioning, of this project will be carried out on GitHub.
 
-#Ícones
-📦 nova funcionalidade
-🆙 atualização
-🐞 correção de bug
-🏁 release
+# Icons
+    📦 new functionality;
+    🆙 update;
+    🐞 Bug fix;
+    🏁 release.
