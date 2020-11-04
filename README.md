@@ -1,15 +1,15 @@
-#First Semester Exercises
- First Semester of Software Engineering Exercises.
+# First Semester Exercises
+    First Semester of Software Engineering Exercises.
 
 
-##PORTIFOLIO
+## PORTIFOLIO
     Developer portfolio.
 
-##Tasks
+## Tasks
     The control of tasks, versioning, of this project will be carried out on GitHub.
 
-##Icons
-🎁 new functionality; 
-✔️ update; 
-🦗 Bug fix; 
-🏁 release.
+## Icons
+    🎁 new functionality; 
+    ✔️ update; 
+    🦗 Bug fix; 
+    🏁 release.
