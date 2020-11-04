@@ -1,4 +1,4 @@
-@First Semester Exercises
+#First Semester Exercises
  First Semester of Software Engineering Exercises.
 
 
@@ -9,7 +9,7 @@
     The control of tasks, versioning, of this project will be carried out on GitHub.
 
 # Icons
-    📦 new functionality;
-    🆙 update;
-    🐞 Bug fix;
-    🏁 release.
+    :gift: new functionality;
+    :white_check_mark: update;
+    :cricket: Bug fix;
+    :checkered_flag: release.
