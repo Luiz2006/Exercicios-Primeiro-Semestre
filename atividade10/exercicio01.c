@@ -1,16 +1,8 @@
-
 //Name: Luiz Araujo
 //Date: 15/11/20 18:31
-//Description: desenvolva um programa que solicite as três notas das provas para cada estudante de uma turma em determinada disciplina. 
-//	Leia os valores na função principal e 
-//	acione uma outra função (calculaMedia) que realizará o cálculo da média aritmética 
-//para cada estudante informado. 
-//	Apresente no programa principal a média alcançada 
-//por cada estudante, 
-//	conforme suas notas forem sendo informadas. 
-//	Lembre-se que não é permitido o uso de variáveis globais.
-//automatizar contagem de provas
-/// validar todas as entradas
+//Description: calcula a média das notas das provas para cada estudante de uma turma em determinada disciplina. Lendo os valores na função 
+//		principal e acionando uma outra função (calculaMedia) que realizará o cálculo da média aritmética para cada estudante informado. 
+//		Apresente no programa principal a média alcançada por cada estudante. Lembre-se que não é permitido o uso de variáveis globais.
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -61,11 +53,11 @@ int main(){
 			}while((nota[indice] < 0)||(nota[indice] > 10));
 		}
 		
-//		Para visualizar as notas
-//		for(contador = 1; contador <= qtdProvas; contador++){
-//			int indice = contador - 1;
-//			printf("\nNota prova %i: %.2f.", (contador), nota[indice]);
-//		}
+//	Para visualizar as notas
+//	for(contador = 1; contador <= qtdProvas; contador++){
+//		int indice = contador - 1;
+//		printf("\nNota prova %i: %.2f.", (contador), nota[indice]);
+//	}
 		
 		media[contadorAluno] = calculaMedia(nota, qtdProvas);
 		
