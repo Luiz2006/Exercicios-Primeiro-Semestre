@@ -1,0 +1,43 @@
+# Project: ExerciciosPrimeiroSemestre
+# Makefile created by Dev-C++ 5.11
+
+CPP      = g++.exe
+CC       = gcc.exe
+WINDRES  = windres.exe
+OBJ      = main.o atividade01/exercicio01.o atividade01/exercicio02.o atividade01/exercicio03.o atividade01/exercicio04.o atividade01/exercicio05.o
+LINKOBJ  = main.o atividade01/exercicio01.o atividade01/exercicio02.o atividade01/exercicio03.o atividade01/exercicio04.o atividade01/exercicio05.o
+LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib32" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32" -static-libgcc -m32
+INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
+CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
+BIN      = Exercicios-Primeiro-Semestre.exe
+CXXFLAGS = $(CXXINCS) -m32
+CFLAGS   = $(INCS) -m32
+RM       = rm.exe -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CC) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+main.o: main.c
+	$(CC) -c main.c -o main.o $(CFLAGS)
+
+atividade01/exercicio01.o: atividade01/exercicio01.c
+	$(CC) -c atividade01/exercicio01.c -o atividade01/exercicio01.o $(CFLAGS)
+
+atividade01/exercicio02.o: atividade01/exercicio02.c
+	$(CC) -c atividade01/exercicio02.c -o atividade01/exercicio02.o $(CFLAGS)
+
+atividade01/exercicio03.o: atividade01/exercicio03.c
+	$(CC) -c atividade01/exercicio03.c -o atividade01/exercicio03.o $(CFLAGS)
+
+atividade01/exercicio04.o: atividade01/exercicio04.c
+	$(CC) -c atividade01/exercicio04.c -o atividade01/exercicio04.o $(CFLAGS)
+
+atividade01/exercicio05.o: atividade01/exercicio05.c
+	$(CC) -c atividade01/exercicio05.c -o atividade01/exercicio05.o $(CFLAGS)

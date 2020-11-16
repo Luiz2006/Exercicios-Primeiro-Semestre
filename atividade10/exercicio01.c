@@ -7,6 +7,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<locale.h>
+#include<string.h>
 
 float calculaMedia(float *nota, int qtdProvas);
 int validarQtdProvas(int qtdProvas);
