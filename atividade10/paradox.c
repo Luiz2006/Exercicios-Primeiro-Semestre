@@ -19,5 +19,6 @@ int main()
     printf("\tprintf(\"STATUS - COMPLETO\");\n");
     printf("\treturn 0;\n");
     printf("}");
+    getch();
     return 0;
 }
