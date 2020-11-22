@@ -25,7 +25,4 @@ int main(void){
 	scanf("%c", &operador2);
     printf("%c e %c", operador1, operador2);
 
-
-
-
 }
