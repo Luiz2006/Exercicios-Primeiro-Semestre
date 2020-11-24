@@ -119,20 +119,30 @@ void validarFrequencia(float *aula, float total){
 
 float calcularFrequencia(float aulas, float faltas){	
 	float freq;
+//	if(faltas == 0){
+//		freq = 100;
+//	}else{
+//		if(faltas == aulas){
+//			freq = 0;
+//		}else{{
+//				freq = ((faltas * 100) / aulas);	
+//			}	
+//		}
+//	}
 	if(faltas == 0){
 		freq = 100;
 	}else{
 		if(faltas == aulas){
 			freq = 0;
-		}else{{
-				freq = ((faltas * 100) / aulas);	
-			}	
+		}else{
+				freq = (100 - ((faltas * 100) / aulas));	
 		}
 	}
 	return freq;
 }
 
-void mensagemResultado(float media, float A1, float A2, float A3, float freq){	
+void mensagemResultado(float media, float A1, float A2, float A3, float freq){
+	
 	if((freq < 75)){ //padrão: < 75
 		if((media < 7)){ //padrão: < 7
 			printf("\n\nREPROVADO PELA NOTA E POR FALTA, QUE PENA!");
@@ -163,6 +173,8 @@ void mensagemResultado(float media, float A1, float A2, float A3, float freq){
 			printf("\n\nATENÇÃO: As notas de atividades supervisionadas (AS) não poderão ser substituídas pela avaliação de recuperação.");			
 		}	
 	}
+	printf("\n\n");
+	system("PAUSE");
 }
 
 // para testar automaticamente
