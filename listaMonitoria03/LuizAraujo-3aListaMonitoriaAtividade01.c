@@ -8,7 +8,7 @@ void resultadoAnalise(char nomeCidade[], int qtdEstabelecimentos, int qtdFocos[]
 
 int main(void){
 //	declarações
-	char nomeCidade[30]; //cidade que foi realizada a pesquisa
+	char nomeCidade[30];
 	int qtdEstabelecimentos, qtdFocos[100][2];
 	
 //	instruções
@@ -79,7 +79,6 @@ void resultadoAnalise(char nomeCidade[], int qtdEstabelecimentos, int qtdFocos[]
 
 	printf("\n -> Foram vistados %i estabelecimentos, onde viviam %i pessoas.\n", qtdEstabelecimentos, totalPessoas);
 	
-	 
 	for(indice = 0; indice < qtdEstabelecimentos; indice++){
 		printf("\n -> Estabelecimento : %3i\n\tQuantidade de pessoas: %3i | Numero de focos: %3i\n", (indice + 1), qtdFocos[indice][1], qtdFocos[indice][0]);
 		if(qtdFocos[indice][1] > mediaPessoas){

@@ -1,78 +1,66 @@
-/*
-Name: Luiz Araujo
-Description: 
-*/
-
 #include<stdio.h> 
 #include<stdlib.h>
 
-char lerValidarSexo();
 int lerValidarIdade();
+char lerValidarSexo();
 char lerValidarLocal();
-void apresentarResultado(char sexo[], char local[], int idade[], int contadorPessoas);
 void visaoFinal(char sexo[], char local[], int idade[], int contadorPessoas);
+void apresentarResultado(char sexo[], char local[], int idade[], int contadorPessoas);
 
 int main(void){
-	int maxPessoas = 500;
-	char sexo[maxPessoas], local[maxPessoas];
+	const int maxPessoas = 500;
+	char sexo[maxPessoas], local[maxPessoas];	
 	int idade[maxPessoas], contadorPessoas = 0;
 
-		printf("PESQUISA SOBRE");
-		printf("\n (sexo n para encerrar)\n");
+	printf("   PESQUISA SOBRE");
+	printf("\n(sexo 'n' para encerrar)\n");
+	
 	do{
 		printf("\n%3i%c PESSOA", contadorPessoas + 1, 166);
 		sexo[contadorPessoas] = lerValidarSexo();	
-		if(sexo[contadorPessoas] == 'n'){ //aqui pára o loop, não pode ser na função porque o loop é fora da função;
+		if(sexo[contadorPessoas] == 'n'){
 			break; 			
 		}		
-		local[contadorPessoas] = lerValidarLocal();	
-		idade[contadorPessoas] = lerValidarIdade();				
-		
-	//	printf("\n Idade: %i", idade[contadorPessoas]);
-//		printf("\n Local: %c", local[contadorPessoas]);
-//		printf("\nSEXO: %c\n", sexo[contadorPessoas]);	// sempre deixo comentarios pra testar as paradas, aí qndo pronto eu "limpo" o código
-
+		idade[contadorPessoas] = lerValidarIdade();	
+		local[contadorPessoas] = lerValidarLocal();		
 		contadorPessoas++;		
-	}while(contadorPessoas < maxPessoas); //se eu não parar antes vai até 499
+	}while(contadorPessoas < maxPessoas);
 
 	apresentarResultado(sexo, local, idade, contadorPessoas);
 	visaoFinal(sexo, local, idade, contadorPessoas);
 	
-//	getch();
+	getch();
 	return 0;
 }
 
 char lerValidarSexo(){
 	char sexo;
 	int cont = 0;
+	
 	printf("\nInforme o sexo: ");
 	fflush(stdin);
-	sexo = getchar();	//descobri, estava pulando o input porque tinha "lixo" de outra entrada, por isso repetia. Tive que por fflush(stdin); em tudo...
+	sexo = getchar();
 	sexo = tolower(sexo);
-	
+		
 	while((sexo != 'f') && (sexo != 'm') && (sexo != 'n')){
 		if(cont > 1){
-			printf("\nSexo Invalido, informe 'f' para feminino ou 'm' para masculino.");
+			printf("\nSexo invalido, informe 'f' para feminino ou 'm' para masculino.");
 		}else{
-			printf("\nSexo Invalido.");
+			printf("\nSexo invalido.");
 		}
-		
-		
-		
 		printf("\nInforme o sexo: ");
 		fflush(stdin);
 		sexo = getchar();
-		sexo = tolower(sexo);
-		
+		sexo = tolower(sexo);		
 		cont++;
-	}
+	}	
 	return sexo;
 }
 
 int lerValidarIdade(){
 	int idade, cont = 0;
 			
-	printf("idade: ");
+	printf("Idade: ");
 	fflush(stdin);
 	scanf("%i", &idade);
 	
@@ -83,13 +71,10 @@ int lerValidarIdade(){
 			printf("\nIdade invalida: ");
 		}
 		fflush(stdin);
-		scanf("%i", &idade);
-		
+		scanf("%i", &idade);		
 		cont++;
-	}
-			
+	}			
 	return idade;
-
 }
 
 char lerValidarLocal(){
@@ -126,25 +111,47 @@ char lerValidarLocal(){
 }	//aqui fim da função
 
 void apresentarResultado(char sexo[], char local[], int idade[], int contadorPessoas){
-	int indice;
+	int indice, contMenores = 0;
 	float mediaIdade = 0;
 	
-	for(indice = 0; indice < contadorPessoas; indice++){	//percorre todo o o vetor
+	for(indice = 0; indice < contadorPessoas; indice++){
 		mediaIdade = mediaIdade + idade[indice];
 	}
 	
 	mediaIdade = mediaIdade / contadorPessoas;
 	
-	
-	//fazer a tabela
 	system("CLS");
 	printf("RESULTADO DA PESQUISA\n");
-	printf("\nRelacao de entrevistados abaixo da media de idade(%.2f):", mediaIdade);
-	printf("\n SEXO  IDADE  ULTIMA VIAGEM");
-	for(indice = 0; indice < contadorPessoas; indice++){	//percorre todo o o vetor
+	if(mediaIdade == 1){
+		printf("\n\nRelacao de entrevistados abaixo da media de idade: %.2f ano.\n", mediaIdade);
+	}else{
+		printf("\n\nRelacao de entrevistados abaixo da media de idade: %.2f anos.\n", mediaIdade);
+	}		
+	printf("\n SEXO  IDADE    ULTIMA VIAGEM");
+	for(indice = 0; indice < contadorPessoas; indice++){
 		if(idade[indice] < mediaIdade){
-			printf("\n|  %-3c|  %-4i|     %-9c|", sexo[indice], idade[indice], local[indice]);
+			contMenores++;
+			printf("\n   %-3c   %-4i ", sexo[indice], idade[indice]);
+			if(local[indice] == 'E'){				
+				printf("%-18s ", " EUROPA ");
+			}		
+			if(local[indice] == 'S'){				
+				printf("%-18s ", " ASIA ");
+			}		
+			if(local[indice] == 'A'){				
+				printf("%-18s ", " AMERICA DO NORTE ");
+			}		
+			if(local[indice] == 'N'){				
+				printf("%-18s ", " NUNCA SAIU DO PAIS");
+			}
 		}			
+	}
+	if(contMenores == 0){
+		if(mediaIdade <= 1){
+			printf("\n\nNao ha entrevistados abaixo de %.2f ano.", mediaIdade);
+		}else{
+			printf("\n\nNao ha entrevistados abaixo de %.2f anos.", mediaIdade);
+		}		
 	}
 }
 
@@ -152,7 +159,7 @@ void visaoFinal(char sexo[], char local[], int idade[], int contadorPessoas){
 	int indice, E = 0, S = 0, A = 0, N = 0;
 
 	printf("\n\nRelacao dos paises visitados");
-	for(indice = 0; indice < contadorPessoas; indice++){	//percorre todo o o vetor
+	for(indice = 0; indice < contadorPessoas; indice++){
 		if(local[indice] == 'E'){
 			E++;
 		}			

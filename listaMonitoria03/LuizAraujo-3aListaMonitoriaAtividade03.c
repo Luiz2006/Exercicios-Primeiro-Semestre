@@ -2,66 +2,63 @@
 #include<stdlib.h>
 #include<locale.h>
 
-#define MAX_INVESTIGADOS 30 //certo 150
+#define MAX_INVESTIGADOS 150 //certo 150
 
-int leValidaId(int idInvestiga[], int investigados);
 float leValidaValor();
+int leValidaId(int idInvestiga[], int investigados);
 void classificaCPI(char classificacao[], float valoresInvestiga[], int investigados);
 void apresentacaoCPI(char classe[], int idInvestiga[], float valoresInvestiga[], int contadorInvestigados);
 
 int main(void){
 	setlocale(LC_ALL, "Portuguese");
 //	declarações
+	int contadorInvestigados = 0;
 	int idInvestiga[MAX_INVESTIGADOS] = {0};
 	float valoresInvestiga[MAX_INVESTIGADOS] = {0};
 	char classificacao[MAX_INVESTIGADOS];
-	int contadorInvestigados = 0;
 	
 //	instruções
 	puts("CADASTRO DE INFORMAÇÕES PARA AUXÍLIO DAS CPIs");
-	printf("            POLICIA FEDERAL\n");
-	
+	printf("            POLÍCIA FEDERAL\n");
 	printf("\n(identificação 0 encerra)\nINFORME:\n");
 	
 	do{
-		
 		idInvestiga[contadorInvestigados] = leValidaId(idInvestiga, contadorInvestigados);
-//		idInvestiga[contadorInvestigados] = rand() % 10000;
-//		printf("\n\n\nID: %d\n\n\n", idInvestiga[contadorInvestigados]);
 		if((idInvestiga[contadorInvestigados] == 0) && contadorInvestigados > 1){
 			break;
 		}		
-		
 		valoresInvestiga[contadorInvestigados] = leValidaValor();
-//		printf("\n\nValor: R$ %.2f", valoresInvestiga[contadorInvestigados]);
-		
 		contadorInvestigados++;
 	}while(contadorInvestigados < MAX_INVESTIGADOS);
-
+	
 	classificaCPI(classificacao, valoresInvestiga, contadorInvestigados);
 	apresentacaoCPI(classificacao, idInvestiga, valoresInvestiga, contadorInvestigados);
 	
-	getche();
+	system("CLS");		
+	printf("\n");
+	printf("\n\nOBRIGRADO POR USAR NOSSO SISTEMA.\n\tVOLTE SEMPRE!");
+	printf("\n\n\n");
+	system("PAUSE");
 	return 0;
 }
 
 int leValidaId(int idInvestiga[], int investigados){
 	int i, cont = 0, indice;
-	printf("\n%i%cINVESTIGADO ", investigados + 1, 167);
+	
+	printf("\n%iºINVESTIGADO ", investigados + 1, 167);
 	printf("\nIdentificação do investigado: ");
 	scanf("%d", &i);
 	
 	while(i <= 1000 && i > 0 || i < 0){
 		if(cont > 1){
-			printf("\nIdentificação inválida!\nInforme um numero inteiro maior que 1000: ");
+			printf("\nIdentificação inválida!\nInforme um número inteiro maior que 1000: ");
 		}else{
 			printf("\nIdentificação inválida: ");
 		}		
 		scanf("%d", &i);		
 		cont++;
 	} 
-	
-	
+		
 	for(indice = 0; indice < investigados; indice++){
 		while(i == idInvestiga[indice]){
 			printf("\nIdentificação já cadastrada: ");
@@ -69,7 +66,7 @@ int leValidaId(int idInvestiga[], int investigados){
 			
 			while(i <= 1000 && i > 0 || i < 0){
 				if(cont > 1){
-					printf("\nIdentificação inválida!\nInforme um numero inteiro maior que 1000: ");
+					printf("\nIdentificação inválida!\nInforme um número inteiro maior que 1000: ");
 				}else{
 					printf("\nIdentificação inválida: ");
 				}		
@@ -96,13 +93,13 @@ float leValidaValor(){
 	float val;
 	int cont = 0;
 	
-	printf("Valor recebido pelo investigado: R$ ");
+	printf("Valor recebido pelo investigado(com vírgulas): R$ ");
 	scanf("%f", &val);
 	
 	cont = 0;
 	while(val <= -1){		
 		if(cont < 1){
-			printf("Valor nao pode ser negativo: R$ ");
+			printf("Valor não pode ser negativo: R$ ");
 		}else{
 			printf("\nValor recebido não pode ser negativo: R$ ");
 		}		
@@ -128,14 +125,17 @@ void classificaCPI(char classificacao[], float valoresInvestiga[], int investiga
 	}
 }
 
-
-void apresentacaoCPI(char classificacao[], int idInvestiga[], float valoresInvestiga[], int contadorInvestigados){
-	int indice, contIniciante = 0, contSemVergonha = 0, contSafado = 0;
+void apresentacaoCPI(char classificacao[], int idInvestiga[], float valoresInvestiga[], int contadorInvestigados){	
+	int indice, contIniciante = 0, contSemVergonha = 0, contSafado = 0, contadorPesquisa = 0;
 	float total = 0, valorPesquisa;
 	do{
+		//zerar para não ficar somando a cada repetição, poderia futuramente fazer algo pra não ficar fazendo as contas em cada rep...
+		contIniciante = contSemVergonha = contSafado = contadorPesquisa = 0;
+		total = valorPesquisa = 0;
+		
 		system("CLS");
 		puts("CADASTRO DE INFORMAÇÕES PARA AUXÍLIO DAS CPIs");
-		printf("            POLICIA FEDERAL\n");
+		printf("            POLÍCIA FEDERAL\n");
 		printf("\nIDENTIFICAÇÃO  VALOR (R$)  CLASSIFICAÇÃO");
 		for(indice = 0; indice < contadorInvestigados; indice++){
 			printf("\n %-12i %10.2f", idInvestiga[indice], valoresInvestiga[indice]); 
@@ -153,11 +153,23 @@ void apresentacaoCPI(char classificacao[], int idInvestiga[], float valoresInves
 			}
 			total = total + valoresInvestiga[indice];
 		}
-		printf("\nResumo:");	
-		printf("\n  %02i = Iniciante", contIniciante);
-		printf("\n  %02i = Sem vergonha", contSemVergonha);
-		printf("\n  %02i = Resumo", contSafado);
-		printf("\nTotal de valores recebidos: R$ %.2f\n", total);
+		printf("\nResumo:");			
+		if(contIniciante > 1){
+			printf("\n  %02i = Iniciantes", contIniciante);			
+		}else{
+			printf("\n  %02i = Iniciante", contIniciante);	
+		}
+		if(contSemVergonha > 1){
+			printf("\n  %02i = Sem vergonhas", contSemVergonha);
+		}else{
+			printf("\n  %02i = Sem vergonha", contSemVergonha);
+		}
+		if(contSafado > 1){
+			printf("\n  %02i = Safados", contSafado);
+		}else{
+			printf("\n  %02i = Safado", contSafado);
+		}
+		printf("\nTotal de valores recebidos: R$ %.2f\n.", total);
 		
 		printf("\n(valor menor ou igual a 0 encerra)");	
 		printf("\nPesquisar Valor: R$ ");
@@ -165,36 +177,26 @@ void apresentacaoCPI(char classificacao[], int idInvestiga[], float valoresInves
 		if(valorPesquisa <= 0){
 			break;
 		}
+		
 		printf("\nIDENTIFICAÇÃO  VALOR (R$)  CLASSIFICAÇÃO");
 		for(indice = 0; indice < contadorInvestigados; indice++){
 			if(valoresInvestiga[indice] >= valorPesquisa){
+				contadorPesquisa++;
 				printf("\n %-12i %10.2f", idInvestiga[indice], valoresInvestiga[indice]); 
 				if(classificacao[indice] == 'i'){
 					printf("    %-14s", "iniciante");
-					contIniciante++;
 				}
 				if(classificacao[indice] == 'v'){
 					printf("    %-14s", "sem vergonha");
-					contSemVergonha++;
 				}
 				if(classificacao[indice] == 's'){
 					printf("    %-14s", "safado");
-					contSafado++;
 				}				
 			}
 		}
-		system("PAUSE");
+		if(contadorPesquisa == 0){
+			printf("\nNenhum investigado recebeu valor >= que R$ %.2f", valorPesquisa);
+		}
+		getch();
 	}while(valorPesquisa > 0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
