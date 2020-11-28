@@ -1,8 +1,3 @@
-/*
-Name: Luiz Araujo
-Description: Alterar o algoritmo de ordenação de caracteres para pesquisar um caractere específico.
-*/
-
 #include<stdio.h>
 #include<stdlib.h>
 
@@ -21,11 +16,11 @@ int main(void){
 	puts("BUSCA DE CARACTER");
 	puts("\nInforme um texto");
 	puts(" # - encerrar\n\n");
-
 	contador = lerValidarTexto(texto, contador);
 	contadorPesquisa = pesquisarCaracter(texto, pesquisa, contador, &caracter);	
 
-	getch();
+	printf("\n\n\nPRESSIONE QUALQUER TECLA PARA ENCERRAR.\n");
+	getche();
 	return 0;
 }
 
@@ -64,7 +59,6 @@ int pesquisarCaracter(char texto[], int pesquisa[], int contador, char *caracter
 		}		
 		mostrarResultado(*caracter, contadorPesquisa, pesquisa, texto, contador);
 	}
-	
 	if(*caracter == '@'){
 		fflush(stdin);
 		puts("BUSCA DE CARACTER");
@@ -82,7 +76,6 @@ void mostrarResultado(char caracter, int contadorPesquisa, int pesquisa[], char 
 	
 	system("CLS");	
 	puts("BUSCA DE CARACTER");
-//	puts(" @ - novo texto");
 	puts(" # - encerrar\n\n");
 	
 	if(contador == 1){
@@ -109,7 +102,7 @@ void mostrarResultado(char caracter, int contadorPesquisa, int pesquisa[], char 
 			printf("\n");
 		} 
 		cont++;
-	}	//fim for
-			printf("\n\n");
+	}
+	printf("\n\n");
 }
 

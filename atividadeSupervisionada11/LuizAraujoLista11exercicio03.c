@@ -1,34 +1,35 @@
-/*
-Name: Luiz Araujo
-Description: algoritmo que calcula e escreve o somatório dos valores armazenados numa variável 
-		composta unidimensional, chamada dados, de até 100 elementos numéricos a serem lidos.
-*/
-
 #include<stdio.h>
-
-#define LIMITE 100 //certo: 100
-
+#define LIMITE 100
 int main(void){
 //	declarações
 	long int dados[LIMITE], somatorio = 0;
-	int contador, contador2;
-	
+	int contador = 0, contador2;	
 //	intruções
-	printf(" 0 PARA FINALIZAR\n\n");
-	
+	printf("INFORME NUMEROS PARA SOMATORIO");
+	printf("\n     (0 para finalizar)\n\n");	
 	do{
-		printf("%2i%c Numero: ", contador, 167);
+		printf("%2i%c Numero: ", contador + 1, 167);
 		scanf("%i", &dados[contador]);
-				
-		somatorio = somatorio+ dados[contador];
+		if(contador > 1 && dados[contador] == 0){
+			break;
+		}
+		while(contador <= 1 && dados[contador] == 0){
+			printf("Deve haver pelo menos dois numeros!\n");
+			printf("%2i%c Numero: ", contador + 1, 167);
+			scanf("%i", &dados[contador]);
+		}
+		somatorio += dados[contador];
 		contador++;
-	}while((dados[contador-1] != 0) && (contador <= 10));
-	
-	printf("\nSomatorio: %i", dados[1] );
-	for(contador2 = 2; contador2 < contador; contador2++){
-		printf(" + %i", dados[contador2]);
+	}while(contador < LIMITE);	
+	printf("\nSomatorio: ");
+	for(contador2 = 0; contador2 < contador; contador2++){
+		if(contador2 > 0 && contador2 < contador){
+			printf(" + ");
+		}		
+		printf("%i", dados[contador2]);
 	}
-	printf(" = %i", somatorio);
-		
+	printf(" = %i", somatorio);	
+	printf("\n\n\nPRESSIONE QUALQUER TECLA PARA ENCERRAR.\n");		
+	getche();		
 	return 0;
 }

@@ -1,9 +1,9 @@
 #include<stdio.h>
 #include<locale.h>
-main(){
+int main(void){
 	setlocale(LC_ALL, "Portuguese");
 	
-	int valor;
+	int valor, indice;
 	
 	printf("Informe um valor: ");
 	scanf("%i", &valor);
@@ -12,21 +12,17 @@ main(){
 		system("CLS");
 		printf("\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t  Valor: %i.\n", valor);
 		printf("\t\t\t\t\tO limite de cálculo foi excedido.\n\n\n\n\n\n\n\n\n\n\n");
-	}else{	
-		//pensei em  duas formas diferentes 
-		/*
-		if(valor % 2 != 0){
-			valor += 1;
-		}
-		for(valor; valor <= 2000; valor+=2){
-			printf("%i - ", valor);
-		}
-		*/
-		
-		for(valor; valor <= 2000; valor++){
-			if(valor % 2 == 0){
-			printf("%i - ", valor);
+	}else{
+		for(indice = valor; indice <= 2000; indice++){
+			if(indice % 2 == 0){
+				printf("%4i\t", indice);
 			}
-		}	
-	}	
+			if((indice + 1) % 20 == 0){
+				printf("\n");
+			}
+		}
+	}
+	printf("\n\n\nPRESSIONE QUALQUER TECLA PARA ENCERRAR.");
+	getche();
+	return 0;	
 }

@@ -1,11 +1,3 @@
-/*
-Name: Luiz Araujo
-Description: lê um número indeterminado (máximo de 50) de matrículas funcionais 
-dos empregados e o número de meses de trabalhados. Mostrea os três empregados 
-mais recentes. Não existem dois empregados admitidos no mesmo mês e a matrícula 
-igual a zero ‘0’ encerra a leitura.
-*/
-
 #include<stdio.h>
 #include<stdlib.h>
 
@@ -23,8 +15,7 @@ int main(void){
 	
 //	instruções
 	puts("OS TRES EMPREGADOS MAIS RECENTES");
-	puts("    (matricula 0 encerra)");
-	
+	puts("    (matricula 0 encerra)");	
 	puts("\nINFORME");
 	do{
 		lerValidarMatricula(contador, matricula);
@@ -34,22 +25,20 @@ int main(void){
 		lerValidarMeses(contador, meses);
 		
 		contador++;
-	}while(contador < MAX_EMPREGADOS);
-	
+	}while(contador < MAX_EMPREGADOS);	
 	system("CLS");			
-	puts("OS TRES EMPREGADOS MAIS RECENTES");
-	
+	puts("OS TRES EMPREGADOS MAIS RECENTES");	
 	mostrarNovos(contador, matricula, meses);
-
+	printf("\n\n\nPRESSIONE QUALQUER TECLA PARA ENCERRAR.\n");
+	getche();
 	return 0;
 }
 
 void lerValidarMatricula(int contador, int matricula[]){
 	int indice = 0;
-	
+		
 	printf("MATRICULA: ");
-	scanf("%i", &matricula[contador]);
-	
+	scanf("%i", &matricula[contador]);	
 	while(matricula[contador] < 0){
 		printf("A matricula deve ser um inteiro positivo: ");
 		printf("\nMATRICULA: ");
@@ -77,14 +66,12 @@ void lerValidarMeses(int contador, int meses[]){
 	int indice = 0;
 	
 	printf("MESES DE TRABALHO: ");
-	scanf("%i", &meses[contador]);
-	
+	scanf("%i", &meses[contador]);	
 	while(meses[contador] <= 0){
 		printf("Entrada invalida!\n");
 		printf("MESES DE TRABALHO: ");
 		scanf("%i", &meses[contador]);
-	}
-	
+	}	
 	if(contador > 0){
 		while(indice < contador){
 			if(meses[indice] == meses[contador]){
@@ -105,17 +92,14 @@ void mostrarNovos(int contador, int matricula[], int meses[]){
 			if(meses[indice] > meses[indice2]){
 				auxiliar = meses[indice];
 				meses[indice] = meses[indice2];
-				meses[indice2] = auxiliar;
-				
+				meses[indice2] = auxiliar;				
 				auxiliar = matricula[indice];
 				matricula[indice] = matricula[indice2];
 				matricula[indice2] = auxiliar;
 			}
 		}
 	}
-
-	for(indice = 0; indice < NOVOS; indice++){
-		
+	for(indice = 0; indice < NOVOS; indice++){		
 		printf("\n%2i%c LUGAR:", (indice + 1), 167);
 		printf("\nMatricula: %i", matricula[indice]);
 		if(meses[indice] == 1){

@@ -1,31 +1,18 @@
-/*
-Escreva um programa que transforme o computador em uma urna eletrônica para eleição do melhor jogador de futebol de todos os tempos. 
-O número 25 é do candidato Pelé e o 33 do candidato Maradona. Cada voto será efetivado pelo numero do candidato, 
-permitindo-se ainda o voto 0 (em branco) e qualquer outro voto diferente dos especificados sera considerado nulo. 
-O eleitor devera sempre ser consultado quanto a confirmacao do voto. Ao final da eleicao devera ser apresentado um relatorio contendo:
-„h Quantidade de votos de cada candidato;
-„h Quantidade de votos em branco e nulos;
-„h Nome do candidato vencedor (prever possibilidade de empate).
-*/
 #include<stdio.h>
 main(){	
-	int voto, pele, maradona, branco, nulo;
+	int voto = 0, pele = 0, maradona = 0, branco = 0, nulo = 0;
 	char confirmar, continuar;
-	voto = 0;
-	pele = 0;
-	maradona = 0;
-	branco = 0;
-	nulo = 0;
-	printf("QUAL O MELHOR JOGADOR DE TODOS OS TEMPOS");	
 	
+	printf("QUAL O MELHOR JOGADOR DE TODOS OS TEMPOS");		
 	do{
-		printf("\n");
-		
-		printf("\nVOTE 25 PARA PEL\x90");
-		printf("\nVOTE 33 PARA MARADONA");
+		printf("\n");		
+		printf("\n  OPCOES DE VOTO");
+		printf("\n 25 - PEL\x90");
+		printf("\n 33 - MARADONA");
+		printf("\n 00 - BRANCO");
+		printf("\n OUTRO N%c ANULA\n", 167);
 		printf("\nVOTO: ");
-		scanf("%i", &voto);
-		
+		scanf("%i", &voto);		
 		switch(voto){
 			case 25:
 				printf("Pel\x82 \x82 o melhor jogador de futebol de todos os tempos?");
@@ -70,29 +57,29 @@ main(){
 	}while(continuar == 's');	
 	
 	system("CLS");
-	
-    printf("\xC9\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xBB\n"); 
-    printf("\xBA BALAN\x80O DA VOTA\x80\xc7O       \xBA\n");
-    printf("\xBA PEL\x90: %-5i              \xBA\n", pele);
-    printf("\xBA MARADONA: %-5i          \xBA\n", maradona);
-    printf("\xBA BRANCOS: %-5i           \xBA\n", branco);
-    printf("\xBA NULO: %-5i              \xBA\n", nulo);
-    printf("\xBA\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xBA\n");
+    printf("\xC9\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xBB\n"); 
+    printf("\xBA APURACAO DA VOTACAO       \xBA\n");
+    printf("\xBA\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xBA\n"); 
+    printf("\xBA PEL\x90: %-5i               \xBA\n", pele);
+    printf("\xBA MARADONA: %-5i           \xBA\n", maradona);
+    printf("\xBA BRANCOS: %-5i            \xBA\n", branco);
+    printf("\xBA NULO: %-5i               \xBA\n", nulo);
+    printf("\xBA                           \xBA\n");
     
 	if((pele > maradona) && (pele > branco) && (pele > nulo)){
-		printf("\xBA PEL\x90 \x82 o melhor do mundo!\xBA\n");
+		printf("\xBA PEL\x90 \x82 o melhor do mundo! \xBA\n");
 	}else{	
 		if((maradona > pele) && (maradona > branco) && (maradona > nulo)){
-			printf("\xBA MARADONA venceu!         \xBA\n");
+			printf("\xBA MARADONA venceu!          \xBA\n");
 		}else{	
 			if((nulo > pele) && (nulo > branco) && (nulo > maradona)){
-				printf("\xBA Houve mais votos nulos!\xBA\n");
+				printf("\xBA  Houve mais votos nulos!  \xBA\n");
 			}else{	
 				if((branco > pele) && (branco > nulo) && (branco > maradona)){
-					printf("\xBA Houve mais votos em branco!\xBA\n");
+					printf("\xBAHouve mais votos em branco!\xBA\n");
 				}else{						
 					if(pele == maradona){
-						printf("\xBA Houve um empate!\xBA\n");
+						printf("\xBA     Houve um empate!      \xBA\n");
 					}					
 				}	
 				
@@ -100,5 +87,7 @@ main(){
 			
 		}		
 	}    
-    printf("\xC8\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xBC\n");
+    printf("\xC8\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xBC\n");
+	printf("\n\n\nPRESSIONE QUALQUER TECLA PARA ENCERRAR.\n");		
+	getche();
 }

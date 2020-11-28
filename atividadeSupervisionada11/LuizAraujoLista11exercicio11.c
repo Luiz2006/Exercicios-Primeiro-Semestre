@@ -1,11 +1,3 @@
-/*
-Name: Luiz Araujo
-Description: armazena o código funcional inteiro e respectivo salário de todos os funcionários de uma empresa. 
-Apresenta o maior e o menor salário. Por fim, calcula a média salarial paga por esta empresa. 
-O maior e menor salário deverão ser apresentados por um procedimento acionado pelo algoritmo principal. 
-A média salarial deverá ser apresentada por um procedimento acionado pela função que calcula a média.
-*/
-
 #include<stdio.h>
 #include<stdlib.h>
 
@@ -19,15 +11,12 @@ float encontrarMaiorSalario(int contador, float salarios[], int codigos[], int f
 float encontrarMenorSalario(int contador, float salarios[], int codigos[], int funcionarioMenorSalario[], int *indiceMenor);
 void apresentarMaiorMenor(int indiceMaior, int funcionarioMaiorSalario[], float maiorSalario, int indiceMenor, int funcionarioMenorSalario[], float menorSalario);
 
-
-
 int main (void){
 //	declarações
 	float menorSalario, maiorSalario, mediaSalario;
 	int contador = 0, indice = 0, indiceMaior = 0, indiceMenor = 0, igual = 0;
 	float salarios[MAX_FUNCIONARIOS] = {0};
 	int codigos[MAX_FUNCIONARIOS] = {0}, funcionarioMenorSalario[MAX_FUNCIONARIOS] = {0}, funcionarioMaiorSalario[MAX_FUNCIONARIOS] = {0};
-
 //	instruções
 	puts(" BALANCO SALARIAL DOS FUNCIONARIOS");
 	puts("(codigo 0 ou negativo para encerrar)\n");
@@ -56,6 +45,10 @@ int main (void){
 		apresentarMaiorMenor(indiceMaior, funcionarioMaiorSalario, maiorSalario, indiceMenor, funcionarioMenorSalario, menorSalario);
 	}
 	mediaSalario = calcularMedia(contador, mediaSalario, salarios);
+	
+	printf("\n\n\nPRESSIONE QUALQUER TECLA PARA ENCERRAR.\n");
+	printf("\n\n\nPRESSIONE QUALQUER TECLA PARA ENCERRAR.\n");
+	getche();
 	return 0;
 }
 
@@ -109,8 +102,7 @@ float encontrarMaiorSalario(int contador, float salarios[], int codigos[], int f
 		if(maiorSalario <= salarios[indice]){
 			maiorSalario = salarios[indice];
 		}
-	}
-	
+	}	
 	for(indice = 0; indice < contador; indice++){
 		if(maiorSalario <= salarios[indice]){
 			maiorSalario = salarios[indice];

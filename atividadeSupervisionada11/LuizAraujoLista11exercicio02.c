@@ -1,62 +1,62 @@
-/*
-Name: Luiz Araujo
-Description: programa que declare um vetor de reais e leia as notas dos, 
-		considerando que não se conhece quantos alunos esta turma tem 
-		(menos que 50). O número de aluno será informado pelo usuário.
-*/
-
 #include<stdio.h>
 #include<stdlib.h>
-//#include<locale.h>
-
-void validarQtd(int *qtdAlunos);
+#include<locale.h>
+int validarQtd(int qtdAlunos);
 void mostrarNotas(float *notas, int qtdAlunos);
-
 int main(void){
-//	setlocale(LC_ALL, "Portuguese");
+	setlocale(LC_ALL, "Portuguese");
 //	declarações
-	float notas[50];
-	int cont, qtdAlunos;
-	
+	int cont, qtdAlunos, contErro = 0;		
 //	instruções	
 	printf("INFORME\n");
 	printf("Quantidade de alunos: ");
 	scanf("%i", &qtdAlunos);
-	validarQtd(&qtdAlunos);
-	
-	for(cont = 0; cont <= (qtdAlunos - 1); cont++){
-		do{
-			if((notas[cont] < 0) || (notas[cont] > 10)){				
-				printf(" Nota invalida!\n");
-			}
-			printf("%3i%c Nota: ", (cont + 1),166);
+	qtdAlunos = validarQtd(qtdAlunos);	
+	float notas[qtdAlunos];
+	for(cont = 0; cont < qtdAlunos; cont++){
+		printf("%2iª Nota: ", (cont + 1));
+		scanf("%f", &notas[cont]);
+		while((notas[cont] < 0) || (notas[cont] > 10)){
+			fflush(stdin);
+			if(contErro > 1){
+					printf("Informe algo entre 0 e 10.\n");
+			}else{
+				printf("Nota inválida!\n");
+			}	
+			printf("%2iª Nota: ", (cont + 1));
 			scanf("%f",&notas[cont]);
-		}while((notas[cont] < 0) || (notas[cont] > 10));
-	}		
-	
-	printf("PRESSIONE QUALQUER BOTÃO PARA CONTINUAR...");
+			contErro++;
+		}
+	}			
+	printf("\n\nPRESSIONE QUALQUER BOTÃO PARA CONTINUAR...");
+	getche();	
+	mostrarNotas(notas, qtdAlunos);	
+	printf("\n\nPRESSIONE QUALQUER BOTÃO PARA FINALIZAR.");
 	getche();
-	
-	mostrarNotas(notas, qtdAlunos);
-	
 	return 0;
 }
 
-void validarQtd(int *qtdAlunos){
-	while((*qtdAlunos <= 0) || (*qtdAlunos >= 50)){
-		printf("A turma nao comporta mais que 49 alunos.\n");
-		
+int validarQtd(int qtdAlunos){
+	while((qtdAlunos <= 0) || (qtdAlunos >= 50)){
+		if(qtdAlunos <= 0){
+			printf("Deve haver pelo menos um aluno.\n");
+		}
+		if(qtdAlunos >= 50){
+			printf("A turma não comporta mais que 49 alunos.\n");
+		}
 		printf("Quantidade de alunos: ");
-		scanf("%i", *qtdAlunos);
+		scanf("%i", qtdAlunos);
 	}
+	return qtdAlunos;
 }
-
-void mostrarNotas(float *notas, int qtdAlunos){
+void mostrarNotas(float notas[], int qtdAlunos){
 	int cont;
 	system("CLS");
-	printf(" LISTA DE NOTAS\n");
+	printf("\tLISTA DE NOTAS\n");
 	for(cont = 0; cont < qtdAlunos; cont++){
-		printf("\n%2i%c Aluno:%5.1f", (cont + 1), 167,notas[cont]);
-		
+		printf("%2iª Nota:%5.2f\t\t", (cont + 1),notas[cont]);
+		if((cont + 1) % 2 == 0){
+			printf("\n");
+		}		
 	}
 }

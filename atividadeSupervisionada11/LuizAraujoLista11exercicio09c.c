@@ -1,17 +1,7 @@
-/*
-Name: Luiz Araujo
-Description: Faça um algoritmo que leia a idade de até 100 pessoas e 
-		apresente a média entre todas, 
-		além de identificar a mais velha e 
-		a posição em que ela se encontra no vetor. 
-		A idade mais velha pode aparecer em mais de uma posição.
-*/
-
 #include<stdio.h>
 #include<stdlib.h>
 //#include <time.h> //para testar automaticamente
-
-#define MAX_IDADE 100	//até 100	
+#define MAX_IDADE 100
 
 int leValidaIdade(int qtd); 
 void apresentarMedia(int *idades, int qtd);
@@ -21,49 +11,41 @@ void identificarMaisVelha(int *idades, int qtd);
 int main(void){	
 //	declarações
 	int quantidade = 0, idades[MAX_IDADE];
-
 //	instruções
 	puts("INFORME ALGUMAS IDADES");
-	puts("  (0 para finalizar)\n");
-	
+	puts("  (0 para finalizar)\n");	
 //	srand(time(NULL));			//para testar automaticamente
-//	float r = rand(); 			//para testar automaticamente
-	
+//	float r = rand(); 			//para testar automaticamente	
 	do{	
 		idades[quantidade] = leValidaIdade(quantidade);	
 		if(quantidade >= 1 && idades[quantidade] == 0){
 			break;
 		}
 		quantidade++;
-	}while(quantidade < MAX_IDADE);	
-	
+	}while(quantidade < MAX_IDADE);		
 	apresentarMedia(idades, quantidade);	
-	identificarMaisVelha(idades, quantidade);
-	
-	
+	identificarMaisVelha(idades, quantidade);	
 	printf("\n\n");
-//	getch();
+	printf("\n\n\nPRESSIONE QUALQUER TECLA PARA ENCERRAR.\n");		
+	getche();		
 	return 0;
 }
-
 int leValidaIdade(int qtd){
 	int idade;
 	printf("Idade: ");
 	scanf("%i", &idade);	//comentar para testar automaticamente
-
 ////	if(qtd % 2 == 0){				//semi automaticamente	
 ////		scanf("%i", &idade);		//semi automaticamente
 ////	}else{							//semi automaticamente
 //		idade = entradaAleatoria();	//para testar automaticamente
 //		printf("%i\n", idade);		//para testar automaticamente
 ////	}								//semi automaticamente
-
 	while(idade < 0){
 		printf("Entrada invalida:");
 		scanf("%i", &idade);
 	}		
 	while(idade > 130){
-		printf("\nEntrada invalida ou é o Matusalem?");
+		printf("\nEntrada invalida ou e o Matusalem?");
 		printf("\nInforme uma idade valida:");
 		scanf("%i", &idade);
 	}
@@ -79,7 +61,6 @@ void apresentarMedia(int *idades, int qtd){
 	media /= qtd;
 	printf("\nMEDIA DAS IDADES DAS %i PESSOAS: %.2f anos.", qtd, media);
 }
-
 void identificarMaisVelha(int *idades, int qtd){
 	int indice, indice2 = 0, velha = 0, posicao[MAX_IDADE];
 // 	descobrir a mais velha
@@ -95,7 +76,6 @@ void identificarMaisVelha(int *idades, int qtd){
 			indice2++;	
 		}
 	}
-//	printf("\n\n\n\nAQTD indice2: %i\n\n\n\n", indice2);
 	if(velha == 1){
 		printf("\nA MAIS VELHA TEM: 1 ano.");
 	}else{
@@ -105,12 +85,11 @@ void identificarMaisVelha(int *idades, int qtd){
 			printf("\nAS MAIS VELHAS TEM: %i anos.", velha);
 		}
 	}
-
 	indice = 0;
-	if(indice2 == 1){
-		printf("\nTAL IDADE APARECE NAS POSICOES DO VETOR:");	
-	}else{
+	if(indice2 == 1){	
 		printf("\nTAL IDADE APARECE NA POSICAO DO VETOR:");	
+	}else{
+		printf("\nTAL IDADE APARECE NAS POSICOES DO VETOR:");
 	}
 	do{
 		if(indice > 0){
@@ -121,7 +100,6 @@ void identificarMaisVelha(int *idades, int qtd){
 	}while(indice < indice2);
 	printf(".");	
 }
-
 //para testar automaticamente
 //float entradaAleatoria(){
 //	return (rand() % 100);
