@@ -15,26 +15,33 @@ struct horario{
 	int segundo;
 };
 
-struct horario horas;
 struct horario conversorHora(struct horario h);
+void imprime(struct horario h);
 
 int main(void){	
+	struct horario horas;
+	
 	printf("Informe um inteiro maior que 0: ");
 	scanf("%i", &horas.hora);
 	
 	horas = conversorHora(horas);
-	
-	printf("EM HORA   -> %i", horas.hora);
-	printf("\nEM MINUTOS-> %i", horas.minuto);
-	printf("\nEM SEGUNDO-> %i", horas.segundo);
+	imprime(horas);
 	
 	return 0;
 }
 
 struct horario conversorHora(struct horario h){	
-	h.minuto = horas.hora * 60;
+	h.minuto = h.hora * 60;
 	h.segundo = h.minuto * 60;
 	
 	return h;
+}
+
+void imprime(struct horario h){
+	h.minuto = h.hora * 60;
+	h.segundo = h.minuto * 60;
+	printf("EM HORA   -> %i", h.hora);
+	printf("\nEM MINUTOS-> %i", h.minuto);
+	printf("\nEM SEGUNDO-> %i", h.segundo);
 }
 
