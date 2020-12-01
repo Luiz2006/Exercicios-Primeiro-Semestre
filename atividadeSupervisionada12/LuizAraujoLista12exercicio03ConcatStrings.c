@@ -4,10 +4,9 @@ Copyright: MIT License
 Author: Luiz Araujo: luizcarlos_bsb2006@hotmail.com
 Date: 28/11/20 23:07
 Description: Faça um programa que solicite o primeiro e o último nome de 5 pessoas. 
-Assim que a pessoa informar os dois
-nomes, apresente em tela o tamanho de cada um deles e se for possível concatene-os 
-em uma única variável
-fazendo o uso da função de concatenação de strings.
+Assim que a pessoa informar os dois nomes, apresente em tela o tamanho de cada um 
+deles e se for possível concatene-os em uma única variável fazendo o uso da função 
+de concatenação de strings.
 */
 
 #include<stdio.h>
@@ -16,63 +15,75 @@ fazendo o uso da função de concatenação de strings.
 
 #define MAX_PESSOAS 5	// certo: 5
 
-struct pessoa{
-	char nome[MAX_PESSOAS][30];
-	char sobrenome[MAX_PESSOAS][30]; 
+struct dados{
+	char nome[30];
+	char sobrenome[30];
+//	int idade;
 };
-struct pessoa lerValidarNome(struct pessoa nomes);
+
+struct dados lerValidarNome(struct dados pessoa, int cont);
+void tamanhoNome(char nome[], char sobrenome[]);
+void concatenarNomes(char nome[], char sobrenome[]);
+
 int main(void){
-	int indice;
-	struct pessoa nomes;
+	int indice, contadorPessoas = 0;
+	struct dados pessoas[MAX_PESSOAS];
 	
-	nomes = lerValidarNome(nomes);
+	puts("INFORME");
+	do{
+		pessoas[contadorPessoas] = lerValidarNome(pessoas[contadorPessoas], contadorPessoas);
+		tamanhoNome(pessoas[contadorPessoas].nome, pessoas[contadorPessoas].sobrenome);
+		concatenarNomes(pessoas[contadorPessoas].nome, pessoas[contadorPessoas].sobrenome);
+		
+		contadorPessoas++;
+	}while(contadorPessoas < MAX_PESSOAS);
+	
 	printf("\n\n\nPRESSIONE QUALQUER TECLA PARA ENCERRAR.\n");
 	getch();
 	return 0;
 }
 
-struct pessoa lerValidarNome(struct pessoa nomes){
-	int indice, tamanho;
+struct dados lerValidarNome(struct dados pessoa, int cont){
+	int tamanho;
 	char completo[60];
-	puts("INFORME");
-	for(indice = 0; indice < MAX_PESSOAS; indice++){
-		printf("\n%i%c PESSOA", indice + 1, 166);
+
+	printf("\n%i%c PESSOA", cont + 1, 166);
+	printf("\nPRIMEIRO NOME: ");
+	fflush(stdin);
+	gets(pessoa.nome);
+	while(strlen(pessoa.nome) <= 1){
+		printf("Entrada invalida!");			
 		printf("\nPRIMEIRO NOME: ");
 		fflush(stdin);
-		gets(nomes.nome[indice]);
-		while(strlen(nomes.nome[indice]) <= 1){
-			printf("Entrada invalida!");			
-			printf("\nPRIMEIRO NOME: ");
-			fflush(stdin);
-			gets(nomes.nome[indice]);
-		}
+		gets(pessoa.nome);
+	}
+	printf("ULTIMO NOME  : ");
+	fflush(stdin);
+	gets(pessoa.sobrenome);		
+	while(strlen(pessoa.sobrenome) <= 1){
+		printf("Entrada invalida!");			
 		printf("ULTIMO NOME  : ");
 		fflush(stdin);
-		gets(nomes.sobrenome[indice]);		
-		while(strlen(nomes.nome[indice]) <= 1){
-			printf("Entrada invalida!");			
-			printf("ULTIMO NOME  : ");
-			fflush(stdin);
-			gets(nomes.sobrenome[indice]);
-		}
-		
-//		CONTAR CARACTERES
-		tamanho = strlen(nomes.nome[indice]);
-		printf("\n%s tem %i caracteres.", nomes.nome[indice], tamanho);		
-		tamanho = strlen(nomes.sobrenome[indice]);
-		printf("\n%s tem %i caracteres.", nomes.sobrenome[indice], tamanho);
-		
-		strcpy(completo, nomes.nome[indice]);
-		strcat(completo, " ");
-		strcat(completo, nomes.sobrenome[indice]);
-		printf("\nNOME COMPLETO: %s\n\n", completo);
+		gets(pessoa.sobrenome);
 	}
-
-	return nomes;
+	return pessoa;
 }
 
+void tamanhoNome(char nome[], char sobrenome[]){
+	int tamanho;
+	tamanho = strlen(nome);
+	printf("\n%s tem %i caracteres.", nome, tamanho);		
+	tamanho = strlen(sobrenome);
+	printf("\n%s tem %i caracteres.", sobrenome, tamanho);
+}
 
-
-
+void concatenarNomes(char nome[], char sobrenome[]){
+	char completo[60];
+	
+	strcpy(completo, nome);
+	strcat(completo, " ");
+	strcat(completo, sobrenome);
+	printf("\nNOME COMPLETO: %s\n\n", completo);	
+}
 
 
