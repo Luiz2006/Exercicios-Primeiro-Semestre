@@ -14,32 +14,41 @@ Faça um programa que leia um nome e apresente-o na formatação dos transportes aé
 #include<string.h>
 
 int main(void){
-	char nome[100];
-	int indice, tamanho, contadorEspacos = 0, controleEspacos = 0;
+	char nome[100] = {" "};
+	int indice = 0, tamanho = 0, contadorEspacos = 0, posicaoUltimoEspaco = 0, controleEspacos = 0;
 	
 	puts("INFORME O NOME COMPLETO:");
 	fflush(stdin);
 	gets(nome);
 	tamanho = strlen(nome);
+		
 	for(indice = 0; indice < tamanho; indice++){
-		if(strcmp(nome[indice], " ") == 0){
+		if(nome[indice] == ' '){
 			contadorEspacos++;
 		}
 	}
-	do{
-		if(strcmp(nome[indice], " ") == 0){	
-			if(indice == (contadorEspacos - 1)){
-				controleEspacos = indice;	
-			}
+	
+	for(indice = 0; indice < tamanho; indice++){
+		if(nome[indice] == ' '){
+			posicaoUltimoEspaco = indice;
 		}
-						
-			indice++;
-	}while(indice < contadorEspacos);
-	printf("\n\n");
-	for(indice = controleEspacos; indice < tamanho; indice++){
+	}
+
+	printf("\n\nNome na formatacao dos transportes aereos:\n");
+	for(indice = (posicaoUltimoEspaco + 1); indice < tamanho; indice++){
 		printf("%c", nome[indice]);
 	}
-	printf("\n\n\nPRESSIONE QUALQUER TECLA PARA ENCERRAR.\n");
+	printf("/");
+	
+	for(indice = 0; indice < (posicaoUltimoEspaco); indice++){
+		if(nome[indice] == ' '){
+			break;
+		}
+		printf("%c", nome[indice]);
+	}
+//	printf(".");
+	
+	printf("\n\n\n\n\nPRESSIONE QUALQUER TECLA PARA ENCERRAR.\n");
 	getch();
 	return 0;
 }
