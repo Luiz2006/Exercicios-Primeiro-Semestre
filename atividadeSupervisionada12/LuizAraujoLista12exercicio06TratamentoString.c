@@ -30,7 +30,6 @@ int main(void){
 		
 		for(indice = 0; indice < MAX_CHARS; indice++){	//porque estava ultrapassando os 30 chars
 			nome[indice] = nomeAux[indice];
-			
 		}
 		
 		system("CLS");
