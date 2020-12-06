@@ -29,34 +29,20 @@ int main(void){
 	
 	printf("Leitura: \n\n");
 	
-	char *titulo[40];
-	int numeros[10];
+	char titulo[40];
+	int numeros[10], tamanho = 40;
 	
 	if(!(arq = fopen("G:\\GitHub\\Exercicios-Primeiro-Semestre\\arquivos\\arq1.txt", "r"))){
 		printf("Erro na leitura!\n");
 	}else{
-		fgets(titulo, 40, arq);
+		fgets(titulo, tamanho, arq);
 		printf("Titulo: %s", titulo);
 		for(i = 0; i < 10; i++){
 			fscanf(arq, "%d", &numeros[i]);
 			printf("%d \n", numeros[i]);
 		}
 	}
-	fclose(arq);
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	fclose(arq);	
 	
 	printf("\n\n\nPRESSIONE QUALQUER TECLA PARA ENCERRAR.\n");
 	getch();
