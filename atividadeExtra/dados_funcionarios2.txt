@@ -1,7 +1,7 @@
 Analiz Abandckinsley
 25
 f
-Analista Pleno
+Analista PLeno
 8888
 Luiz Carlos da Silva Araujo
 30
@@ -68,68 +68,3 @@ Marcilio Marancozzi
 m
 Auxiliar de Cozinha
 2100,000000
-Areilton Aranha
-20
-m
-Auxiliar de Programacao
-2100
-Luxemberg Laurindo Rackenvaken
-22
-m
-Auxiliar de Gestao
-5000
-Heliodo Meiliuz
-36
-m
-Auxiliar de Producao
-2100.000000
-Multilania Martins
-26
-f
-Psicologa
-7500,000000
-Carlsson Maxiston
-36
-x
-Cabelereiro
-3000,000000
-Megan Warewolf
-25
-f
-Gerente de RH
-7500,000000
-Penny Hoffstadder
-35
-f
-Garconete
-2100,000000
-Cacilda Becker
-65
-f
-Aposentada
-4000,000000
-Katiuscia Pereira
-19
-f
-Jovem Aprendiz
-800,000000
-Lucicreide Augustina
-55
-f
-Corretora de Imóveis
-3500,000000
-Cartolina Cavancante
-68
-f
-Aposentada
-2500,000000
-Luiz Carlos da Silva Araujo
-30
-m
-aaaaaaaaaaa
-55555,000000
-Luiz Carlos da Silva Araujo
-30
-m
-aasdasdasd
-5555,000000

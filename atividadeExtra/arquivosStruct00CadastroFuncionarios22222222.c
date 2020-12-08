@@ -26,7 +26,7 @@ struct dados_pessoais{
 };
 
 void testarEntradas(struct dados_pessoais funcionario);
-void lerValidarNome(char nome[], char tudo[][50], char nomeCmp[][50], int contadorNome);
+void lerValidarNome(char nome[], char tudo[][50]);
 int lerValidarIdade();
 char lerValidarSexo();
 void lerValidarCargo(char cargo[]);
@@ -51,6 +51,8 @@ int main(void){
 		indice = 0;
 	//	poe todo o arquivo em um vetor
 		while(fgets(tudo[contadorEntradas], (MAX_FUNC * 5), file) != NULL){	
+		
+			
 			contadorEntradas++;
 		}
 	//	poe só os nomes do arquivo em um vetor
@@ -69,7 +71,7 @@ int main(void){
 				contadorNome++;	
 			}
 		}
-		for(indice2 = 0; indice2 < contadorNome; indice2++){//mostra nome de todos os func
+		for(indice2 = 0; indice2 < contadorNome; indice2++){//mostra todos os func
 			printf("%2i - %s", indice2, nomeCmp[indice2]);
 		}
 	}//fim else fopen "r"
@@ -84,18 +86,18 @@ int main(void){
 
 		puts("CADASTRO DE FUNCIONÁRIOS");	
 		
-//// 	mostra todos os func
-//		puts("TEEEESSSSSTTTTTEEEE SSSSTTTRUUUCCTT:");	
-//		puts("\n\n\n\n\tNOME\t\tIDADE\tSEXO\tCARGO\t\tSALARIO:");
-//		for(indice = 0; indice < (contadorEntradas/5); indice++){
-//			printf("%iº: %s %i %c %s %.2f\n", indice, funcionario[indice].nome, funcionario[indice].idade, funcionario[indice].sexo, funcionario[indice].cargo, funcionario[indice].salario);
-//		}
-//		puts("\n\n\n\n");
+		puts("TEEEESSSSSTTTTTEEEE SSSSTTTRUUUCCTT:");
+	
+		puts("\n\n\n\n\tNOME\t\tIDADE\tSEXO\tCARGO\t\tSALARIO:");
+		for(indice = 0; indice < (contadorEntradas/5); indice++){
+			printf("%iº: %s %i %c %s %.2f\n", indice, funcionario[indice].nome, funcionario[indice].idade, funcionario[indice].sexo, funcionario[indice].cargo, funcionario[indice].salario);
+		}
+		puts("\n\n\n\n");
 		
 		
 		do{
 			printf("\n%dº FUNCIONÁRIO", contadorFuncionario + 1);		
-			lerValidarNome(funcionario[contadorFuncionario].nome, tudo, nomeCmp, contadorNome);
+			lerValidarNome(funcionario[contadorFuncionario].nome, tudo);
 			funcionario[contadorFuncionario].idade = lerValidarIdade();
 			funcionario[contadorFuncionario].sexo = lerValidarSexo();
 			lerValidarCargo(funcionario[contadorFuncionario].cargo);
@@ -129,9 +131,7 @@ int main(void){
 	return 0;
 }
 
-void lerValidarNome(char nome[], char tudo[][50], char nomeCmp[][50], int contadorNome){
-	int indice;
-	
+void lerValidarNome(char nome[], char tudo[][50]){
 	do{
 		puts("\nNOME COMPLETO:");
 		fflush(stdin);
@@ -141,25 +141,18 @@ void lerValidarNome(char nome[], char tudo[][50], char nomeCmp[][50], int contad
 		}
 	}while((strlen(nome) <= 5));
 	
-//	nome = strcat(nome, '\n');
-	for(indice = 0; indice < contadorNome; indice++){
-//		printf("%2i - %s", indice, nomeCmp[indice]);//funfa
-		if(strcmp(nomeCmp[indice],nome) == 0){
-			printf("%2i - %s", indice, nomeCmp[indice]);
-			puts("Funcionário já cadastrado, informe outro nome:");	
-			fflush(stdin);
-			gets(nome);
-			if((strlen(nome) <= 5)){
-				puts("informe um nome válido!");
-			}
-			indice = 0;
-		}
-	}
 	
+	
+	
+	
+	
+
 	
 	
 	/*
 //	tudo[MAX_FUNC][50]
+
+	
 		int matricula;
 		int ind, flag;
 		do{
