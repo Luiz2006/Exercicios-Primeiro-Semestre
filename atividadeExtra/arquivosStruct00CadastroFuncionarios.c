@@ -26,7 +26,7 @@ struct dados_pessoais{
 };
 
 
-void lerValidarNome(char nome[], char tudo[][31], char nome_comparar[][31], int contador_nome);
+void lerValidarNome(char nome[]);
 int lerValidarIdade();
 char lerValidarSexo();
 void lerValidarCargo(char cargo[]);
@@ -34,6 +34,8 @@ float lerValidarSalario();
 void gravarEntrada(struct dados_pessoais *funcionario, FILE *arq);
 void testarEntradas(struct dados_pessoais funcionario[], int contador_entradas);
 int porStruct(struct dados_pessoais funcionario[]);
+int cadastrarFuncionarios(struct dados_pessoais funcionario[], int contador_entradas);
+
 int main(void){
 	setlocale(LC_ALL, "Portuguese");	
 	struct dados_pessoais funcionario[MAX_FUNC];
@@ -41,45 +43,12 @@ int main(void){
 	char continuar, tudo[MAX_FUNC * 5][31], nome_comparar[MAX_FUNC][31];
 
 	contador_entradas = porStruct(funcionario);
-	
-	
 	if(contador_entradas > 0){
 		testarEntradas(funcionario, contador_entradas);
 	}
 	
+	contador_entradas = cadastrarFuncionarios(funcionario, contador_entradas);
 	
-	puts("CADASTRO DE FUNCIONÁRIOS");	
-	FILE *arq;
-	
-	do{		
-//		arq = fopen("dados_funcionarios.bin", "wb");
-		arq = fopen("dados_funcionarios.bin", "ab");
-		if(arq == NULL){
-			printf("\a\nERRO AO ABRIR O ARQUIVO: dados_funcionarios.bin!");
-			sleep(5);
-			exit(0);
-		}
-		
-		printf("\n FUNCIONÁRIO %d", contador_entradas + 1);		
-		lerValidarNome(funcionario[contador_funcionario].nome, tudo, nome_comparar, contador_nome);
-		funcionario[contador_funcionario].idade = lerValidarIdade();
-		funcionario[contador_funcionario].sexo = lerValidarSexo();
-		lerValidarCargo(funcionario[contador_funcionario].cargo);
-		funcionario[contador_funcionario].salario = lerValidarSalario();
-		
-		gravarEntrada(&funcionario[contador_funcionario], arq);
-							
-		fclose(arq);
-		contador_entradas++;
-		
-		printf("Novo cadastro? (s para continuar) ");
-		fflush(stdin);
-		continuar = getchar();
-
-		if(continuar != 's' && continuar != 'S'){
-			break;
-		}			
-	}while(contador_funcionario < MAX_FUNC);
 
 	contador_entradas = porStruct(funcionario);
 	testarEntradas(funcionario, contador_entradas);
@@ -88,7 +57,8 @@ int main(void){
 	return 0;
 }
 
-void lerValidarNome(char nome[], char tudo[][31], char nome_comparar[][31], int contador_nome){
+void lerValidarNome(char nome[]){
+//void lerValidarNome(char nome[], char tudo[][31], char nome_comparar[][31], int contador_nome){
 	int indice;
 	
 	do{
@@ -286,5 +256,38 @@ int porStruct(struct dados_pessoais funcionario[]){
 
 
 
+int cadastrarFuncionarios(struct dados_pessoais funcionario[], int contador_entradas){	
+	FILE *arq;
+	char continuar = 's';
+	puts("CADASTRO DE FUNCIONÁRIOS");
 
+	do{		
+//		arq = fopen("dados_funcionarios.bin", "wb");
+		arq = fopen("dados_funcionarios.bin", "ab");
+		if(arq == NULL){
+			printf("\a\nERRO AO ABRIR O ARQUIVO: dados_funcionarios.bin!");
+			sleep(5);
+			exit(0);
+		}
+		contador_entradas++;
+		printf("\n FUNCIONÁRIO %d",  contador_entradas);		
+		lerValidarNome(funcionario[contador_entradas].nome);
+		funcionario[contador_entradas].idade = lerValidarIdade();
+		funcionario[contador_entradas].sexo = lerValidarSexo();
+		lerValidarCargo(funcionario[contador_entradas].cargo);
+		funcionario[contador_entradas].salario = lerValidarSalario();
+		
+		gravarEntrada(&funcionario[contador_entradas], arq);
+							
+		fclose(arq);
+		
+		printf("Novo cadastro? (s para continuar) ");
+		fflush(stdin);
+		continuar = getchar();
 
+		if(continuar != 's' && continuar != 'S'){
+			break;
+		}			
+	}while(contador_entradas < MAX_FUNC);
+	return contador_entradas;
+}
