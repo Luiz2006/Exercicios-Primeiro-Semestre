@@ -18,118 +18,77 @@ Description: Manipulação de Arquivos - cadastro de funcionarios que persista, ut
 #define MAX_FUNC 100
 
 struct dados_pessoais{
-	char nome[50];
+	char nome[31];
 	int idade;
 	char sexo;
-	char cargo[30];
+	char cargo[21];
 	float salario;
 };
 
-void testarEntradas(struct dados_pessoais funcionario);
-void lerValidarNome(char nome[], char tudo[][50], char nomeCmp[][50], int contadorNome);
+
+void lerValidarNome(char nome[], char tudo[][31], char nome_comparar[][31], int contador_nome);
 int lerValidarIdade();
 char lerValidarSexo();
 void lerValidarCargo(char cargo[]);
 float lerValidarSalario();
-void gravarEntradas(struct dados_pessoais funcionario, FILE *arq);
-
+void gravarEntrada(struct dados_pessoais *funcionario, FILE *arq);
+void testarEntradas(struct dados_pessoais funcionario[], int contador_entradas);
+int porStruct(struct dados_pessoais funcionario[]);
 int main(void){
 	setlocale(LC_ALL, "Portuguese");	
 	struct dados_pessoais funcionario[MAX_FUNC];
-	int contadorFuncionario = 0, indice = 0, indice2 = 0, contadorEntradas = 0, contadorNome = 0;
-	char continuar, tudo[MAX_FUNC * 5][50], nomeCmp[MAX_FUNC][50];
-	printf("\a\a");
-	//para pegar todos nomes do arquivo e por em vetor para cmp
-	FILE *file = fopen("dados_funcionarios.txt", "r");
-	if(file == NULL){
-		printf("\nERRO AO ABRIR O ARQUIVO: dados_funcionarios.txt!");
-		sleep(5);
-		exit(0);
-	}else{
-		
+	int contador_funcionario = 0, indice = 0, indice2 = 0, contador_entradas = 0, contador_nome = 0;
+	char continuar, tudo[MAX_FUNC * 5][31], nome_comparar[MAX_FUNC][31];
 
-		indice = 0;
-	//	poe todo o arquivo em um vetor
-		while(fgets(tudo[contadorEntradas], (MAX_FUNC * 5), file) != NULL){	
-			contadorEntradas++;
-		}
-	//	poe só os nomes do arquivo em um vetor
-		for(indice2= 0; indice2 < contadorEntradas; indice2++){
-	//		printf("%i - %s", indice2, tudo[indice2]);//mostra tudo
-			if(indice2 % 5 == 0){
-	//			printf("\n\nindice2: %i -> %s\n\n\n", indice2, tudo[indice2]);//mostra só os nome do vetor tudo[]
-				strcpy(nomeCmp[contadorNome], tudo[indice2]);
-				
-				//passar pra struct
-				strcpy(funcionario[contadorNome].nome, tudo[indice2]);
-				funcionario[contadorNome].idade = atoi(tudo[indice2+1]);
-				funcionario[contadorNome].sexo = (char)tudo[indice2+2][0];
-				strcpy(funcionario[contadorNome].cargo, tudo[indice2+3]);
-				funcionario[contadorNome].salario = atof(tudo[indice2+4]);
-				contadorNome++;	
-			}
-		}
-		for(indice2 = 0; indice2 < contadorNome; indice2++){//mostra nome de todos os func
-			printf("%2i - %s", indice2, nomeCmp[indice2]);
-		}
-	}//fim else fopen "r"
+	contador_entradas = porStruct(funcionario);
 	
-	FILE *arq = fopen("dados_funcionarios.txt", "a");
-	if(arq == NULL){
-		printf("\nERRO AO ABRIR O ARQUIVO: dados_funcionarios.txt!");
-		sleep(5);
-		exit(0);
-	}else{
+	
+	if(contador_entradas > 0){
+		testarEntradas(funcionario, contador_entradas);
+	}
+	
+	
+	puts("CADASTRO DE FUNCIONÁRIOS");	
+	FILE *arq;
+	
+	do{		
+//		arq = fopen("dados_funcionarios.bin", "wb");
+		arq = fopen("dados_funcionarios.bin", "ab");
+		if(arq == NULL){
+			printf("\a\nERRO AO ABRIR O ARQUIVO: dados_funcionarios.bin!");
+			sleep(5);
+			exit(0);
+		}
 		
+		printf("\n FUNCIONÁRIO %d", contador_entradas + 1);		
+		lerValidarNome(funcionario[contador_funcionario].nome, tudo, nome_comparar, contador_nome);
+		funcionario[contador_funcionario].idade = lerValidarIdade();
+		funcionario[contador_funcionario].sexo = lerValidarSexo();
+		lerValidarCargo(funcionario[contador_funcionario].cargo);
+		funcionario[contador_funcionario].salario = lerValidarSalario();
+		
+		gravarEntrada(&funcionario[contador_funcionario], arq);
+							
+		fclose(arq);
+		contador_entradas++;
+		
+		printf("Novo cadastro? (s para continuar) ");
+		fflush(stdin);
+		continuar = getchar();
 
-		puts("CADASTRO DE FUNCIONÁRIOS");	
-		
-//// 	mostra todos os func
-//		puts("TEEEESSSSSTTTTTEEEE SSSSTTTRUUUCCTT:");	
-//		puts("\n\n\n\n\tNOME\t\tIDADE\tSEXO\tCARGO\t\tSALARIO:");
-//		for(indice = 0; indice < (contadorEntradas/5); indice++){
-//			printf("%iº: %s %i %c %s %.2f\n", indice, funcionario[indice].nome, funcionario[indice].idade, funcionario[indice].sexo, funcionario[indice].cargo, funcionario[indice].salario);
-//		}
-//		puts("\n\n\n\n");
-		
-		
-		do{
-			printf("\n%dº FUNCIONÁRIO", contadorFuncionario + 1);		
-			lerValidarNome(funcionario[contadorFuncionario].nome, tudo, nomeCmp, contadorNome);
-			funcionario[contadorFuncionario].idade = lerValidarIdade();
-			funcionario[contadorFuncionario].sexo = lerValidarSexo();
-			lerValidarCargo(funcionario[contadorFuncionario].cargo);
-			funcionario[contadorFuncionario].salario = lerValidarSalario();
-			
-			printf("Novo cadastro? (s para continuar) ");
-			fflush(stdin);
-			continuar = getchar();
-	
-			gravarEntradas(funcionario[contadorFuncionario], arq);
-	//		int total_gravado = 0;
-	//		total_gravado = fwrite(funcionario, sizeof(struct dados_pessoais), 1, arq);
-	//		if(total_gravado != 1){
-	//			puts("ERRO AO SALVAR NO ARQUIVO!");
-	//			sleep(5);
-	//			exit(0);
-	//		}
-	
-			if(continuar != 's' && continuar != 'S'){
-				break;
-			}
-	//		testarEntradas(funcionario[contadorFuncionario]);
-			contadorFuncionario++;
-		}while(contadorFuncionario < MAX_FUNC);
-	}//fim else fopen "a"
-	fclose(arq);
-	fclose(file);
-	
+		if(continuar != 's' && continuar != 'S'){
+			break;
+		}			
+	}while(contador_funcionario < MAX_FUNC);
+
+	contador_entradas = porStruct(funcionario);
+	testarEntradas(funcionario, contador_entradas);
 	printf("\n\n\nPRESSIONE QUALQUER TECLA PARA ENCERRAR.\n");
 	getch();
 	return 0;
 }
 
-void lerValidarNome(char nome[], char tudo[][50], char nomeCmp[][50], int contadorNome){
+void lerValidarNome(char nome[], char tudo[][31], char nome_comparar[][31], int contador_nome){
 	int indice;
 	
 	do{
@@ -139,22 +98,29 @@ void lerValidarNome(char nome[], char tudo[][50], char nomeCmp[][50], int contad
 		if((strlen(nome) <= 5)){
 			puts("informe um nome válido!");
 		}
-	}while((strlen(nome) <= 5));
-	
-//	nome = strcat(nome, '\n');
-	for(indice = 0; indice < contadorNome; indice++){
-//		printf("%2i - %s", indice, nomeCmp[indice]);//funfa
-		if(strcmp(nomeCmp[indice],nome) == 0){
-			printf("%2i - %s", indice, nomeCmp[indice]);
-			puts("Funcionário já cadastrado, informe outro nome:");	
-			fflush(stdin);
-			gets(nome);
-			if((strlen(nome) <= 5)){
-				puts("informe um nome válido!");
-			}
-			indice = 0;
+		if((strlen(nome) > 30)){
+			puts("informe um nome menor!");
 		}
-	}
+	}while((strlen(nome) <= 5)||(strlen(nome) > 30));
+
+
+
+//		printf("contador_nome: %2i - %s", contador_nome, nome_comparar[indice]);//funfa
+//	nome = strcat(nome, '\n');
+	
+//	for(indice = 0; indice < contador_nome; indice++){
+////		printf("%2i - %s", indice, nome_comparar[indice]);//funfa
+//		if(strcmp(nome, nome_comparar[indice]) >= strlen(nome)-2){// problema: está comparando só a primeira letra
+////			printf("%2i - %s", indice, nome_comparar[indice]);
+//			puts("Funcionário já cadastrado, informe outro nome:");	
+//			fflush(stdin);
+//			gets(nome);
+//			if((strlen(nome) <= 5)){
+//				puts("informe um nome válido!");
+//			}
+//			indice = 0;
+//		}
+//	}
 	
 	
 	
@@ -231,7 +197,10 @@ void lerValidarCargo(char cargo[]){
 		if(strlen(cargo) < 3){
 			puts("Informe um cargo válido!");
 		}
-	}while(strlen(cargo) < 3);
+		if(strlen(cargo) > 20){
+			puts("Informe um cargo menor que 20!");
+		}
+	}while((strlen(cargo) < 3)||(strlen(cargo) > 20));
 }
 
 float lerValidarSalario(){
@@ -248,32 +217,71 @@ float lerValidarSalario(){
 	return salario;
 }
 
-void testarEntradas(struct dados_pessoais funcionario){	
-	printf("\n\n\n\n");
-	printf("\nNome   : %s",funcionario.nome);
-	printf("\nIdade  : %d",funcionario.idade);
-	if(funcionario.sexo == 'f'){
-		printf("\nSexo   : feminino");
-	}else if(funcionario.sexo == 'm'){
-		printf("\nSexo   : masculino");
-	}else{
-		printf("\nSexo   : indefinido");
+void testarEntradas(struct dados_pessoais funcionario[], int contador_entradas){	
+	int indice;
+	system("CLS");
+	printf("QUANTIDADE DE FUNCIONARIOS: %i\n", contador_entradas);
+//			//VERTICALIZADO
+//	for(indice = 0; indice < contador_entradas; indice++){//mostra nome de todos os func
+//
+//		printf("\nNome   : %s",funcionario[indice].nome);
+//		printf("\nIdade  : %d",funcionario[indice].idade);
+//		if(funcionario[indice].sexo == 'f'){
+//			printf("\nSexo   : feminino");
+//		}else if(funcionario[indice].sexo == 'm'){
+//			printf("\nSexo   : masculino");
+//		}else{
+//			printf("\nSexo   : indefinido");
+//		}
+//		printf("\nCargo  : %s",funcionario[indice].cargo);
+//		printf("\nSALARIO: R$ %10.2f",funcionario[indice].salario);
+//		printf("\n");
+//	}
+			//LISTA HORIZONTAL
+	printf("%-30s%-6s%-10s%-20s%-11s\n","NOME","IDADE","SEXO","CARGO","SALARIO(R$)");
+	for(indice = 0; indice < contador_entradas; indice++){//mostra nome de todos os func
+
+		printf("%-30s",funcionario[indice].nome);
+		printf("%-6d",funcionario[indice].idade);
+		if(funcionario[indice].sexo == 'f'){
+			printf("%-10s%","feminino");
+		}else if(funcionario[indice].sexo == 'm'){
+			printf("%-10s%","masculino");
+		}else{
+			printf("%-10s%","indefinido");
+		}
+		printf("%-20s",funcionario[indice].cargo);
+		printf("%10.2f",funcionario[indice].salario);
+		printf("\n");
 	}
-	printf("\nCargo  : %s",funcionario.cargo);
-	printf("\nSALARIO: R$ %.2f",funcionario.salario);
+}
+void gravarEntrada(struct dados_pessoais *funcionario, FILE *arq){	
+	int indice, tamanho_struct = sizeof(struct dados_pessoais);
+		fwrite(funcionario, sizeof(struct dados_pessoais), 1, arq);
 }
 
-void gravarEntradas(struct dados_pessoais funcionario, FILE *arq){	
-	printf("\n");
-	fputs(funcionario.nome, arq);
-	fprintf(arq, "\n%d",funcionario.idade);
-	fprintf(arq, "\n%c\n",funcionario.sexo);
-	fputs(funcionario.cargo, arq);
-	fprintf(arq, "\n%f\n",funcionario.salario);
+int porStruct(struct dados_pessoais funcionario[]){
+	int indice, contador_entradas;
+	FILE *arq;
+	arq = fopen("dados_funcionarios.bin", "rb");
+	if(arq == NULL){
+		printf("\a\nERRO AO LER O ARQUIVO: dados_funcionarios.bin!");
+		sleep(5);
+		exit(1);
+	}else{
+		indice = contador_entradas = 0;
+		
+		while(1){
+			if(feof(arq)){
+				break;
+			}
+			contador_entradas = fread(funcionario, sizeof(struct dados_pessoais), MAX_FUNC, arq);	
+		}
+		
+	}//fim else fopen "rb"	
+	fclose(arq);
+	return contador_entradas;
 }
-
-
-
 
 
 

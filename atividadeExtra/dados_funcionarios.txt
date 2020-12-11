@@ -1,102 +1,67 @@
-Analiz Abandckinsley
-25
-f
-Analista Pleno
-8888
-Luiz Carlos da Silva Araujo
-30
-m
-Analista Senior
-15000,000000
-Roberscleysson Pereira Pinto
-25
-m
-Analista Pleno
-10000,000000
-Periscleyton Heinz
-18
-m
-Analista Junior
-5000,000000
-Anaclecia Abrilina Canhedo
-27
-f
-Analista Senior
-15000,000000
-Clerisvaldo Whatsson
-33
-m
-Faxineiro
-1700,000000
-Lourivaldo Heinrich
-35
-m
-Auxiliar de Servicos Gerais
-2500,000000
-Catarina Cartagneza
-25
-f
-Auxiliar Administrativo
-2500,000000
-Kelvisson Smith
+
+
+
+
+
+
 65
 m
-Auxiliar de Contabilidade
+
 2500,000000
-Reikson Slavinsk
+
 39
 m
-Programador Pleno
+
 8000,000000
-Brotherson Daividson
+
 27
 m
-Contador
+
 5500,000000
-Josefina Martins Matoso
+
 35
 f
-Administrador
+
 5000,000000
-Gutemberg Gustavo Gouveia
+
 29
 m
-Vigilante
+
 2500,000000
-Marcilio Marancozzi
+
 39
 m
-Auxiliar de Cozinha
+
 2100,000000
-Areilton Aranha
+
 20
 m
-Auxiliar de Programacao
+Auxiliar 
 2100
-Luxemberg Laurindo Rackenvaken
+
 22
 m
-Auxiliar de Gestao
+
 5000
-Heliodo Meiliuz
+
 36
 m
-Auxiliar de Producao
+
 2100.000000
-Multilania Martins
+
 26
 f
-Psicologa
+
 7500,000000
 Carlsson Maxiston
 36
 x
-Cabelereiro
+
 3000,000000
-Megan Warewolf
+
 25
 f
-Gerente de RH
+
 7500,000000
 Penny Hoffstadder
 35
@@ -123,13 +88,3 @@ Cartolina Cavancante
 f
 Aposentada
 2500,000000
-Luiz Carlos da Silva Araujo
-30
-m
-aaaaaaaaaaa
-55555,000000
-Luiz Carlos da Silva Araujo
-30
-m
-aasdasdasd
-5555,000000
