@@ -1,5 +1,5 @@
 /*
-Name: arquivosStruct.c
+Name: Cadastrar Funcionários
 Copyright: MIT License
 Author: Luiz Araujo - luizcarlos_bsb2006@hotmail.com
 Date: 06/12/20 13:38
@@ -7,7 +7,6 @@ Description: Manipulação de Arquivos - cadastro de funcionarios que persista, ut
 */
 
 
-//VALIDAR CADASTRO DE NOMES REPETIDOS
 
 #include<stdlib.h>
 #include<stdio.h>
@@ -23,6 +22,13 @@ struct dados_pessoais{
 	char sexo;
 	char cargo[21];
 	float salario;
+//	//alinhar depois
+//	char nome[31];	//31bytes
+//	char cargo[21];	//21bytes
+//	float salario;	//4bytes
+//	int idade;		//4bytes
+//	char sexo;		//1bytes
+//	char pad[3];	//só pra alinhar
 };
 
 
@@ -34,26 +40,28 @@ float lerValidarSalario();
 int porStruct(struct dados_pessoais funcionario[]);
 int cadastrarFuncionarios(struct dados_pessoais funcionario[], int contador_entradas);
 void gravarEntrada(struct dados_pessoais *funcionario, FILE *arq);
-void listarEntradas(struct dados_pessoais funcionario[], int contador_entradas);
+void listarFuncionarios(struct dados_pessoais funcionario[], int contador_entradas);
 
 int main(void){
-	setlocale(LC_ALL, "Portuguese");	
+	setlocale(LC_COLLATE, "Portuguese");
+	setlocale(LC_MONETARY, "Portuguese");
+	setlocale(LC_NUMERIC, "Portuguese");
+	setlocale(LC_TIME, "Portuguese");	
 	struct dados_pessoais funcionario[MAX_FUNC];
-	int contador_funcionario = 0, indice = 0, indice2 = 0, contador_entradas = 0, contador_nome = 0;
-	char continuar, tudo[MAX_FUNC * 5][31], nome_comparar[MAX_FUNC][31];
+	int contador_funcionario = 0, indice = 0, indice2 = 0, contador_entradas = 0;
+	char continuar;
 
-//	ponhe todas as entradas na struct
+//	põe todas as entradas na struct
 	contador_entradas = (int)porStruct(funcionario);
 	
 	if(contador_entradas > 0){
-		listarEntradas(funcionario, contador_entradas);
+		listarFuncionarios(funcionario, contador_entradas);
 	}
 	
 	contador_entradas = cadastrarFuncionarios(funcionario, contador_entradas);
 	
-
 	contador_entradas = porStruct(funcionario);
-	listarEntradas(funcionario, contador_entradas);
+	listarFuncionarios(funcionario, contador_entradas);
 	printf("\n\n\nPRESSIONE QUALQUER TECLA PARA ENCERRAR.\n");
 	getch();
 	return 0;
@@ -147,7 +155,7 @@ float lerValidarSalario(){
 	return salario;
 }
 
-void listarEntradas(struct dados_pessoais funcionario[], int contador_entradas){	
+void listarFuncionarios(struct dados_pessoais funcionario[], int contador_entradas){	
 	int indice;
 	system("CLS");
 	printf("QUANTIDADE DE FUNCIONARIOS: %i\n", contador_entradas);
@@ -168,22 +176,25 @@ void listarEntradas(struct dados_pessoais funcionario[], int contador_entradas){
 //		printf("\n");
 //	}
 			//LISTA HORIZONTAL
-	printf("%-30s%-6s%-11s%-20s%-10s\n","NOME","IDADE","SEXO","CARGO","SALARIO(R$)");
+	printf("    %-30s%-6s%-6s%-20s%-10s\n","NOME","IDADE","SEXO","CARGO","SALARIO(R$)");
 	for(indice = 0; indice < contador_entradas; indice++){//mostra nome de todos os func
 
+//		printf("%03d ", indice);
+		printf("%03d ", indice + 1);
 		printf("%-30s",funcionario[indice].nome);
 		printf("%-6d",funcionario[indice].idade);
 		if(funcionario[indice].sexo == 'f'){
-			printf("%-11s%","feminino");
+			printf("%-6s%","FEM");
 		}else if(funcionario[indice].sexo == 'm'){
-			printf("%-11s%","masculino");
+			printf("%-6s%","MASC");
 		}else{
-			printf("%-11s%","indefinido");
+			printf("%-6s%","INDEF");
 		}
 		printf("%-20s",funcionario[indice].cargo);
 		printf("%10.2f",funcionario[indice].salario);
 		printf("\n");
 	}
+	printf("\n\n\n\n");
 }
 
 void gravarEntrada(struct dados_pessoais *funcionario, FILE *arq){	
@@ -217,7 +228,7 @@ int porStruct(struct dados_pessoais funcionario[]){
 int cadastrarFuncionarios(struct dados_pessoais funcionario[], int contador_entradas){	
 	FILE *arq;
 	char continuar = 's';
-	puts("CADASTRO DE FUNCIONÁRIOS");
+	puts("CADASTRO DE FUNCIONARIOS");
 
 	do{		
 //		arq = fopen("dados_funcionarios.bin", "wb");
@@ -228,7 +239,7 @@ int cadastrarFuncionarios(struct dados_pessoais funcionario[], int contador_entr
 			exit(0);
 		}
 		contador_entradas++;
-		printf("\n FUNCIONÁRIO %d",  contador_entradas);		
+		printf("\nFUNCIONARIO %d",  contador_entradas);		
 		lerValidarNome(contador_entradas, funcionario);
 		funcionario[contador_entradas].idade = lerValidarIdade();
 		funcionario[contador_entradas].sexo = lerValidarSexo();
