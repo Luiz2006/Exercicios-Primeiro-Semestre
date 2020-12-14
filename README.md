@@ -11,5 +11,5 @@
 ## Icons
     🎁 new functionality; 
     ✔️ update; 
-    🦗 Bug fix; 
+    🐞 Bug fix; 
     🏁 release.
