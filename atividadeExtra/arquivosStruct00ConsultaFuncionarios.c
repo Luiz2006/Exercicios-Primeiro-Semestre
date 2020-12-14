@@ -93,7 +93,7 @@ void menuConsulta(struct dados_pessoais funcionario[], int contador_entradas){
 				}else{
 					printf("\nTIPO DE CONSULTA INVALIDO: ");
 				}		 
-				
+				fflush(stdin);
 				opcao = getche();
 		}
 		switch(opcao){
