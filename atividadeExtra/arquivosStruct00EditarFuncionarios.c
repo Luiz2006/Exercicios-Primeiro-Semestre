@@ -6,8 +6,6 @@ Date: 13/12/20 14:31
 Description: Manipulação de Arquivos - edita cadastro de funcionarios.
 */
 
-
-
 #include<stdlib.h>
 #include<stdio.h>
 #include<string.h>
@@ -31,13 +29,12 @@ struct dados_pessoais{
 //	char pad[3];	//só pra alinhar
 };
 
-
 void lerValidarNome(int contador_entradas, struct dados_pessoais funcionario[]);
 int lerValidarIdade();
 char lerValidarSexo();
 void lerValidarCargo(char cargo[]);
 float lerValidarSalario();
-int porStruct(struct dados_pessoais funcionario[]);
+int contarEntradas(struct dados_pessoais funcionario[]);
 int editarFuncionario(struct dados_pessoais funcionario[], int contador_entradas);
 void gravarEntrada(struct dados_pessoais *funcionario, FILE *arq);
 void listarFuncionarios(struct dados_pessoais funcionario[], int contador_entradas);
@@ -52,7 +49,7 @@ int main(void){
 	char continuar;
 
 //	põe todas as entradas na struct
-//	contador_entradas = (int)porStruct(funcionario);
+//	contador_entradas = (int)contarEntradas(funcionario);
 //	
 //	if(contador_entradas > 0){
 //		listarFuncionarios(funcionario, contador_entradas);
@@ -62,7 +59,7 @@ int main(void){
 //	editarrrrrrrrrrrrrrrrrrrr
 //	contador_entradas = cadastrarFuncionarios(funcionario, contador_entradas);
 	
-//	contador_entradas = porStruct(funcionario);
+//	contador_entradas = contarEntradas(funcionario);
 	
 	editarFuncionario(funcionario, contador_entradas);
 	
@@ -76,7 +73,7 @@ int main(void){
 void listarFuncionarios(struct dados_pessoais funcionario[], int contador_entradas){	
 	int indice;
 	
-//	contador_entradas = (int)porStruct(funcionario);
+//	contador_entradas = (int)contarEntradas(funcionario);
 	system("CLS");
 	printf("QUANTIDADE DE FUNCIONARIOS: %i\n", contador_entradas);
 	
@@ -123,7 +120,7 @@ void gravarEntrada(struct dados_pessoais *funcionario, FILE *arq){
 		fwrite(funcionario, sizeof(struct dados_pessoais), 1, arq);
 }
 
-int porStruct(struct dados_pessoais funcionario[]){
+int contarEntradas(struct dados_pessoais funcionario[]){
 	int indice, contador_entradas;
 	FILE *arq;
 	arq = fopen("dados_funcionarios.bin", "rb");
@@ -168,10 +165,11 @@ int editarFuncionario(struct dados_pessoais funcionario[], int contador_entradas
 		fflush(stdin);
 		continuar = getche();
 		if(continuar != 's' && continuar != 'S'){
-			contador_entradas = (int)porStruct(funcionario);
+			contador_entradas = (int)contarEntradas(funcionario);
+			fread(&c, sizeof(struct dados_pessoais), contador_entradas, arq);
 			listarFuncionarios(funcionario, contador_entradas);
 		}		
-		
+		fclose(arq);
 		//pesquisar por codigo
 		printf("CODIGO DO FUNCIONARIO: ");
 		scanf("%d", &cod);
@@ -185,21 +183,21 @@ int editarFuncionario(struct dados_pessoais funcionario[], int contador_entradas
 		}
 		do{
 	//		fseek(arq, cod * sizeof(struct dados_pessoais), SEEK_SET);
-			fread(&c, sizeof(struct dados_pessoais), contador_entradas, arq);
+			
 			system("CLS");
 			printf("CADASTRO DO FUNCIONARIO: %d", cod);
-			printf("\n1 - NOME: %s", c[cod].nome);
-			printf("\n2 - IDADE: %d", c[cod].idade);
+			printf("\n1 - NOME   : %s", c[cod].nome);
+			printf("\n2 - IDADE  : %d", c[cod].idade);
 			
 			
 			if(c[cod].sexo == 'f'){
-				printf("\n3 - SEXO: %s","FEMININO");
+				printf("\n3 - SEXO   : %s","FEMININO");
 			}else if(c[cod].sexo == 'm'){
-				printf("\n3 - SEXO: %s","MASCULINO");
+				printf("\n3 - SEXO   : %s","MASCULINO");
 			}else{
-				printf("\n3 - SEXO: %s","INDEFINIDO");
+				printf("\n3 - SEXO   : %s","INDEFINIDO");
 			}
-			printf("\n4 - CARGO: %s", c[cod].cargo);
+			printf("\n4 - CARGO  : %s", c[cod].cargo);
 			printf("\n5 - SALARIO:R$ %.2f", c[cod].salario);
 			fclose(arq);		
 			printf("\n0 - CANCELAR");
@@ -228,81 +226,167 @@ int editarFuncionario(struct dados_pessoais funcionario[], int contador_entradas
 					fflush(stdin);
 					opcao = getche();
 			}
-			if(opcao != '0'){
-				arq = fopen("dados_funcionarios.bin","w+b");
-				if(arq == NULL){
-					printf("\a\nERRO AO ABRIR O ARQUIVO: dados_funcionarios.bin!");
-					sleep(5);
-					exit(1);
-				}
+			if(opcao != '0'){			
 				switch(opcao){
+					char texto_temp[31], sexo_temp;
+					float salario_temp;
+					int idade_temp;
 					case '1':
 						do{
-		//					puts("\nNOVO NOME: ");
 							puts("\nNOME COMPLETO:");
 							fflush(stdin);
-							gets(c[cod].nome);
-							if((strlen(c[cod].nome) <= 5)){
+							gets(texto_temp);
+							if((strlen(texto_temp) <= 5)){
 								puts("informe um nome válido!");
 							}
-							if((strlen(c[cod].nome) > 30)){
+							if((strlen(texto_temp) > 30)){
 								puts("informe um nome menor!");
 							}
-						}while((strlen(c[cod].nome) <= 5)||(strlen(c[cod].nome) > 30));		
+						}while((strlen(texto_temp) <= 5) || (strlen(texto_temp) > 30));							
+						printf("\nANTES : %s", c[cod].nome);
+						printf("\nDEPOIS: %s", texto_temp);
+						printf("\n's' PARA CONFIRMAR ALTERACAO: ");
+						fflush(stdin);
+						continuar = getchar();
+						if(continuar == 's'|| continuar == 'S'){
+							arq = fopen("dados_funcionarios.bin","w+b");//tive que passar todos pra dentro dos IFs, pois, às vezes, qndo fechava o prg apagava o arquivo
+							if(arq == NULL){
+								printf("\a\a\a\nERRO AO SALVAR NO ARQUIVO: dados_funcionarios.bin!");
+								sleep(5);
+								exit(1);
+							}else{
+								strcpy(c[cod].nome, texto_temp);
+								fwrite(&c, sizeof(struct dados_pessoais), contador_entradas, arq);
+								printf("\a\nAlteracao realizada com sucesso!");
+							}
+							fclose(arq);
+						}						
 						break;
 					case '2':			
 						do{
 							printf("\nIDADE:");
-							scanf("%d", &c[cod].idade);
-							if(c[cod].idade < 14){
+							scanf("%d", &idade_temp);
+							if(idade_temp < 14){
 								puts("Na CLT, a idade mínima prevista é de 14 anos, desde que o menor seja contratado na condição de aprendiz.");
 							}
-							if(c[cod].idade > 120){
+							if(idade_temp > 120){
 								puts("Informe uma idade válida, pois com mais de 120 anos é improvável que ainda esteja trabalhando.");
 							}
-						}while((c[cod].idade < 14) || (c[cod].idade > 120));
+						}while((idade_temp < 14) || (idade_temp > 120));						
+						printf("\nANTES : %d", c[cod].idade);
+						printf("\nDEPOIS: %d", idade_temp);
+						printf("\n's' PARA CONFIRMAR ALTERACAO: ");
+						fflush(stdin);
+						continuar = getchar();
+						if(continuar == 's'|| continuar == 'S'){
+							arq = fopen("dados_funcionarios.bin","w+b");
+							if(arq == NULL){
+								printf("\a\a\a\nERRO AO SALVAR NO ARQUIVO: dados_funcionarios.bin!");
+								sleep(5);
+								exit(1);
+							}else{
+								c[cod].idade = idade_temp;
+								fwrite(&c, sizeof(struct dados_pessoais), contador_entradas, arq);
+								printf("\a\nAlteracao realizada com sucesso!");
+							}
+							fclose(arq);							
+						}
 						break;
 					case '3':
 						do{
 							printf("\nSEXO: ");
 							fflush(stdin);
-							c[cod].sexo = getche();
-							c[cod].sexo = tolower(c[cod].sexo);
-							if(c[cod].sexo != 'f' && c[cod].sexo != 'm' && c[cod].sexo != 'x'){
+							sexo_temp = getche();
+							sexo_temp = tolower(sexo_temp);
+							if(sexo_temp != 'f' && sexo_temp != 'm' && sexo_temp != 'x'){
 								puts("F para feminino | M para masculino | X para indefinido ");
 							}		
-						}while(c[cod].sexo != 'f' && c[cod].sexo != 'm' && c[cod].sexo != 'x');
+						}while(sexo_temp != 'f' && sexo_temp != 'm' && sexo_temp != 'x');						
+						printf("\nANTES : %c", c[cod].sexo);
+						printf("\nDEPOIS: %c", sexo_temp);
+						printf("\n's' PARA CONFIRMAR ALTERACAO: ");
+						fflush(stdin);
+						continuar = getchar();
+						if(continuar == 's'|| continuar == 'S'){
+							arq = fopen("dados_funcionarios.bin","w+b");
+							if(arq == NULL){
+								printf("\a\a\a\nERRO AO SALVAR NO ARQUIVO: dados_funcionarios.bin!");
+								sleep(5);
+								exit(1);
+							}else{
+								c[cod].sexo = sexo_temp;
+								fwrite(&c, sizeof(struct dados_pessoais), contador_entradas, arq);
+								printf("\a\nAlteracao realizada com sucesso!");
+							}
+							fclose(arq);
+						}
 						break;
 					case '4':
 						do{
 							puts("\nCARGO:");
 							fflush(stdin);
-							gets(c[cod].cargo);
-							if(strlen(c[cod].cargo) < 3){
+							gets(texto_temp);
+							if(strlen(texto_temp) < 3){
 								puts("Informe um cargo válido!");
 							}
-							if(strlen(c[cod].cargo) > 20){
+							if(strlen(texto_temp) > 20){
 								puts("Informe um cargo menor que 20!");
 							}
-						}while((strlen(c[cod].cargo) < 3)||(strlen(c[cod].cargo) > 20));
+						}while((strlen(texto_temp) < 3)||(strlen(texto_temp) > 20));
+						printf("\nANTES : %s", c[cod].cargo);
+						printf("\nDEPOIS: %s", texto_temp);
+						printf("\n's' PARA CONFIRMAR ALTERACAO: ");
+						fflush(stdin);
+						continuar = getchar();
+						if(continuar == 's'|| continuar == 'S'){
+							arq = fopen("dados_funcionarios.bin","w+b");
+							if(arq == NULL){
+								printf("\a\a\a\nERRO AO SALVAR NO ARQUIVO: dados_funcionarios.bin!");
+								sleep(5);
+								exit(1);
+							}else{
+								strcpy(c[cod].cargo, texto_temp);
+								fwrite(&c, sizeof(struct dados_pessoais), contador_entradas, arq);
+								printf("\a\nAlteracao realizada com sucesso!");
+							}
+							fclose(arq);
+						}						
 						break;
 					case '5':					      
-						do{   
+						do{  
 							printf("\nSALARIO:\nR$ ");
-							scanf("%f", &c[cod].salario);
+							scanf("%f", &salario_temp);
 						//		salário mínimoR$ 1.045,00 
-							if(c[cod].salario < 400){
+							if(salario_temp < 400){
 								puts("Informe um salário válido, pois menos que R$ 400,00 nem jovem aprendiz recebe...");
 							}    
-						}while(c[cod].salario < 400);
+						}while(salario_temp < 400);						
+						printf("\nANTES : R$%.2f", c[cod].salario);
+						printf("\nDEPOIS: R$%.2f", salario_temp);
+						printf("\n's' PARA CONFIRMAR ALTERACAO: ");
+						fflush(stdin);
+						continuar = getchar();
+						if(continuar == 's'|| continuar == 'S'){
+							arq = fopen("dados_funcionarios.bin","w+b");
+							if(arq == NULL){
+								printf("\a\a\a\nERRO AO SALVAR NO ARQUIVO: dados_funcionarios.bin!");
+								sleep(5);
+								exit(1);
+							}else{
+								c[cod].salario = salario_temp;
+								fwrite(&c, sizeof(struct dados_pessoais), contador_entradas, arq);
+								printf("\a\nAlteracao realizada com sucesso!");
+							}
+							fclose(arq);
+						}
 						break;		
 				}//fim switch
 					
-		//		fseek(arq, cod * sizeof(struct dados_pessoais), SEEK_SET);
-				fwrite(&c, sizeof(struct dados_pessoais), contador_entradas, arq);
+//				fseek(arq, cod * sizeof(struct dados_pessoais), SEEK_SET);
+//				fwrite(&c, sizeof(struct dados_pessoais), contador_entradas, arq);
 			}//fim if != '0'
 
-			fclose(arq);
+//			fclose(arq);
 			printf("\nEditar o mesmo funcionario? (s para sim)");
 			fflush(stdin);
 			continuar = getche();
