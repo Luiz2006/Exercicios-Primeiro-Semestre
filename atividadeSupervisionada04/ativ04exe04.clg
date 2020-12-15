@@ -1,0 +1,31 @@
+algoritmo ativ04exe04;
+// Síntese
+//  Objetivo:  Calcular o valor de H = 1/1+1/2+1/3+ ... +1/N. 
+//sendo N fornecido pelo usuário.
+//  Entrada : valor de N
+//  Saída   : H = 1/1+1/2+1/3+...+1/ até N
+
+
+principal
+	// Declarações	
+
+		real n, h;
+		inteiro cont;
+
+	// Instruções
+
+		escreval("FÓRMULA: H = 1/1+1/2+1/3+ ... +1/N");
+		
+		escreva ("Informe o valor de N: ");
+		leia(n);
+
+		h = 1;
+		
+		escreva("H = ");
+		
+		para(cont de 1 ate n passo 1) faca
+			h = h + (1/cont);
+		fimPara
+					
+		escreva(" = ", h);
+fimPrincipal

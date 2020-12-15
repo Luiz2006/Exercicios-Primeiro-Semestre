@@ -1,0 +1,28 @@
+algoritmo ativ03exe02;
+// Síntese
+//  Objetivo:  Construa um algoritmo de ajuda para vendedores.
+//  Entrada : valor
+//  Saída   : valor com desconto, valor das parcelas, valor da comissão a vista e a prazo
+
+
+principal
+	// Declarações
+	real valor, desconto, parcela, comiVista, comiPrazo;
+
+	// Instruções
+	escreva("Informe o valor da compra: ");
+	leia(valor);
+
+	desconto = ((valor * 90) / 100);
+	parcela  = valor / 3;
+	comiVista = ((desconto * 5) / 100);
+	comiPrazo = ((valor * 5) / 100);
+	
+	escreval(" ");
+	
+	escreval("Valor com desconto: R$", desconto::2, ".");
+	escreval("Parcelamento: 3 x ", parcela::2, " sem juros.");
+	escreval("Comissão a vista: R$", comiVista::2, ".");
+	escreval("Comissão a prazo: R$", comiPrazo::2, ".");
+
+fimPrincipal

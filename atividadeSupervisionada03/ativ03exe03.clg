@@ -1,0 +1,23 @@
+algoritmo ativ03exe03;
+// Síntese
+//  Objetivo:  Calcular e mostrar quantos degraus o usuário deverá subir para atingir seu objetivo.
+//  Entrada : altura dos degraus e de onde pretende chegar
+//  Saída   : quantidade de degraus a serem subidos
+
+
+principal
+	// Declarações
+	real altDegrau, altTotal;
+	inteiro degrau;
+	
+	// Instruções
+	escreva("Qual a altura que pretende subir (m)? ");
+	leia(altTotal);
+	escreva("Qual a altura dos degraus (cm)? ");
+	leia(altDegrau);
+
+	degrau = altTotal / (altDegrau / 100);
+
+	escreval("A quantidade de degraus a ser subida: ", degrau, ".");
+
+fimPrincipal

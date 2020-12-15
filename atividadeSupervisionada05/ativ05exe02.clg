@@ -1,0 +1,26 @@
+algoritmo ativ05exe02;
+// Síntese
+//  Objetivo: Calcular o valor de x elevado a n.
+//  Entrada : Número real e seu expoente inteiro.
+//  Saída   : Resultado da operação.
+
+principal
+	// Declarações
+	real x, res;
+	inteiro n;
+
+	// Instruções
+	escreva("Informe um número: ");
+	leia(x);
+	escreva("Informe o expoente: ");
+	leia(n);
+
+	res = exponenciar(x, n);
+	escreval(x,"^",n,": ", res);
+fimPrincipal
+
+funcao real exponenciar(real x, inteiro n)
+	real resultado;
+	resultado = exp(x, n);
+	retorna resultado;
+fimFuncao

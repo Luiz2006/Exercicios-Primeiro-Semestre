@@ -1,0 +1,14 @@
+algoritmo monitoria01exe01a;
+// Síntese
+// Objetivo: armazenar o cadastro de todas as seleções de futebol que já foram campeãs da Copa do Mundo,
+//apresentar quantas copas já aconteceram (até 2018) e a quantidade de vezes que cada uma foi campeã
+// Entrada : as seleções de futebol que já foram campeãs e a quantidade de vezes que cada uma foi campeã
+// Saída   : quantas copas já aconteceram e a quantas vezes que cada uma foi campeã
+
+
+principal
+	// Declarações
+
+	// Instruções
+
+fimPrincipal

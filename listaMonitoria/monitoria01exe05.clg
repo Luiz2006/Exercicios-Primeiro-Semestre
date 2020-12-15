@@ -1,0 +1,123 @@
+algoritmo monitoria01exe05;
+// Síntese
+//  Objetivo: Solicitar a uma única pessoa a quantidade de KWh que a família consome por mês e identificará a sua categoria de consumo
+//  Entrada : A a quantidade de KWh, mês e ano
+//  Saída   : O consumo informado pela pessoa, a classificação da família por extenso, o mês e ano da pesquisa e se o ano informado é ou não bissexto.
+
+
+principal
+	// Declarações
+	inteiro kwh, mes, ano, cont;
+	texto categoria, mesExt;
+	caracter continuar;
+
+	// Instruções
+	continuar = 's';
+	cont = 0;
+	escreval("Investigação sobre o consumo de energia por mês");
+	faca	
+		cont = cont + 1;
+		escreva("Informe o consumo real em kWh da ",cont,"ª família: ");
+		leia(kwh);
+
+		//categoria
+
+
+		enquanto(kwh < 0)faca
+			escreval("O consumo pode ser 0 (zero), sem consumo algum, mas nunca um valor negativo!");
+			escreva("Informe o consumo real em kWh: ");
+			leia(kwh);
+		fimEnquanto
+
+		se(kwh <= 30)entao
+			categoria = "BAIXO";
+		senao
+			se(kwh <= 100)entao
+				categoria = "NORMAL";
+			senao
+				se(kwh <= 220)entao
+					categoria = "ALTO";
+				senao
+					se(kwh > 220)entao
+						categoria = "EXAGERADO";
+					fimSe
+				fimSe
+			fimSe
+		fimSe
+
+		escreval(" ");
+		escreval("DATA DO CONSUMO");
+		escreval(" 1 - Janeiro  2 - Fevereiro   3 - Março");
+		escreval(" 4 - Abril    5 - Maio        6 - Junho");
+		escreval(" 7 - Julho    8 - Agosto      9 - Setembro");
+		escreval("10 - Outubro 11 - Novembro   12 - Dezembro");
+		escreva("MÊS: ");
+		leia(mes);
+
+		enquanto(mes < 1 ou mes > 12)faca
+			escreva("INFORME UM MÊS VÁLIDO: ");
+			leia(mes);
+		fimEnquanto
+
+		escolha(mes)
+		caso 1
+			mesExt = "Janeiro";
+			interrompa;
+		caso 2
+			mesExt = "Fevereiro";
+			interrompa;
+		caso 3
+			mesExt = "Março";
+			interrompa;
+		caso 4
+			mesExt = "Abril";
+			interrompa;
+		caso 5
+			mesExt = "Maio";
+			interrompa;
+		caso 6
+			mesExt = "Junho";
+			interrompa;
+		caso 7
+			mesExt = "Julho";
+			interrompa;
+		caso 8
+			mesExt = "Agosto";
+			interrompa;
+		caso 9
+			mesExt = "Setembro";
+			interrompa;
+		caso 10
+			mesExt = "Outubro";
+			interrompa;
+		caso 11
+			mesExt = "Novembro";
+			interrompa;
+		caso 12
+			mesExt = "Dezembro";
+			interrompa;
+		outroCaso
+
+		fimEscolha
+
+		escreva("ANO: ");
+		leia(ano);
+
+		limpaTela();
+
+		escreval("Investigação sobre o consumo de energia do mês");
+		escreval("Consumo informado: ", kwh, " kwh.");
+		escreval("Categoria da família  : ", categoria,".");
+
+		//validação do ano
+		se((ano % 4 == 0 e ano % 100 != 0) ou ano % 400 == 0)entao
+			escreval("Data: ",mesExt, "/",ano,"(bissexto).");
+		senao
+			escreval("Data: ",mesExt, "/",ano,"(não é bissexto).");
+		fimSe
+		escreval("Pressione 's' para nova pesquisa:");
+		leiaCaracter(continuar);
+	enquanto(continuar == 's');
+	escreval(" ");
+	escreva("O total de famílias pesquisadas: ", cont,".");
+fimPrincipal

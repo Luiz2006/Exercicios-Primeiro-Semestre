@@ -1,0 +1,75 @@
+algoritmo ativ05exe03;
+// Síntese
+//  Objetivo:  Calcular as médias finais para cada aluno.
+//  Entrada :  Duas notas
+//  Saída   :  Médias
+/*
+Desenvolva um algoritmo que leia as duas notas de até 20 alunos e 
+calcule as possíveis médias finais para cada um deles, usando pelo 
+menos 3 sub-algoritmos, um para cada tipo de média apresentada nos itens a, b e c. 
+Para cada aluno deverá ser lido as notas, chamado as três funções e apresentado as 
+médias no algoritmo
+principal
+
+	a) Média aritmética das duas notas
+b) Média ponderada com peso 4 e 6 respectivamente
+c) Média ponderada com peso 3 e 7 respectivamente
+	
+	
+*/
+
+principal
+	// Declarações
+	real media, nota1, nota2;
+	inteiro cont;
+	caracter continuar;
+
+	// Instruções
+	cont = 0;
+
+	faca
+		cont = cont + 1;
+		escreval(cont,"º aluno");
+		escreva("Informe a nota 1: ");
+		leia(nota1);
+		escreva("Informe a nota 2: ");
+		leia(nota2);
+
+		//a) Média aritmética das duas notas
+		escreval("Média aritmética: ", aritmetica(nota1, nota2));
+
+		//b) Média ponderada com peso 4 e 6 respectivamente
+		escreval("Média ponderada com peso 4 e 6: ", ponderada(nota1, nota2));
+
+		//c) Média ponderada com peso 3 e 7 respectivamente
+		escreval("Média ponderada com peso 3 e 7: ", ponderada2(nota1, nota2));
+
+		escreval("");
+		se(cont < 20)entao
+			escreva("Novo aluno[s - para sim]?");
+			leiaCaracter(continuar);
+			continuar = minusculoCaracter(continuar);
+		fimSe
+	enquanto((cont < 20) e (continuar == 's')); //até 20 alunos
+
+fimPrincipal
+
+funcao real aritmetica(real n1, real n2)
+	real arit;
+	arit = ((n1 + n2)/2);	
+	retorna arit;
+fimFuncao
+
+funcao real ponderada(real n1, real n2)
+		real pond;
+		pond = ((n1*4 + n2*6)/10);
+	retorna pond;
+fimFuncao
+
+funcao real ponderada2(real n1, real n2)
+		real pond;
+		pond = ((n1*3 + n2*7)/10);
+	retorna pond;
+fimFuncao
+
+

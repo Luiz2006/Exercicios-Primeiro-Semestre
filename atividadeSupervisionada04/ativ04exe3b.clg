@@ -1,0 +1,36 @@
+algoritmo ativ04exe3;
+// Síntese
+//  Objetivo:  Apresentar a menor altura
+//entre 10 pessoas, usando apenas a repetição
+//enquanto.
+//  Entrada : dez alturas de pessoas diferentes
+//  Saída   : a pessoa mais baixa
+
+
+principal
+	// Declarações
+	inteiro numero;
+	texto nome,nomeMenor;
+	real altura, alturaMenor;
+	alturaMenor = 3;
+
+	// Instruções
+
+	para(numero de 1 ate 10 passo 1)faca
+
+		escreva ("Informe o nome da ", numero,"ª pessoa : ");
+		leia(nome);
+		escreva ("Informe a altura dessa pessoa: ");
+		leia(altura);
+
+		se(alturaMenor > altura)entao
+			alturaMenor = altura;
+			nomeMenor = nome;
+		fimSe
+
+	fimPara
+	
+	escreva("A menor pessoa é a ", nomeMenor, " com ", alturaMenor," m.");
+
+fimPrincipal
+

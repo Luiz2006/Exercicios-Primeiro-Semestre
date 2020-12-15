@@ -1,0 +1,71 @@
+algoritmo monitoria01exe03;
+// Síntese
+//  Objetivo: Analisar informações sobre idade de times de vôlei
+//  Entrada : A quantidade de jogadores, o número da camisa e a idade
+//  Saída   : O jogador mais velho, o mais jovem e a média  de idade do time
+
+principal
+	// Declarações
+	inteiro qtdJogador, numJogador,idadeJogador, numMaisVelho, numMaisJovem, idadeMaisVelho, idadeMaisJovem, media;
+	inteiro cont, contVelho, contJovem;
+
+	// Instruções
+	idadeMaisVelho = 1;
+	idadeMaisJovem = 99;
+	media = 0;
+	contVelho = 1;
+	contJovem = 1;
+
+	escreva("Quantos jogadores há no time? ");
+	leia(qtdJogador);
+
+	escreval("");
+
+	para(cont de 1 ate qtdJogador passo 1)faca
+		escreva("Qual a camisa do ", cont,"º jogador? ");
+		leia(numJogador);
+		escreva("Qual a idade desse jogador? ");
+		leia(idadeJogador);
+
+
+		//verificar se há jogadores com a mesma idade
+		se(idadeJogador == idadeMaisVelho)entao
+			contVelho = contVelho + 1;
+		fimSe
+		se(idadeJogador == idadeMaisJovem)entao
+			contJovem = contJovem + 1;
+		fimSe
+
+		media = media + idadeJogador;
+
+		se(idadeJogador > idadeMaisVelho)entao
+			numMaisVelho = numJogador;
+			idadeMaisVelho = idadeJogador;
+		fimSe
+		se(idadeJogador < idadeMaisJovem)entao
+			numMaisJovem = numJogador;
+			idadeMaisJovem = idadeJogador;
+		fimSe
+
+	fimPara	
+
+	escreval(" ");
+	se((contJovem == qtdJogador) ou (contVelho == qtdJogador))entao
+		escreval("Todos jogadores tem a mesma idade.");
+	senao
+		se(contJovem > 1)entao
+			escreval("Há ",contJovem, " jogadores mais jovens com ",idadeMaisJovem, " anos.");
+		senao
+			escreval("O jogador mais jovem é o camisa ",numMaisJovem, " com ",idadeMaisJovem, " anos.");
+		fimSe
+	
+		se(contVelho > 1)entao
+			escreval("Há ",contVelho, " jogadores mais velhos com ",idadeMaisVelho, " anos.");
+		senao
+			escreval("O jogador mais velho é o camisa ",numMaisVelho, " com ",idadeMaisVelho, " anos.");
+		fimSe
+
+		media = media / qtdJogador;
+		escreval("A média  de idade do time é ",media, " anos.");
+	fimSe
+fimPrincipal

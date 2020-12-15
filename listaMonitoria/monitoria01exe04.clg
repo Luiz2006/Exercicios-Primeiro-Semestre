@@ -1,0 +1,78 @@
+algoritmo monitoria01exe04;
+// Síntese
+//  Objetivo: Verificar com os participantes qual a equipe que foi mais privilegiada na opinião dele.
+//  Entrada : A quantidade de pessoas que serão entrevistadas e a opinião do entrevistado
+//  Saída   : A quantidade de indicações recebidas por cada equipe incluindo a das outras equipes e a que foi mais privilegiada
+
+principal
+	// Declarações
+	inteiro participantes, cont, F, M, R, O;
+	caracter opcao;
+
+	// Instruções
+	F = 0;
+	M = 0;
+	R = 0;
+	O = 0;
+	opcao = 'z';
+
+	escreva("Quantos serão entrevistados? ");
+	leia(participantes);
+
+	se(participantes > 10)entao
+
+		escreval(" ");
+
+		escreval("F = Ferrari");
+		escreval("M = Mercedes");
+		escreval("R = RedBull");
+
+		escreval(" ");
+
+		escreval("Qual equipe que foi mais privilegiada na sua opinião? ");
+
+		para(cont de 1 ate participantes passo 1)faca
+			escreva("Voto do ", cont,"º participante: ");
+			leiaCaracter(opcao);
+
+
+			escolha(opcao)
+			caso 'F'
+				F = F + 1;
+				interrompa;
+			caso 'M'
+				M = M + 1;
+				interrompa;
+			caso 'R'
+				R = R + 1;
+				interrompa;
+			caso 'f'
+				F = F + 1;
+				interrompa;
+			caso 'm'
+				M = M + 1;
+				interrompa;
+			caso 'r'
+				R = R + 1;
+				interrompa;
+			outroCaso
+				O = O + 1;
+
+			fimEscolha
+
+		fimPara
+
+		limpaTela();
+
+		escreval("A quantidade de indicações de cada equipe ");
+		escreval("Ferrari : ", F);
+		escreval("Mercedes: ", M);
+		escreval("RedBull : ", R);
+		escreval("Outra : ", O);
+		se(O > F e O > M e O > R)entao
+			escreval("Os entrevistadas acreditam que outra equipe foi privilegiada!!!");
+		fimSe
+	senao
+		escreval("A quantidade de pessoas que serão entrevistadas, deve ser maior que 10 (dez) pessoas!");
+	fimSe
+fimPrincipal

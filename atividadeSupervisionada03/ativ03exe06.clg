@@ -1,0 +1,32 @@
+algoritmo ativ03exe06;
+// Síntese
+//  Objetivo:  Construa um algoritmo que, tendo como dados de 
+//entrada dois pontos quaisquer do plano, P(x1, y1) e Q(x2, y2), 
+//imprima a distância entre eles. A fórmula que efetua tal 
+//cálculo é: d = √(𝑥2−𝑥1)2+ (𝑦2−𝑦1)²
+//  Entrada : dois pontos do plano
+//  Saída   : distância entre os pontos
+
+
+principal
+	// Declarações
+	real distancia, x1, x2, y1, y2;
+	
+	// Instruções
+	escreval("Calcular a distância entre dois pontos");
+	escreval("Informe o primeiro ponto: ");
+	escreva("Absissa(x): ");
+	leia(x1);
+	escreva("Ordenada(y): ");
+	leia(y1);
+	escreva("Informe o segundo ponto: ");
+	escreva("Absissa(x): ");
+	leia(x2);
+	escreva("Ordenada(y): ");
+	leia(y2);
+
+	escreval(" ");
+
+	distancia = raizQuadrada(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));	
+	escreval("A distância entre os dois pontos é: ", distancia, ".");
+fimPrincipal
