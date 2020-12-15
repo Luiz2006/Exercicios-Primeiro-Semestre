@@ -145,7 +145,7 @@ float lerValidarSalario(){
 	float salario;
 
 	do{
-		printf("SALÁRIO:\nR$ ");
+		printf("SALARIO:\nR$ ");
 		scanf("%f", &salario);
 //		salário mínimoR$ 1.045,00 
 		if(salario < 400){

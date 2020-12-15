@@ -208,23 +208,22 @@ int editarFuncionario(struct dados_pessoais funcionario[], int contador_entradas
 			
 			/////////////////////Fazer vários IFs para alterar mais de uma coisa de uma vez
 			contadorTemp = 0;
-			while((opcao> '5')||(isdigit(opcao) == 0)){
+			while((opcao > '5')||(isdigit(opcao) == 0)){
 				contadorTemp++;
-					contadorTemp++;
-					if(contadorTemp > 2){		
-						printf("\n\nINFORME UM NUMERO DE 0 a 5.");		
-						puts("\n1 - NOME");
-						puts("2 - IDADE");
-						puts("3 - SEXO");
-						puts("4 - CARGO");
-						puts("5 - SALARIO");
-						puts("0 - CANCELAR");
-						printf("ALTERAR:");
-					}else{
-						printf("\nOPCAO INVALIDA: ");
-					}		 
-					fflush(stdin);
-					opcao = getche();
+				if(contadorTemp > 2){		
+					printf("\n\nINFORME UM NUMERO DE 0 a 5.");		
+					puts("\n1 - NOME");
+					puts("2 - IDADE");
+					puts("3 - SEXO");
+					puts("4 - CARGO");
+					puts("5 - SALARIO");
+					puts("0 - CANCELAR");
+					printf("ALTERAR:");
+				}else{
+					printf("\nOPCAO INVALIDA: ");
+				}		 
+				fflush(stdin);
+				opcao = getche();
 			}
 			if(opcao != '0'){			
 				switch(opcao){
@@ -387,7 +386,7 @@ int editarFuncionario(struct dados_pessoais funcionario[], int contador_entradas
 			}//fim if != '0'
 
 //			fclose(arq);
-			printf("\nEditar o mesmo funcionario? (s para sim)");
+			printf("\nEditar o mesmo funcionario? (s para sim) ");
 			fflush(stdin);
 			continuar = getche();
 		}while(continuar == 's' || continuar == 'S');
