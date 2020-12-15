@@ -17,20 +17,26 @@ Description: Manipulação de Arquivos - cadastro de funcionarios que persista, ut
 #define MAX_FUNC 100
 
 struct dados_pessoais{
-	char nome[31];
-	int idade;
-	char sexo;
-	char cargo[21];
-	float salario;
-//	//alinhar depois
-//	char nome[31];	//31bytes
-//	char cargo[21];	//21bytes
-//	float salario;	//4bytes
-//	int idade;		//4bytes
-//	char sexo;		//1bytes
-//	char pad[3];	//só pra alinhar
+	unsigned short codigo;	//2bytes
+	char nome[31];			//31bytes
+	unsigned short idade;	//2bytes
+	char sexo;				//1bytes
+	char cargo[21];			//21bytes
+	float salario;			//4bytes
+	char pad[3];			//pra alinhar
 };
 
+
+
+
+
+
+//	refatorar tudo! ACrrescentarrrrr o campo código e as devidas alterações
+	
+	
+	
+	
+	
 
 void lerValidarNome(int contador_entradas, struct dados_pessoais funcionario[]);
 int lerValidarIdade();
@@ -161,7 +167,7 @@ void listarFuncionarios(struct dados_pessoais funcionario[], int contador_entrad
 	printf("QUANTIDADE DE FUNCIONARIOS: %i\n", contador_entradas);
 //			//VERTICALIZADO
 //	for(indice = 0; indice < contador_entradas; indice++){//mostra nome de todos os func
-//
+//		printf("\nCodigo : %03u ", funcionario[indice].codigo);
 //		printf("\nNome   : %s",funcionario[indice].nome);
 //		printf("\nIdade  : %d",funcionario[indice].idade);
 //		if(funcionario[indice].sexo == 'f'){
@@ -176,11 +182,11 @@ void listarFuncionarios(struct dados_pessoais funcionario[], int contador_entrad
 //		printf("\n");
 //	}
 			//LISTA HORIZONTAL
-	printf("    %-30s%-6s%-6s%-20s%-10s\n","NOME","IDADE","SEXO","CARGO","SALARIO(R$)");
+	printf("COD %-30s%-6s%-6s%-20s%-10s\n","NOME","IDADE","SEXO","CARGO","SALARIO(R$)");
 	for(indice = 0; indice < contador_entradas; indice++){//mostra nome de todos os func
 
 //		printf("%03d ", indice);
-		printf("%03d ", indice + 1);
+		printf("%03u ", funcionario[indice].codigo);
 		printf("%-30s",funcionario[indice].nome);
 		printf("%-6d",funcionario[indice].idade);
 		if(funcionario[indice].sexo == 'f'){
@@ -238,8 +244,9 @@ int cadastrarFuncionarios(struct dados_pessoais funcionario[], int contador_entr
 			sleep(5);
 			exit(0);
 		}
-		contador_entradas++;
-		printf("\nFUNCIONARIO %d",  contador_entradas);		
+		unsigned short entradas_temp = (funcionario[contador_entradas - 1].codigo);
+		funcionario[contador_entradas].codigo =  entradas_temp + 1;
+		printf("\nFUNCIONARIO %d",  contador_entradas);	
 		lerValidarNome(contador_entradas, funcionario);
 		funcionario[contador_entradas].idade = lerValidarIdade();
 		funcionario[contador_entradas].sexo = lerValidarSexo();
@@ -249,6 +256,8 @@ int cadastrarFuncionarios(struct dados_pessoais funcionario[], int contador_entr
 		gravarEntrada(&funcionario[contador_entradas], arq);
 							
 		fclose(arq);
+		
+		contador_entradas++;
 		
 		printf("Novo cadastro? (s para continuar) ");
 		fflush(stdin);

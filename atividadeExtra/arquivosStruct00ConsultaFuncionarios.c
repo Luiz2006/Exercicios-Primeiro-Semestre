@@ -12,19 +12,24 @@ Description: Manipulação de Arquivos - consulta de funcionarios de um arquivo, u
 #include<ctype.h>
 #include<locale.h>
 
-#define MAX_FUNC 50
+#define MAX_FUNC 100
 
 struct dados_pessoais{
-	char nome[31];
-	int idade;
-	char sexo;
-	char cargo[21];
-	float salario;
+	unsigned short codigo;	//2bytes
+	char nome[31];			//31bytes
+	unsigned short idade;	//2bytes
+	char sexo;				//1bytes
+	char cargo[21];			//21bytes
+	float salario;			//4bytes
+	char pad[3];			//pra alinhar
 };
+
+//	refatorar tudo! ACrrescentarrrrr o campo código e as devidas alterações
+
 
 void menuConsulta(struct dados_pessoais funcionario[], int contador_entradas);
 int porStruct(struct dados_pessoais funcionario[]);
-void gravarEntrada(struct dados_pessoais *funcionario, FILE *arq);
+//void gravarEntrada(struct dados_pessoais *funcionario, FILE *arq);
 void listarFuncionarios(struct dados_pessoais funcionario[], int contador_entradas);
 void pesquisarFuncionarios(struct dados_pessoais funcionario[], int contador_entradas, char tipo[]);
 
@@ -48,9 +53,6 @@ int main(void){
 		exit(1);
 	}
 	
-
-	contador_entradas = porStruct(funcionario);
-	
 	printf("\n\n\nPRESSIONE QUALQUER TECLA PARA ENCERRAR.\n");
 	getch();
 	return 0;
@@ -60,7 +62,17 @@ int main(void){
 void menuConsulta(struct dados_pessoais funcionario[], int contador_entradas){
 	unsigned short int contadorTemp = 0;
 	char opcao;
+	
 	do{
+		FILE *arq = fopen("dados_funcionarios.bin", "rb");
+		if(arq == NULL){
+			printf("\a\nERRO AO LER O ARQUIVO: dados_funcionarios.bin!");
+			sleep(5);
+			exit(1);
+		}else{
+			contador_entradas = fread(funcionario, sizeof(struct dados_pessoais), MAX_FUNC, arq);
+			fclose(arq);
+		}
 		system("CLS");
 		puts("MENU DE CONSULTA FUNCIONARIOS");
 		puts("1 - LISTAR TODOS");
@@ -132,7 +144,7 @@ void listarFuncionarios(struct dados_pessoais funcionario[], int contador_entrad
 	printf("QUANTIDADE DE FUNCIONARIOS: %i\n", contador_entradas);
 //			//VERTICALIZADO
 //	for(indice = 0; indice < contador_entradas; indice++){//mostra nome de todos os func
-//		printf("CODIGO: %03d ", indice);
+//		printf("\nCodigo : %03d ", funcionario[indice].codigo);
 //		printf("\nNome   : %s",funcionario[indice].nome);
 //		printf("\nIdade  : %d",funcionario[indice].idade);
 //		if(funcionario[indice].sexo == 'f'){
@@ -150,8 +162,8 @@ void listarFuncionarios(struct dados_pessoais funcionario[], int contador_entrad
 	printf("COD %-30s%-6s%-6s%-20s%-10s\n","NOME","IDADE","SEXO","CARGO","SALARIO(R$)");
 	for(indice = 0; indice < contador_entradas; indice++){//mostra nome de todos os func
 
-//		printf("%03d ", indice);
-		printf("%03d ", indice);
+
+		printf("%03u ", funcionario[indice].codigo);
 		printf("%-30s",funcionario[indice].nome);
 		printf("%-6d",funcionario[indice].idade);
 		if(funcionario[indice].sexo == 'f'){
@@ -165,13 +177,12 @@ void listarFuncionarios(struct dados_pessoais funcionario[], int contador_entrad
 		printf("%10.2f",funcionario[indice].salario);
 		printf("\n");
 	}
-	printf("\n\n\n\n");
 }
 
 
 void pesquisarFuncionarios(struct dados_pessoais funcionario[], int contador_entradas, char tipo[10]){
 	struct dados_pessoais funcionario_temp[MAX_FUNC];
-	int indice, encontrados, controle_erros, compara_nomes, tamanho;
+	int indice, encontrados, controle_erros, compara_nomes, tamanho, cod_errado;
 	unsigned short int flag = 0;
 	
 //	system("CLS");
@@ -179,16 +190,22 @@ void pesquisarFuncionarios(struct dados_pessoais funcionario[], int contador_ent
 	if(strcmp(tipo, "CODIGO") == 0){
 		int cod;
 		encontrados = 0;
-		printf("\nCODIGO DO FUNCIONARIO: ");
-		scanf("%d", &cod);
-		while((cod < 0) || (cod >= contador_entradas)){
-			controle_erros++;
-			if(controle_erros > 2){
-				printf("\nCODIGO INVALIDO, INFORME ALGO ENTRE 0 E %d.", (contador_entradas - 1));
-			}				
-			printf("\nCODIGO DO FUNCIONARIO: ");
+		cod_errado = 0;
+		do{
+			printf("\nCODIGO DO FUNCIONARIO: ");	
+			fflush(stdin);
 			scanf("%d", &cod);
-		}			
+			for(indice = 0; indice < contador_entradas; indice++){
+				if(funcionario[indice].codigo == cod){
+					cod = indice;
+					cod_errado++;
+				}
+			}
+			if(cod_errado == 0){
+				printf("\nCODIGO INVALIDO!");		
+			}
+		}while(cod_errado == 0);	
+		funcionario_temp[encontrados].codigo = funcionario[indice].codigo;
 		strcpy(funcionario_temp[encontrados].nome, funcionario[cod].nome);
 		funcionario_temp[encontrados].idade = funcionario[cod].idade;
 		funcionario_temp[encontrados].sexo = funcionario[cod].sexo;
@@ -222,6 +239,7 @@ void pesquisarFuncionarios(struct dados_pessoais funcionario[], int contador_ent
 				sub = strtok(NULL, " !.,");
 			}
 			if(flag == 1){
+				funcionario_temp[encontrados].codigo = funcionario[indice].codigo;
 				strcpy(funcionario_temp[encontrados].nome, funcionario[indice].nome);
 				funcionario_temp[encontrados].idade = funcionario[indice].idade;
 				funcionario_temp[encontrados].sexo = funcionario[indice].sexo;
@@ -274,6 +292,7 @@ void pesquisarFuncionarios(struct dados_pessoais funcionario[], int contador_ent
 						flag = 1;
 					}					
 					if(flag == 1){
+						funcionario_temp[encontrados].codigo = funcionario[indice].codigo;
 						strcpy(funcionario_temp[encontrados].nome, funcionario[indice].nome);
 						funcionario_temp[encontrados].idade = funcionario[indice].idade;
 						funcionario_temp[encontrados].sexo = funcionario[indice].sexo;
@@ -290,6 +309,7 @@ void pesquisarFuncionarios(struct dados_pessoais funcionario[], int contador_ent
 						flag = 1;
 					}					
 					if(flag == 1){
+						funcionario_temp[encontrados].codigo = funcionario[indice].codigo;
 						strcpy(funcionario_temp[encontrados].nome, funcionario[indice].nome);
 						funcionario_temp[encontrados].idade = funcionario[indice].idade;
 						funcionario_temp[encontrados].sexo = funcionario[indice].sexo;
@@ -306,6 +326,7 @@ void pesquisarFuncionarios(struct dados_pessoais funcionario[], int contador_ent
 						flag = 1;
 					}					
 					if(flag == 1){
+						funcionario_temp[encontrados].codigo = funcionario[indice].codigo;
 						strcpy(funcionario_temp[encontrados].nome, funcionario[indice].nome);
 						funcionario_temp[encontrados].idade = funcionario[indice].idade;
 						funcionario_temp[encontrados].sexo = funcionario[indice].sexo;
@@ -341,6 +362,7 @@ void pesquisarFuncionarios(struct dados_pessoais funcionario[], int contador_ent
 			}
 			
 			if(flag == 1){
+				funcionario_temp[encontrados].codigo = funcionario[indice].codigo;
 				strcpy(funcionario_temp[encontrados].nome, funcionario[indice].nome);
 				funcionario_temp[encontrados].idade = funcionario[indice].idade;
 				funcionario_temp[encontrados].sexo = funcionario[indice].sexo;
@@ -382,6 +404,7 @@ void pesquisarFuncionarios(struct dados_pessoais funcionario[], int contador_ent
 				
 			}
 			if(flag == 1){
+				funcionario_temp[encontrados].codigo = funcionario[indice].codigo;
 				strcpy(funcionario_temp[encontrados].nome, funcionario[indice].nome);
 				funcionario_temp[encontrados].idade = funcionario[indice].idade;
 				funcionario_temp[encontrados].sexo = funcionario[indice].sexo;
@@ -425,6 +448,15 @@ void pesquisarFuncionarios(struct dados_pessoais funcionario[], int contador_ent
 			fflush(stdin);
 			opcao = getche();
 		}
+		
+		
+		
+		
+		fazer somatorio dos salarios
+		
+		
+		
+		
 		encontrados = 0;
 		switch(opcao){
 			case '1':
@@ -434,6 +466,7 @@ void pesquisarFuncionarios(struct dados_pessoais funcionario[], int contador_ent
 						flag = 1;
 					}					
 					if(flag == 1){
+						funcionario_temp[encontrados].codigo = funcionario[indice].codigo;
 						strcpy(funcionario_temp[encontrados].nome, funcionario[indice].nome);
 						funcionario_temp[encontrados].idade = funcionario[indice].idade;
 						funcionario_temp[encontrados].sexo = funcionario[indice].sexo;
@@ -450,6 +483,7 @@ void pesquisarFuncionarios(struct dados_pessoais funcionario[], int contador_ent
 						flag = 1;
 					}					
 					if(flag == 1){
+						funcionario_temp[encontrados].codigo = funcionario[indice].codigo;
 						strcpy(funcionario_temp[encontrados].nome, funcionario[indice].nome);
 						funcionario_temp[encontrados].idade = funcionario[indice].idade;
 						funcionario_temp[encontrados].sexo = funcionario[indice].sexo;
@@ -466,6 +500,7 @@ void pesquisarFuncionarios(struct dados_pessoais funcionario[], int contador_ent
 						flag = 1;
 					}					
 					if(flag == 1){
+						funcionario_temp[encontrados].codigo = funcionario[indice].codigo;
 						strcpy(funcionario_temp[encontrados].nome, funcionario[indice].nome);
 						funcionario_temp[encontrados].idade = funcionario[indice].idade;
 						funcionario_temp[encontrados].sexo = funcionario[indice].sexo;
@@ -478,70 +513,44 @@ void pesquisarFuncionarios(struct dados_pessoais funcionario[], int contador_ent
 		}
 	}//fim if salario		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-
-		
-			
-		printf("\n\nPESQUISA POR %s", tipo);
-		printf("\nQUANTIDADE DE FUNCIONARIOS ENCONTRADOS: %i\n\n", encontrados);
-		
-		printf("%-30s%-6s%-6s%-20s%-10s\n","NOME","IDADE","SEXO","CARGO","SALARIO(R$)");
-		if(encontrados <= 0){
-			puts("NENHUM FUNCIONARIO ENCONTRADO COM A INFORMACAO SOLICITADA.");
-		}else{
-			for(indice = 0; indice < encontrados; indice++){//mostra nome de todos os func
-		
-		//		printf("%03d ", indice);
-				printf("%-30s",funcionario_temp[indice].nome);
-				printf("%-6d",funcionario_temp[indice].idade);
-				if(funcionario_temp[indice].sexo == 'f'){
-					printf("%-6s%","FEM");
-				}else if(funcionario_temp[indice].sexo == 'm'){
-					printf("%-6s%","MASC");
-				}else{
-					printf("%-6s%","INDEF");
-				}
-				printf("%-20s",funcionario_temp[indice].cargo);
-				printf("%10.2f",funcionario_temp[indice].salario);
-				printf("\n");
+	system("CLS");
+	printf("PESQUISA POR %s", tipo);
+	printf("\nQUANTIDADE DE FUNCIONARIOS ENCONTRADOS: %i\n\n", encontrados);
+	
+	
+	
+	fazer somatorio dos salarios
+	
+	
+	printf("%-4s%-30s%-6s%-6s%-20s%-10s\n", "COD","NOME","IDADE","SEXO","CARGO","SALARIO(R$)");
+	if(encontrados <= 0){
+		puts("NENHUM FUNCIONARIO ENCONTRADO COM A INFORMACAO SOLICITADA.");
+	}else{
+		for(indice = 0; indice < encontrados; indice++){//mostra nome de todos os func		
+			printf("%03u ", funcionario_temp[indice].codigo);
+			printf("%-30s",funcionario_temp[indice].nome);
+			printf("%-6d",funcionario_temp[indice].idade);
+			if(funcionario_temp[indice].sexo == 'f'){
+				printf("%-6s%","FEM");
+			}else if(funcionario_temp[indice].sexo == 'm'){
+				printf("%-6s%","MASC");
+			}else{
+				printf("%-6s%","INDEF");
 			}
+			printf("%-20s",funcionario_temp[indice].cargo);
+			printf("%10.2f",funcionario_temp[indice].salario);
+			printf("\n");
 		}
-		printf("\n\n\n\n");
+	}
+	printf("\n\n");
 
 }
 	
 
-void gravarEntrada(struct dados_pessoais *funcionario, FILE *arq){	
-	int indice, tamanho_struct = sizeof(struct dados_pessoais);
-		fwrite(funcionario, sizeof(struct dados_pessoais), 1, arq);
-}
+//void gravarEntrada(struct dados_pessoais *funcionario, FILE *arq){	
+//	int indice, tamanho_struct = sizeof(struct dados_pessoais);
+//		fwrite(funcionario, sizeof(struct dados_pessoais), 1, arq);
+//}
 
 int porStruct(struct dados_pessoais funcionario[]){
 	int indice, contador_entradas;
@@ -560,7 +569,7 @@ int porStruct(struct dados_pessoais funcionario[]){
 			}
 			contador_entradas = fread(funcionario, sizeof(struct dados_pessoais), MAX_FUNC, arq);	
 		}
-		
+		fread(funcionario, sizeof(struct dados_pessoais), contador_entradas, arq);
 	}//fim else fopen "rb"	
 	fclose(arq);
 	return contador_entradas;
