@@ -14,6 +14,7 @@ Description: Manipulação de Arquivos - apaga cadastro de funcionario.
 #include<time.h>
 
 #define MAX_FUNC 100
+#define MAX_BKP 10
 
 struct dados_pessoais{
 	unsigned short codigo;	//2bytes
@@ -31,29 +32,83 @@ struct dados_pessoais{
 //void lerValidarCargo(char cargo[]);
 //float lerValidarSalario();
 int contarEntradas(struct dados_pessoais funcionario[]);
-int deletarFuncionario(struct dados_pessoais funcionario[], int contador_entradas);
+int deletarFuncionario(struct dados_pessoais funcionario[], int contador_entradas, char tipo[10]);
 //void gravarEntrada(struct dados_pessoais *funcionario, FILE *arq);
 void listarFuncionarios(struct dados_pessoais funcionario[], int contador_entradas);
+void zerarBackups();
 
 int main(void){
 	setlocale(LC_COLLATE, "Portuguese");
 	setlocale(LC_MONETARY, "Portuguese");
 	setlocale(LC_NUMERIC, "Portuguese");
 	setlocale(LC_TIME, "Portuguese");	
-	struct dados_pessoais funcionario[MAX_FUNC];
+	struct dados_pessoais funcionario[MAX_FUNC];	
 	int contador_funcionario = 0, indice = 0, indice2 = 0, contador_entradas = 0;
 	char continuar;
+	
+	zerarBackups();
 	contador_entradas = contarEntradas(funcionario);
-	deletarFuncionario(funcionario, contador_entradas);
-
+	do{
+		deletarFuncionario(funcionario, contador_entradas, "MENU");
+		
+		printf("\nNOVA OPERACAO?\n(s para sim) ");
+		fflush(stdin);
+		continuar = getchar();
+		contarEntradas(funcionario);
+	}while(continuar == 's' || continuar == 'S');
 	printf("\n\n\nPRESSIONE QUALQUER TECLA PARA ENCERRAR.\n");
 	getch();
 	return 0;
 }
 
+void zerarBackups(){
+	FILE *bkp;
+	int indice, contador_bkp = 0, resposta;
+	char arquivo_anterior[32], arquivo_novo[32], arquivo_temp[32];
+	char s_indice[2];
+    strcpy(arquivo_novo, "BKP\\dados_funcionarios.bin");
+//	strcpy(arquivo_anterior, "BKP\\dados_funcionarios.bin");
+
+	strcpy(arquivo_temp, "BKP\\dados_funcionarios");
+	itoa(MAX_BKP, s_indice, 10);
+	strcat(arquivo_temp, s_indice);		
+	strcat(arquivo_temp, ".bin");
+	bkp = fopen(arquivo_temp, "rb");
+	if(bkp != NULL){
+		remove(arquivo_novo);
+		fclose(bkp);
+//			sleep(5);
+		resposta = rename(arquivo_temp, arquivo_novo);
+//			if(resposta == 0){
+//				printf("\n\n\nRENOMEADO COM SUCESSO!");
+//				sleep(5);
+//			}else{
+//				printf("\n\n\nERRO AO RENOMEAR!");
+//				sleep(5);
+//			}
+		for(indice = 1; indice < MAX_BKP; indice++){
+			strcpy(arquivo_temp, "BKP\\dados_funcionarios");
+			itoa(indice, s_indice, 10);
+			strcat(arquivo_temp, s_indice);		
+			strcat(arquivo_temp, ".bin");
+			remove(arquivo_temp);
+		}
+	}/*else{	//apagar depoisssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
+		printf("\n\n\nzerarBackups() NÃO FARA NADA!");
+		sleep(5);
+	}	*/
+}
+
+
+
+
+
+
+
 void listarFuncionarios(struct dados_pessoais funcionario[], int contador_entradas){	
 	int indice;
-
+	
+	contarEntradas(funcionario);
 	system("CLS");
 	printf("QUANTIDADE DE FUNCIONARIOS: %i\n", contador_entradas);
 
@@ -82,16 +137,34 @@ void listarFuncionarios(struct dados_pessoais funcionario[], int contador_entrad
 //}
 
 int contarEntradas(struct dados_pessoais funcionario[]){
-	int indice, contador_entradas;
+	int contador_entradas;
+	char opcao;
 	FILE *arq;
 	arq = fopen("dados_funcionarios.bin", "rb");
 	if(arq == NULL){
-		arq = fopen("dados_funcionarios.bin", "wb");
-//		printf("\a\nERRO AO LER O ARQUIVO: dados_funcionarios.bin!");
-//		sleep(5);
-//		exit(1);
+		printf("\a\a\nNENHUM BANCO DE DADOS ENCONTRADO!\n");
+		printf("DESEJA CRIAR UM NOVO BANCO DE DADOS? 's' para sim: ");
+		fflush(stdin);
+		opcao = getchar();
+		if(opcao == 's' || opcao == 'S'){
+			arq = fopen("dados_funcionarios.bin", "wb");
+		}else{
+			puts("DESEJA RESTAURAR O ULTIMO BACKUP?");
+			puts("'s' para sim: ");
+			fflush(stdin);
+			opcao = getchar();
+			if(opcao == 's' || opcao == 'S'){
+				deletarFuncionario(funcionario, contador_entradas, "RESTAURAR");
+			}else{
+				printf("\nENCERRANDO PROGRAMA!");
+				sleep(5);
+				exit(1);
+			}
+		}
+		
+			
 	}else{
-		indice = contador_entradas = 0;
+		contador_entradas = 0;
 
 		while(1){
 			if(feof(arq)){
@@ -99,42 +172,65 @@ int contarEntradas(struct dados_pessoais funcionario[]){
 			}
 			contador_entradas = fread(funcionario, sizeof(struct dados_pessoais), MAX_FUNC, arq);	
 		}
-
-	}//fim else fopen "rb"	
+	
+	}//fim else fopen "rb"
+//	contador_entradas = fread(funcionario, sizeof(struct dados_pessoais), contador_entradas, arq);		
 	fclose(arq);
 	return contador_entradas;
 }
 
-int deletarFuncionario(struct dados_pessoais funcionario[], int contador_entradas){	
-	FILE *arq;
-	char continuar = 's', opcao;
-	int resultado, cod, controle_erros, contadorTemp;
+int deletarFuncionario(struct dados_pessoais funcionario[], int contador_entradas, char tipo[10]){	
+	FILE *arq, *bkp;
+	char continuar, opcao;
+	int resultado, cod, controle_erros, contadorTemp, indice;
 	struct dados_pessoais c[MAX_FUNC];
 
-	do{	
+	zerarBackups();
+	if(strcmp(tipo, "MENU") == 0){
+
 		system("CLS");
 		puts("APAGAR CADASTRO DE FUNCIONARIOS");
 		arq = fopen("dados_funcionarios.bin", "rb");
 		if(arq == NULL){
-			printf("\a\nERRO AO ABRIR O ARQUIVO: dados_funcionarios.bin!");
-			sleep(5);
-			exit(1);
+			printf("\a\a\nNENHUM BANCO DE DADOS ENCONTRADO!");
+			printf("\nDESEJA CRIAR UM NOVO BANCO DE DADOS? 's' para sim: ");
+			fflush(stdin);
+			opcao = getchar();
+			if(opcao == 's' || opcao == 'S'){
+				arq = fopen("dados_funcionarios.bin", "wb");
+				deletarFuncionario(funcionario, contador_entradas, "MENU");
+
+			}else{
+				puts("DESEJA RESTAURAR O ULTIMO BACKUP?");
+				puts("'s' para sim: ");
+				fflush(stdin);
+				opcao = getchar();
+				if(opcao == 's' || opcao == 'S'){
+					deletarFuncionario(funcionario, contador_entradas, "RESTAURAR");
+				}else{
+					printf("\nENCERRANDO PROGRAMA!");
+					sleep(5);
+					exit(1);
+				}
+			}
 		}
 		fclose(arq);
-		puts("1 - RESTAURAR BACKUP");
+		
+		puts("1 - LISTAR TODOS");
 		puts("2 - INSERIR CODIGO");
-		puts("3 - LISTAR TODOS");
+		puts("3 - RESTAURAR BACKUP");
 		puts("0 - APAGAR TODOS");
 		printf("OPCAO: ");
 		fflush(stdin);
 		opcao = getche();
-
-		while((opcao > '2') || (isdigit(opcao) == 0)){
+		contadorTemp = 0;
+		while((opcao > '3') || (isdigit(opcao) == 0)){
 			contadorTemp++;
-			if(contadorTemp > 2){		
-				printf("\n\nINFORME UM NUMERO DE 0 a 2.");		
-				puts("\n1 - INSERIR CODIGO");
-				puts("2 - LISTAR TODOS");
+			if(contadorTemp > 2){	
+				printf("\n\nINFORME UM NUMERO DE 0 a 2.");	
+				puts("\n1 - LISTAR TODOS");	
+				puts("2 - INSERIR CODIGO");
+				puts("3 - RESTAURAR BACKUP");
 				puts("0 - APAGAR TODOS");
 				printf("OPCAO:");
 			}else{
@@ -144,178 +240,156 @@ int deletarFuncionario(struct dados_pessoais funcionario[], int contador_entrada
 			opcao = getche();
 		}
 
-
-
-		switch(opcao){
-			case '0':	
-				printf("\a\a\n'S' PARA APAGAR OS DADOS DE TODOS OS FUNCIONARIOS:\n");
-				fflush(stdin);
-				continuar = getchar();
-
-				if(continuar == 's' || continuar == 'S'){
-				    char nome_anterior[23] = "dados_funcionarios.bin";
-				    char nome_novo[32] = "BKP\\dados_funcionarios.bin";
-
-				    if((arq = fopen("dados_funcionarios.bin", "rb")) == NULL){
-
-					}
-
-				    if(rename(nome_anterior, nome_novo) == 0) {
-				      printf("\nARQUIVO APAGADO COM SUCESSO.\n");
-				    } else {
-				       printf("\nNAO FOI POSSIVEL APAGAR O ARQUIVO\n");
-				    }	
-				}	
-				break;
-			case '1':					
-				printf("\a\a\n'S' PARA RESTAURAR O ULTIMO BACKUP:\n");
-				fflush(stdin);
-				continuar = getchar();
-
-				if(continuar == 's' || continuar == 'S'){
-
-
-
-
-
-
-				    char nome_anterior[32] = "BKP\\dados_funcionarios.bin";
-				    char nome_novo[27] = "dados_funcionarios.bin";
-
-				   	remove(nome_novo);
-
-
-
-
-
-
-
-
-
-					criar vários bkp. loop verificando a existencia de 0 a 9 ou MAX;
-
-
-				    if(rename(nome_anterior, nome_novo) == 0) {
-				      printf("\nARQUIVO RESTAURADO COM SUCESSO.\n");
-				    } else {
-				       printf("\nNAO FOI POSSIVEL RESTAURAR O ARQUIVO\n");
-				    }	
-				}	
-				break;
-
-
-
-
-
-
-
-
-
-
-
-
-
-//					arq = fopen("dados_funcionarios.bin","w+b");
-//					
-//					if(arq == NULL){
-//						printf("\a\a\a\nERRO AO SALVAR NO ARQUIVO: dados_funcionarios.bin!");
-//						sleep(5);
-//						exit(1);
-//					}else{
-//						strcpy(c[cod].nome, texto_temp);
-//						fwrite(&c, sizeof(struct dados_pessoais), contador_entradas, arq);
-//						printf("\a\nAlteracao realizada com sucesso!");
-//					}
-//					fclose(arq);
-//			
-//					
-//				}else{
-//					break;
-//				}
-//	
-//				break;
-//			case '1':				
-//				break;
-//			case '2':				
-//				break;
-		}//fim switch
-
-
-
-
-
-
-
-
-
-
-		puts("TEM O CODIGO? (s para sim)");
-		fflush(stdin);
-		continuar = getche();
-		if(continuar != 's' && continuar != 'S'){
-			contador_entradas = (int)contarEntradas(funcionario);
-			fread(&c, sizeof(struct dados_pessoais), contador_entradas, arq);
-			listarFuncionarios(funcionario, contador_entradas);
-		}		
-		fclose(arq);
-		//pesquisar por codigo
-		printf("CODIGO DO FUNCIONARIO: ");
-		scanf("%d", &cod);
-		while((cod < 0) || (cod >= contador_entradas)){
-			controle_erros++;
-			if(controle_erros > 2){
-				printf("\nCODIGO INVALIDO, INFORME ALGO ENTRE 0 E %d.", (contador_entradas - 1));
-			}				
-			printf("\nCODIGO DO FUNCIONARIO: ");
-			scanf("%d", &cod);
+		if(opcao == '0'){
+//			strcpy(tipo, "APAGAR");
+			deletarFuncionario(funcionario, contador_entradas, "APAGAR");
 		}
-		do{
-			system("CLS");
-			printf("CADASTRO DO FUNCIONARIO: %d", cod);
-			printf("\n1 - NOME   : %s", c[cod].nome);
-			printf("\n2 - IDADE  : %d", c[cod].idade);
+		if(opcao == '1'){
+//			strcpy(tipo, "LISTAR");
+			deletarFuncionario(funcionario, contador_entradas, "LISTAR");
+		}
+		if(opcao == '2'){
+//			strcpy(tipo, "INSERIR");
+			deletarFuncionario(funcionario, contador_entradas, "INSERIR");
+		}
+		if(opcao == '3'){
+//			strcpy(tipo, "RESTAURAR");
+			deletarFuncionario(funcionario, contador_entradas, "RESTAURAR");
+		}
+	}	//fim if menu
 
-			if(c[cod].sexo == 'f'){
-				printf("\n3 - SEXO   : %s","FEMININO");
-			}else if(c[cod].sexo == 'm'){
-				printf("\n3 - SEXO   : %s","MASCULINO");
-			}else{
-				printf("\n3 - SEXO   : %s","INDEFINIDO");
+	    
+	if(strcmp(tipo, "APAGAR") == 0){	
+	    char arquivo_anterior[32];
+	    char arquivo_novo[32];
+	    char arquivo_temp[32];
+	    char s_indice[2];
+	    int flag = 0;
+			printf("\a\a\n's' PARA APAGAR OS DADOS DE TODOS OS FUNCIONARIOS:\n");
+			fflush(stdin);
+			continuar = getchar();
+
+			if(continuar == 's' || continuar == 'S'){
+			    strcpy(arquivo_anterior, "dados_funcionarios.bin");
+			    strcpy(arquivo_novo, "BKP\\dados_funcionarios.bin");
+				int resposta;
+			    if((arq = fopen("dados_funcionarios.bin", "rb")) == NULL){
+					puts("ERRO AO APAGAR O ARQUIVO, NENHUM BANCO DE DADOS ENCONTRADO!");
+					sleep(5);
+					exit(1);
+				}else{
+					fclose(arq);
+					bkp = fopen("BKP\\dados_funcionarios.bin", "rb");						
+					if(bkp != NULL){
+						for(indice = 1; indice <= MAX_BKP; indice++){	
+				   			strcpy(arquivo_temp, "BKP\\dados_funcionarios");
+							itoa(indice, s_indice, 10);
+							strcat(arquivo_temp, s_indice);
+							strcat(arquivo_temp, ".bin");
+							fclose(bkp);
+							if((arq = fopen(arquivo_temp, "rb")) == NULL){
+								break;
+							}
+							fclose(arq);
+						}
+						strcpy(arquivo_novo, arquivo_temp);
+					}
+				}
+	
+				
+				resposta = rename(arquivo_anterior, arquivo_novo);
+			    if(resposta == 0) {
+			      printf("\nARQUIVO APAGADO COM SUCESSO.\n");
+			    }else{
+			       printf("\nNAO FOI POSSIVEL APAGAR O ARQUIVO\n");
+			    }	
 			}
-			printf("\n4 - CARGO  : %s", c[cod].cargo);
-			printf("\n5 - SALARIO:R$ %.2f", c[cod].salario);
-			fclose(arq);		
-			printf("\n0 - CANCELAR");
-			printf("\nALTERAR:");
-			fflush(stdin);
-			opcao = getche();
-
-			contadorTemp = 0;
-
-
-
-
-
-
-
-
-
-
-
-
-
-			printf("\nEditar o mesmo funcionario? (s para sim) ");
-			fflush(stdin);
-			continuar = getche();
-		}while(continuar == 's' || continuar == 'S');
-
-		printf("\nEditar outro funcionario? (s para sim) ");
+		}	//fim if pagar
+		if(strcmp(tipo, "LISTAR") == 0){
+			listarFuncionarios(funcionario, contador_entradas);
+		}	//fim if listar
+		if(strcmp(tipo, "INSERIR") == 0){	
+			
+		}	//fim if inserir
+			
+	if(strcmp(tipo, "RESTAURAR") == 0){
+	    char arquivo_anterior[32];
+	    char arquivo_novo[32];
+	    char arquivo_temp[32];
+	    char s_indice[2];
+	    int flag = 0;
+	    
+		printf("\a\a\n's' PARA RESTAURAR O BACKUP MAIS RECENTE: ");
 		fflush(stdin);
-		continuar = getche();
+		continuar = getchar();
 
-		if(continuar != 's' && continuar != 'S'){
-			break;
-		}			
-	}while(contador_entradas < MAX_FUNC);
+		if(continuar == 's' || continuar == 'S'){
+		    strcpy(arquivo_anterior, "BKP\\dados_funcionarios.bin");
+		    strcpy(arquivo_novo, "dados_funcionarios.bin");
+			int resposta;
+		    if((arq = fopen("BKP\\dados_funcionarios.bin", "rb")) == NULL){
+		    	flag = 0;
+		    	for(indice = 1; indice <= MAX_BKP; indice++){
+					strcpy(arquivo_temp, "BKP\\dados_funcionarios");
+					itoa(indice, s_indice, 10);
+					strcat(arquivo_temp, s_indice);
+					strcat(arquivo_temp, ".bin");
+					if((arq = fopen(arquivo_temp, "rb")) != NULL){
+						fclose(arq);
+						flag = 1;
+						strcpy(arquivo_anterior, arquivo_temp);
+					}
+				}
+		    	
+		    	
+		    	if(flag == 0){
+				
+					puts("ERRO AO RESTAURAR O ARQUIVO, NENHUM BACKUP ENCONTRADO!");
+					sleep(5);
+					exit(1);
+				}
+			}else{
+				fclose(arq);
+				flag = 0;
+		    	for(indice = 1; indice <= MAX_BKP; indice++){
+					strcpy(arquivo_temp, "BKP\\dados_funcionarios");
+					itoa(indice, s_indice, 10);
+					strcat(arquivo_temp, s_indice);
+					strcat(arquivo_temp, ".bin");
+					if((arq = fopen(arquivo_temp, "rb")) != NULL){
+						fclose(arq);
+						flag = 1;
+						strcpy(arquivo_anterior, arquivo_temp);	
+					}
+				}
+				
+				if(flag == 0){						
+					strcpy(arquivo_anterior, "BKP\\dados_funcionarios.bin");
+				}
+		    		
+			}
+			arq = fopen("dados_funcionarios.bin", "rb");
+			if(arq != NULL){
+				puts("JA EXISTE UM BANCO DE DADOS, DESEJA SUBSTITUIR?('s' para sim) ");
+				fflush(stdin);
+				continuar = getchar();
+				fclose(arq);
+				if(continuar != 's' && continuar != 'S'){
+					deletarFuncionario(funcionario, contador_entradas, "MENU");
+				}
+			}
+			remove(arquivo_novo);
+			fclose(arq);
+			
+			resposta = rename(arquivo_anterior, arquivo_novo);
+		    if(resposta == 0) {
+		      printf("\nARQUIVO RESTAURADO COM SUCESSO.\n");
+			  contarEntradas(funcionario);			      
+		    }else{
+		       printf("\nNAO FOI POSSIVEL RESTAURAR O ARQUIVO\n");
+		    }	
+		}
+	}	// fim if restaurar
+	
 	return contador_entradas;
 }
