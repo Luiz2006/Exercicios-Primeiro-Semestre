@@ -1,0 +1,47 @@
+algoritmo semNome;
+// Síntese
+//  Objetivo: Faça um algoritmo que receba o sexo e a nota dos 
+//alunos de uma classe e apresente a média
+//das notas dos alunos e a média das notas das alunas. 
+//O algoritmo deverá apresentar os
+//resultados solicitados quando for fornecida uma nota negativa.
+//  Entrada : nota e sexo dos alunos
+//  Saída   : média das notas separada por sexo
+
+
+principal
+	// Declarações
+	inteiro numAlunos,cont, numFem, numMasc, notaFem, notaMasc;
+	caracter sexo;
+	real nota;
+	
+	numFem = 0;
+	numMasc = 0;
+	notaFem = 0;
+	notaMasc = 0;
+	
+	// Instruções
+	escreva("Informe a quantidade total de alunos: ");
+	leia(numAlunos);
+
+	para (cont de 1 ate numAlunos passo 1) faca
+		escreva("Informe o sexo da ", cont,"ª pessoa: ");
+		leiaCaracter(sexo);
+		escreva("Informe a nota desse aluno: ");
+		leia(nota);
+		se (sexo == 'f' ou sexo == 'F') entao
+			numFem = numFem + 1;
+			notaFem = notaFem + nota;
+		fimSe
+		se (sexo == 'm' ou sexo == 'M') entao
+			numMasc = numMasc + 1;
+			notaMasc = notaMasc + nota;
+		fimSe
+	fimPara
+	
+	escreval("A média das notas das alunas: ", notaFem / numFem::1, ".");
+	escreval("A média das notas dos alunos: ", notaMasc / numMasc::1, ".");
+fimPrincipal
+
+
+

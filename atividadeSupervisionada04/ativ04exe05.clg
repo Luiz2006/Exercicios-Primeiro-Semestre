@@ -1,0 +1,29 @@
+algoritmo ativ04exe05;
+// Síntese
+//  Objetivo:  Construa um algoritmo que calcule o fatorial de um 
+//número usando a estrutura PARA...FAÇA,
+//baseando-se na definição matemática 
+//(N! = 1x2x3x...x N-1 x N e 0! = 1 por definição)
+
+//  Entrada :  um número
+//  Saída   : a fatorial do número fornecido
+
+principal
+	// Declarações
+		inteiro num,cont,res;
+		
+	// Instruções
+		escreva ("Informe o número a ser calculado a fatorial: ");
+		leia(num);
+		res = num;		
+		escreva (num,"!: ",num);		
+		cont = num - 1;
+		enquanto (cont >= 1) faca
+	
+		res = res * cont;			
+		escreva ("x",cont);	
+		cont = cont - 1;
+		fimEnquanto
+		
+		escreva("= ", res);
+fimPrincipal

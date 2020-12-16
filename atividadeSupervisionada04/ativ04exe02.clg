@@ -1,0 +1,34 @@
+algoritmo ativ04exe02;
+// Síntese
+//  Objetivo:  Receber dois números e calcular o resultado da multiplicação de um pelo 
+//outro sem utilizar a operação de multiplicação
+//(ou seja, utilizando apenas soma)
+//  Entrada :  dois números
+//  Saída   : produto obtido por somas
+
+
+principal
+	// Declarações
+		inteiro num1,num2,cont,res;
+
+	// Instruções
+
+		escreva ("Informe o primeiro número: ");
+		leia (num1);
+		escreva ("Informe o segundo número: ");
+		leia(num2);
+		
+		cont = 1;
+		res = num1;
+		
+		escreva (num1,"x",num2,": ",num1);
+		enquanto(cont < num2) faca
+
+		escreva ("+",num1);			
+		res = res + num1;	
+			
+		cont = cont + 1;
+		fimEnquanto
+		
+		escreva("= ", res);
+fimPrincipal

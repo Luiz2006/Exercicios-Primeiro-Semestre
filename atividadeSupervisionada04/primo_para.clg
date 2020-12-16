@@ -1,0 +1,46 @@
+algoritmo semNome;
+// Síntese
+//  Objetivo:  Desenvolva um algoritmo que verifique e informe ao
+//usuário se um valor de entrada que ele fez é primo.
+//  Entrada :
+//  Saída   :
+
+
+principal
+	// Declarações
+	inteiro numero, cont1,cont2;
+	real valor;
+	caracter primo;
+
+	primo = 's';
+
+	// Instruções
+	escreva("Informe um número apartir de 2: ");
+	leia(numero);
+	
+	primo = 's';
+	valor = 0;
+
+	se(numero <= 1)entao
+		escreva("Número inválido, informe a partir de 2!");
+	fimSe
+
+	se(numero == 2)entao
+		escreva("O ",numero," é o único número par que é primo!");
+	fimSe
+	se(numero > 2)entao
+		para(cont1 de 2 ate (numero-1) passo 1)faca
+			se(numero % cont1 == 0)entao
+				primo = 'n';
+			fimSe
+		fimPara
+
+		se(primo == 's') entao
+			escreval("O número ",numero," é primo!");
+		fimSe
+		se(primo == 'n') entao
+			escreval("O número ",numero," não é primo!");
+		fimSe
+	fimSe
+	
+fimPrincipal

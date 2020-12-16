@@ -1,0 +1,35 @@
+algoritmo ativ04exe08enquanto;
+// Síntese
+//  Objetivo:  Ler a identificação e o preço de cada produto, calcular e escrever a
+//identificação e o novo preço após aumento de 10%.
+//  Entrada : identificação, preço dos produtos
+//  Saída   : identificação e o novo preço após o aumento
+
+
+principal
+	// Declarações
+	inteiro cont;
+	real precoProd;
+	texto idProd;
+	caracter mais;
+
+	// Instruções
+	idProd = "0";
+	precoProd = 0;
+	mais = 's';
+
+	enquanto(mais == 's' ou mais == 'S')faca
+
+		escreva("Informe a identificação do produto: ");
+		leia(idProd);
+		escreva("Informe o preço do produto: ");
+		leia(precoProd);
+		escreva("O produto ",idProd," com aumento de 10%: R$",precoProd * 1.10::2,"!");
+
+		escreval("  ");
+		escreva("Mais algum produto a ser calculado o aumento[S/N]? ");
+		leiaCaracter(mais);
+		escreval("  ");
+	fimEnquanto
+
+fimPrincipal

@@ -1,0 +1,27 @@
+algoritmo ativ04exe10;
+// Síntese
+//  Objetivo:  Ler números inteiros até que a quantidade lida seja 100 ou 
+//até que seja lido um número negativo e mostrar a quantidade total de números lidos.
+//  Entrada : números inteiros
+//  Saída   : a quantidade total de números lidos.
+
+
+principal
+	// Declarações
+	inteiro numero, cont, soma;
+	numero = 0;
+	cont = 0;
+	soma = 0;
+	
+	// Instruções
+	enquanto((numero >= 0) e (cont < 100))faca
+		cont = cont + 1;
+		escreva("Informe um numero inteiro positivo: ");
+		//escreva("Informe o ",cont,"º numero inteiro positivo: ");  //para mostrar em qual número está
+		leia(numero);
+		//soma = soma + numero; //para somá-los
+	fimEnquanto
+		escreval(" ");
+		escreval("Total de números lidos: ", cont,".");
+		//escreval("Total dos números somados: ", soma,"."); //para mostrar a soma
+fimPrincipal

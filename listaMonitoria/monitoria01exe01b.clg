@@ -1,0 +1,16 @@
+algoritmo monitoria01exe01b;
+// Síntese
+//  Objetivo: Registrar o ano e a construtora de até 200 apartamentos. 
+//quantidade de imóveis cadastrados, qual o apartamento é mais novo. 
+//Apresentar também a quantidade de imóveis que possui valor superior a quinhentos mil reais e 
+//está disponível para venda nesta imobiliária.
+//  Entrada : O ano, a construtora, o valor do apartamento e se foi vendido ou não
+//  Saída   : quantidade de imóveis cadastrados, o mais novo e quantos que valem mais de 500.000 e estão disponíveis
+
+
+principal
+	// Declarações
+
+	// Instruções
+
+fimPrincipal

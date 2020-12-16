@@ -1,0 +1,34 @@
+algoritmo fibonacci;
+// Síntese
+//  Objetivo:  Calcular até o vigésimo termo da serie de fibonacci
+//  Entrada : nenhuma
+//  Saída   : valor do vigésimo termo da serie de fibonacci
+
+
+///arrumar o 1 que deve repetir
+
+principal
+	// Declarações
+	inteiro cont, num1, num2, res, ateh, termo;
+	num1 = 0;
+	num2 = 1;
+	
+	escreva("Informe quantos termos da sequenciia fibonacci:");
+	leia(ateh);
+	escreval("");
+
+	termo = 2;
+	
+	escreval("Termo 1: 0+0=0");
+	//escreval("Termo 1: 0+1=1");
+	
+	// Instruções
+	para(cont de 2 ate ateh passo 1) faca
+		res = num1 + num2;
+		escreval("Termo ",termo, ": ",num1,"+",num2,"=",res);
+
+		num1 = num2;
+		num2 = res;
+		termo = termo + 1;
+	fimPara
+fimPrincipal

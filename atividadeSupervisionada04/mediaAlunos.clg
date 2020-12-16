@@ -1,0 +1,29 @@
+algoritmo mediaAlunos;
+// Síntese
+//  Objetivo:  Calcular a média da turma
+//  Entrada : alunos e notas
+//  Saída   : a média dos alunos separada por sexo
+
+
+principal
+	// Declarações
+	real nota, media;
+	inteiro alunos;
+	
+	media = 0;
+	alunos = 0;
+	
+	// Instruções	
+	escreval("######## CALCULAR A MEDIA DOS ALUNOS ########");
+	escreval("Para encerrar digite um numero negativo ou maior que dez!");
+	escreva("Informe a nota do aluno: ");	
+	leia(nota);
+	enquanto ((nota >= 0) e (nota < 11)) faca
+		alunos = alunos + 1;
+		media = media + nota;
+	escreva("Informe a nota do aluno: ");	
+	leia(nota);
+	fimEnquanto
+		escreval("A turma tem: ", alunos);
+		escreval("A média da turma é: ", media/alunos::2);
+fimPrincipal

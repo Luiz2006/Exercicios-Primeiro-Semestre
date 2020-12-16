@@ -1,0 +1,47 @@
+algoritmo ativ03exe08;
+// Síntese
+//  Objetivo:  calcular o IR de um contribuinte levando em consideração número de dependentes
+//  Entrada : número cpf, número de dependentes, renda mensal
+//  Saída   : o valor do IR
+
+
+principal
+	// Declarações
+
+	inteiro dependentes, desconto, cpf;
+	real renda;
+
+	// Instruções
+	escreva("Informe o CPF do contribuinte: ");
+	leia(cpf);
+	escreva("Informe a quantidade de dependentes: ");
+	leia(dependentes);
+	escreva("Informe a renda mensal: ");
+	leia(renda);
+
+	desconto = 996 * (dependentes * 5/100);
+
+	renda = renda - desconto;
+
+	se(renda <= (996*2)) entao
+		escreval("Isento de IR!");
+	senao
+		se(renda <= (996*3)) entao
+			escreval("Valor de IR: ", renda * 7.5 / 100);
+		senao
+			se(renda <= (996*5)) entao
+				escreval("Valor de IR: ", renda *  15 / 100);
+			senao
+				se(renda <= (996*7)) entao
+					escreval("Valor de IR: ", renda *  22.5 / 100);
+				senao
+					se(renda > (996*7)) entao
+						escreval("Valor de IR: ", renda *  27.5 / 100);
+					fimSe
+				fimSe
+			fimSe
+		fimSe
+	fimSe
+
+
+fimPrincipal

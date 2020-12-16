@@ -1,0 +1,26 @@
+algoritmo monitoria01exe02;
+// Síntese
+//  Objetivo:  Calcular o juro do cheque especial durante um mês. 
+//  Entrada : A taxa de juros mensal e o valor da dívida
+//  Saída   : O total dos juros e o novo valor total que deve ser pago ao banco
+
+principal
+	// Declarações
+	real txMensal, valorUsado, totalJuros, totalValor;
+	
+	// Instruções
+	escreval("CÁLCULO  DOS JUROS DO CHEQUE ESPECIAL");
+	escreva("Qual o valor utilizado? R$");
+	leia(valorUsado);
+	escreva("Qual a porcentagem da taxa de juros mensal? ");
+	leia(txMensal);
+
+	totalJuros = (txMensal/100)*valorUsado;
+	totalValor = ((txMensal/100)*valorUsado) + valorUsado;
+
+	limpaTela();
+	
+	escreval("CÁLCULO  DOS JUROS DO CHEQUE ESPECIAL");
+	escreval("TOTAL DE JUROS: R$", totalJuros::2);
+	escreval("TOTAL A SER PAGO: R$", totalValor::2);	
+fimPrincipal
