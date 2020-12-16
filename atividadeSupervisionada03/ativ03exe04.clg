@@ -1,0 +1,54 @@
+algoritmo ativ03exe04;
+// Síntese
+//  Objetivo:  Construa um algoritmo que leia o horário (hora, minuto e segundo) 
+/*de início e a duração, em segundos, de uma experiência biológica. 
+O algoritmo deve resultar com o novo horário (hora, minuto e segundo) do término da mesma.*/
+//  Entrada : hora, minuto, segundo, duração
+//  Saída   : horario do término da experiência
+
+
+principal
+	// Declarações
+	inteiro hora, minuto, segundo, duracao, diaFim, horaFim, minutoFim, segundoFim;
+	
+	// Instruções
+	escreval("Informe o início do experimento");
+	escreva("hora: ");
+	leia(hora);
+	escreva("minuto: ");
+	leia(minuto);
+	escreva("segundo: ");
+	leia(segundo);
+	escreva("Informe a duração (em segundos): ");
+	leia(duracao);
+
+	diaFim = 0;
+	horaFim = hora;
+	minutoFim = minuto;
+	segundoFim = segundo + duracao;
+	
+	enquanto(segundoFim >= 60) faca
+		segundoFim = segundoFim - 60;
+		minutoFim = minutoFim + 1;		
+	fimEnquanto	
+	enquanto(minutoFim >= 60) faca
+		minutoFim = minutoFim - 60;
+		horaFim = horaFim + 1;
+	fimEnquanto
+	
+	enquanto(horaFim >= 24) faca
+		horaFim = horaFim - 24;
+		diaFim = diaFim + 1;
+	fimEnquanto
+	
+	se(diaFim == 0) entao
+		escreval("Previsão de término: ", horaFim, ":", minutoFim, ":", segundoFim, ".");
+	senao		
+		se(diaFim > 1) entao
+			escreval("Previsão de término: ",diaFim, " dias ", horaFim, " horas ", minutoFim, " minutos e ", segundoFim, " segundos.");
+		senao
+			escreval("Previsão de término: ",diaFim, " dia ", horaFim, " horas ", minutoFim, " minutos e ", segundoFim, " segundos.");
+		fimSe
+	fimSe
+	
+fimPrincipal

@@ -1,0 +1,21 @@
+algoritmo tabuadas;
+// Síntese
+//  Objetivo: Demonstração da tabuada do 2 
+//  Entrada : nenhuma
+//  Saída   : tabuada
+
+
+principal
+	// Declarações
+	inteiro cont, cont2;
+	// Instruções	
+	para(cont de 1 ate 10 passo 1) faca
+	escreval("TABUADA DO ",cont);
+		para(cont2 de 1 ate 10 passo 1) faca
+		escreval(cont," x ", cont2, " = ",cont*cont2);
+			se(cont2 == 10)entao
+				escreval(" ");
+			fimSe
+		fimPara
+	fimPara
+fimPrincipal

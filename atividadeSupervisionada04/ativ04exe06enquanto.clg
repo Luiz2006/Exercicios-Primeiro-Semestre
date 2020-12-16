@@ -1,0 +1,58 @@
+algoritmo ativ04exe06enquanto;
+// Síntese
+//  Objetivo: Faça um algoritmo que receba o sexo e a nota dos
+//alunos de uma classe e apresente a média
+//das notas dos alunos e a média das notas das alunas.
+//O algoritmo deverá apresentar os
+//resultados solicitados quando for fornecida uma nota negativa.
+//  Entrada : nota e sexo dos alunos
+//  Saída   : média das notas separada por sexo
+
+
+principal
+	// Declarações
+	inteiro numAlunos,numFem, numMasc, cont;
+	caracter sexo;
+	real nota, notaFem, notaMasc;
+
+	numFem = 0;
+	numMasc = 0;
+	notaFem = 0;
+	notaMasc = 0;
+	cont = 0;
+	nota = 0;
+
+	// Instruções
+	escreval("##### CALCULAR A MEDIA DOS ALUNOS SEPARADO POR SEXO #####");
+	escreval("Para encerrar digite um numero negativo!");
+	enquanto (nota >= 0) faca
+		cont = cont + 1;
+		escreva("Informe a nota ", cont,"ª pessoa: ");
+		leia(nota);
+		se(nota >= 0)entao
+			escreva("Informe o sexo dessa pessoa [f/m]: ");
+			leiaCaracter(sexo);
+			se (sexo == 'f' ou sexo == 'F') entao
+				numFem = numFem + 1;
+				notaFem = notaFem + nota;
+			fimSe
+			se (sexo == 'm' ou sexo == 'M') entao
+				numMasc = numMasc + 1;
+				notaMasc = notaMasc + nota;
+			fimSe
+		fimSe
+	fimEnquanto
+	se (numFem > 0) entao
+		escreval("Da(s) ", numFem," aluna(s),a média foi: ", notaFem / numFem::1, ".");
+	senao
+		escreval("Não há alunas.");
+	fimSe
+	se (numMasc > 0) entao
+		escreval("Do(s) ", numMasc," aluno(s),a média foi: ", notaMasc / numMasc::1, ".");
+	senao
+		escreval("Não há alunos.");
+	fimSe
+fimPrincipal
+
+
+

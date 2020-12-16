@@ -1,0 +1,57 @@
+algoritmo ativ04exe07facaEnquanto;
+// Síntese
+//  Objetivo:  Elabore um algoritmo que apresenta as compras de
+//frutas efetuadas por usuário, sendo elas identificadas por meio de um número.
+//  Entrada : quantidade comprada de cada fruta e escolha da fruta para ser mostrada
+//  Saída   : quantidade da fruta escolhida 
+
+
+	principal
+		// Declarações
+		inteiro abacaxi, maca, pera, fruta, qtd;
+		caracter continuar;
+
+		// Instruções
+		continuar = 'S';
+		abacaxi = 0;
+		maca = 0;
+		pera = 0;
+		
+		faca
+			escreval("PRODUTOS DISPONÍVEIS");
+			escreval("1 => ABACAXI");
+			escreval("2 => MAÇA");
+			escreval("3 => PERA");
+
+			escreva("Adicionar qual fruta ao carrinho? ");
+			leia(fruta);
+			escolha(fruta)
+			caso 1
+				escreva("Qual a quantidade de abacaxis? ");
+				leia(qtd);
+				abacaxi = abacaxi + qtd;
+				interrompa;
+			caso 2
+				escreva("Qual a quantidade de maçãs? ");
+				leia(qtd);
+				maca = maca + qtd;
+				interrompa;
+			caso 3
+				escreva("Qual a quantidade de peras? ");
+				leia(qtd);
+				pera = pera + qtd;
+			outroCaso
+				escreval("Tal opção não está disponível, a solicitação deve ser feita novamente!");
+				escreval(" ");
+			fimEscolha
+
+			escreva("Deseja adicionar mais frutas (s para sim)? ");
+			leiaCaracter(continuar);
+			escreval(" ");
+
+		enquanto(continuar == 's' ou continuar == 'S');
+		escreval("CARRINHO");
+		escreval("Abacaxi: ", abacaxi);
+		escreval("Maçã   : ", maca);
+		escreval("Pera   : ", pera);
+	fimPrincipal

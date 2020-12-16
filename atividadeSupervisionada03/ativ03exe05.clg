@@ -1,0 +1,21 @@
+algoritmo ativ03exe05;
+// Síntese
+//  Objetivo: Fazer um algoritmo que calcule o ano de nascimento 
+// de uma pessoa a partir de sua idade e do ano atual.
+//  Entrada : ano atual, idade
+//  Saída   : ano de nasimento
+
+
+principal
+	// Declarações
+	inteiro anoAtual, idade;
+	
+	// Instruções
+	escreva("Informe o ano atual: ");
+	leia(anoAtual);
+	escreva("Informe sua idade: ");
+	leia(idade);
+
+	escreval("Ano de nascimento: ", (anoAtual - idade));
+
+fimPrincipal

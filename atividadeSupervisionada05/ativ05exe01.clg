@@ -1,0 +1,38 @@
+algoritmo ativ05exe01;
+// Síntese
+//  Objetivo:  Ler a altura de até cinco pessoas e apresente a média aritmética.
+//  Entrada : Altura
+//  Saída   : Média aritmética das alturas
+
+principal
+	// Declarações
+	real altura, media;
+	inteiro cont;
+	caracter continuar;
+
+	// Instruções
+	cont = 0;
+	media = 0;
+	faca
+		cont = cont + 1;
+		escreva("Informe a altura da ",cont ,"ª pessoa: ");
+		leia(altura);
+		media = media + altura;
+
+		se(cont < 5)entao
+			escreva("Nova altura[s - sim]?");
+			leiaCaracter(continuar);
+			continuar = minusculoCaracter(continuar);
+		fimSe
+	enquanto((cont < 5) e (continuar == 's'));
+	
+	media = calcularMedia(media, cont);
+	escreval("");
+	escreval("A média das alturas é ",media::2 ,"m.");
+fimPrincipal
+
+funcao real calcularMedia(real x, inteiro y)
+	real mediaAltura;
+	mediaAltura = x/y;
+	retorna mediaAltura;
+fimFuncao

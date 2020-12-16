@@ -1,0 +1,66 @@
+algoritmo ativ04exe07;
+// Síntese
+//  Objetivo:  Apresentar as compras de frutas efetuadas por usuário
+//(quantidade de frutas para cada tipo) e identifiá-las por meio de um número.
+//  Entrada : quantidade de abacaxis, maçãs e pera; número que identificará cada fruta
+//  Saída   : quantidade da fruta indicada
+
+
+principal
+	// Declarações
+	inteiro abacaxi, maca, pera, menu;
+
+	// Instruções
+	escreva("Quantos abacaxis foram comprados: ");
+	leia(abacaxi);
+	escreva("Quantas maçãs foram compradas: ");
+	leia(maca);
+	escreva("Quantas peras foram compradas: ");
+	leia(pera);
+
+	escreval(" ");
+	escreval(" ");	
+
+	escreval("1 => ABACAXI");
+	escreval("2 => MAÇA");
+	escreval("3 => PERA");
+	escreval("4 => Para limpar tela!");
+	escreval("ESC => Para finalizar!");
+
+	escreva("Consultar quantidade de: ");
+	leia(menu);
+
+	faca
+		se(menu == 1)entao
+			escreval("Você comprou: ", abacaxi," abacaxis!");
+		fimSe
+		se(menu == 2)entao
+			escreval("Você comprou: ",maca," maçãs!");
+		fimSe
+		se(menu == 3)entao
+			escreval("Você comprou: ",pera, " peras!");
+		fimSe
+		se(menu == 4)entao
+			limpaTela();
+		fimSe
+		se((menu == 0) ou (menu >= 5))entao
+			escreval("A opção selecionada não está disponível, a solicitação deve ser feita novamente!");
+			escreval(" ");	
+		fimSe
+		
+
+		escreval(" ");	
+		escreval(" ");	
+
+		escreval("1 => ABACAXI");
+		escreval("2 => MAÇA");
+		escreval("3 => PERA");
+		escreval("4 => Para limpar tela!");
+		escreval("ESC => Para finalizar!");
+
+		escreva("Consultar quantidade de: ");
+		leia(menu);
+
+	enquanto(menu >= 0);
+
+fimPrincipal

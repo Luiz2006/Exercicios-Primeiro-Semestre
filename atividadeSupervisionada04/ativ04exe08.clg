@@ -1,0 +1,55 @@
+algoritmo ativ04exe08;
+// Síntese
+//  Objetivo:  Um mercador quer fazer um aumento em todos os seus produtos de 10%.
+/*Faça diferentes algoritmos (um para cada estrutura de repetição) que leia a identificação e o 
+preço de cada produto e calcule e escreva a identificação e o novo preço após o aumento.
+Considere as seguintes situações:
+a) o mercador informa o número de produtos que possui antes de entrar com o preço dos produtos
+b) o mercador informa produto a produto e você deve perguntar se tem mais algum produto a ser calculado o aumento
+c) o preço do último produto fornecido pelo mercador é -1 
+*/
+//  Entrada : número de produtos que possui, identificação, preço dos produtos
+//  Saída   : identificação e o novo preço após o aumento
+
+
+principal
+	// Declarações
+	inteiro qtdProd, cont;
+	real precoProd;
+	texto idProd;
+	caracter mais;
+
+	// Instruções
+	qtdProd = 0;
+	//idProd = 0;
+	precoProd = 0;
+	mais = 's';
+/*
+	escreval("ACRÉSCIMO DE 10% ");
+	escreva("Informe a quantidade de produtos: ");
+	leia(qtdProd);
+	escreva("Informe a identificação do produto: ");
+	leia(idProd);
+	escreva("Informe o preço do produto: ");
+	leia(precoProd);
+*/
+	enquanto(mais == 's')faca
+		escreva("Informe a quantidade de produtos: ");
+		leia(qtdProd);
+
+		para(cont de 1 ate qtdProd passo 1)faca
+			escreva("Informe a identificação do produto: ");
+			leia(idProd);
+			escreva("Informe o preço do produto: ");
+			leia(precoProd);
+			
+		escreval("  ");
+			escreva(idProd," com aumento de 10%: R$",precoProd * 1.10::2,"!");
+		fimPara
+
+		escreval("  ");
+		escreva("Mais algum produto a ser calculado o aumento[S/N]? ");
+		leiaCaracter(mais);
+	fimEnquanto
+	
+fimPrincipal

@@ -1,0 +1,121 @@
+algoritmo ativ04exe11;
+// Síntese
+//  Objetivo:  Informar o vencedor de um concurso de piadas.
+//  Entrada : nome dos finalistas, quantidade de juízes, nota de cada candidato
+//  Saída   : total de pontos de cada candidato e o vencedor
+
+
+principal
+	// Declarações,
+	inteiro cont, qteJuiz, notaFin1, notaFin2, notaFin3, ptsFin1, ptsFin2, ptsFin3;
+	texto nomeFin1, nomeFin2, nomeFin3;
+
+	// Instruções
+
+	ptsFin1 = 0;
+	ptsFin2 = 0;
+	ptsFin3 = 0;
+	escreva("### CONCURSO NACIONAL DE PIADAS 2020 ###");
+	escreval(" ");
+
+	escreva("Quantos juízes terão nesta edição? ");
+	leia(qteJuiz);
+	escreva("Informe o nome do 1º finalista: ");
+	leia(nomeFin1);
+	escreva("Informe o nome do 2º finalista: ");
+	leia(nomeFin2);
+	escreva("Informe o nome do 3º finalista: ");
+	leia(nomeFin3);
+
+	para(cont de 1 ate qteJuiz passo 1)faca
+		escreval("        JUÍZ ",cont);
+		escreva("Informe nota do 1º finalista: ");
+		leia(notaFin1);
+		se((notaFin1 < 0) ou (notaFin1 > 100))entao
+			escreva("A nota poderá variar de 0 (zero) a 100(cem)!!!");
+			escreva("Informe o nota do 1º finalista: ");
+			leia(notaFin1);
+		fimSe
+
+		escreva("Informe nota do 2º finalista: ");
+		leia(notaFin2);
+		se((notaFin2 < 0) ou (notaFin2 > 100))entao
+			escreva("A nota poderá variar de 0 (zero) a 100(cem)!!!");
+			escreva("Informe o nota do 2º finalista: ");
+			leia(notaFin2);
+		fimSe
+
+		escreva("Informe nota do 3º finalista: ");
+		leia(notaFin3);
+		se((notaFin3 < 0) ou (notaFin3 > 100))entao
+			escreva("A nota poderá variar de 0 (zero) a 100(cem)!!!");
+			escreva("Informe o nota do 3º finalista: ");
+			leia(notaFin3);
+		fimSe
+
+		ptsFin1 = ptsFin1 + notaFin1;
+		ptsFin2 = ptsFin2 + notaFin2;
+		ptsFin3 = ptsFin3 + notaFin3;
+	fimPara
+
+	se((ptsFin1 > ptsFin2) e (ptsFin1 > ptsFin3))entao
+		escreval(" ");
+		escreval("CAMPEÃO: ",nomeFin1,"!!!");
+		escreval("###########################");
+		escreval("##### P A R A B É N S #####");
+		escreval("###########################");
+	fimSe
+
+	se((ptsFin2 > ptsFin1) e (ptsFin2 > ptsFin3))entao
+		escreval(" ");
+		escreval("CAMPEÃO: ",nomeFin2,"	!!!");
+		escreval("###########################");
+		escreval("##### P A R A B É N S #####");
+		escreval("###########################");
+	fimSe
+
+	se((ptsFin3 > ptsFin1) e (ptsFin3 > ptsFin2))entao
+		escreval(" ");
+		escreval("CAMPEÃO: ",nomeFin3,"!!!");
+		escreval("###########################");
+		escreval("##### P A R A B É N S #####");
+		escreval("###########################");
+	fimSe
+
+
+	se((ptsFin1 == ptsFin2) e (ptsFin1 > ptsFin3))entao
+		escreval(" ");
+		escreval("CAMPEÕES: ",nomeFin1, "  & " ,nomeFin2,"!!!");
+		escreval("###########################");
+		escreval("##### P A R A B É N S #####");
+		escreval("###########################");
+	fimSe
+	se((ptsFin2 == ptsFin3) e (ptsFin2 > ptsFin1))entao
+		escreval(" ");
+		escreval("CAMPEÕES: ",nomeFin2, "  & " ,nomeFin3,"!!!");
+		escreval("###########################");
+		escreval("##### P A R A B É N S #####");
+		escreval("###########################");
+	fimSe
+	se((ptsFin1 == ptsFin3) e (ptsFin1 > ptsFin2))entao
+		escreval(" ");
+		escreval("CAMPEÕES: ",nomeFin1, "  & " ,nomeFin3,"!!!");
+		escreval("###########################");
+		escreval("##### P A R A B É N S #####");
+		escreval("###########################");
+
+	fimSe
+
+	se((ptsFin1 == ptsFin3) e (ptsFin1 == ptsFin2))entao
+		escreval(" ");
+		escreval("@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		escreval("@@ NÃO HOUVE VENCEDORES! @@");
+		escreval("@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+
+	fimSe
+
+	escreval(" ");
+	escreval("Nota do ",nomeFin1,": ",ptsFin1,".");
+	escreval("Nota do ",nomeFin2,": ",ptsFin2,".");
+	escreval("Nota do ",nomeFin3,": ",ptsFin3,".");
+fimPrincipal

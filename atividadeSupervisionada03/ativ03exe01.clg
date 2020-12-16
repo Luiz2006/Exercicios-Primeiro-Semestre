@@ -1,0 +1,26 @@
+algoritmo ativ03exe01;
+// Síntese
+//  Objetivo:  Uma empresa contrata um encanador a R$ 40,00 por dia. 
+//Construa um algoritmo que solicite o número de dias trabalhados pelo 
+//encanador e exiba a quantia líquida que deverá ser paga, sabendo-se 
+//que são descontados 11% para imposto de renda.
+//  Entrada : dias trabalhados, nome
+//  Saída   : pagamento
+
+
+principal
+	// Declarações
+	inteiro dias;
+	texto nome;
+	real pagamento;
+		
+	// Instruções
+	escreva("Informe o nome do encanador: ");
+	leia(nome);
+	escreva("Informe a quantidade de dias trabalhados: ");
+	leia(dias);
+
+	pagamento = dias * 40;
+
+	escreval("O encanador ", nome, " receberá: R$", pagamento, ".");
+fimPrincipal
