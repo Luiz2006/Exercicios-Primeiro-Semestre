@@ -14,7 +14,7 @@ Description: Manipulação de Arquivos - cadastro de funcionarios que persista, ut
 #include<ctype.h>
 #include<locale.h>
 
-#define MAX_FUNC 55
+#define MAX_FUNC 100
 
 struct dados_pessoais{
 	unsigned short codigo;	//2bytes
@@ -26,18 +26,8 @@ struct dados_pessoais{
 	char pad[3];			//pra alinhar
 };
 
-
-
-
-
-
 //	refatorar tudo! ACrrescentarrrrr o campo código e as devidas alterações
 	
-	
-	
-	
-	
-
 void lerValidarNome(int contador_entradas, struct dados_pessoais funcionario[]);
 int lerValidarIdade();
 char lerValidarSexo();
@@ -57,17 +47,19 @@ int main(void){
 	int contador_funcionario = 0, indice = 0, indice2 = 0, contador_entradas = 0;
 	char continuar;
 
-//	põe todas as entradas na struct
-	contador_entradas = (int)porStruct(funcionario);
-	
+
+	contador_entradas = porStruct(funcionario);
 	if(contador_entradas > 0){
 		listarFuncionarios(funcionario, contador_entradas);
+	}else{
+		puts("NENHUM FUNCIONARIO ENCONTRADO, VERIFIQUE O BANCO DE DADOS.");
 	}
 	
 	contador_entradas = cadastrarFuncionarios(funcionario, contador_entradas);
 	
 	contador_entradas = porStruct(funcionario);
 	listarFuncionarios(funcionario, contador_entradas);
+	
 	printf("\n\n\nPRESSIONE QUALQUER TECLA PARA ENCERRAR.\n");
 	getch();
 	return 0;
@@ -82,7 +74,7 @@ void lerValidarNome(int contador_entradas, struct dados_pessoais funcionario[]){
 		fflush(stdin);
 		gets(nome);
 		if((strlen(nome) <= 5)){
-			puts("informe um nome válido!");
+			puts("informe um nome valido!");
 		}
 		if((strlen(nome) > 30)){
 			puts("informe um nome menor!");
@@ -208,28 +200,21 @@ void gravarEntrada(struct dados_pessoais *funcionario, FILE *arq){
 		fwrite(funcionario, sizeof(struct dados_pessoais), 1, arq);
 }
 
-int porStruct(struct dados_pessoais funcionario[]){
-	int indice, contador_entradas;
+int porStruct(struct dados_pessoais funcionario[]){	//põe todas as entradas na struct funcionario
+	int contador_entradas;
 	FILE *arq;
 	arq = fopen("dados_funcionarios.bin", "rb");
 	if(arq == NULL){
-		printf("\a\nERRO AO LER O ARQUIVO: dados_funcionarios.bin!");
+		puts("FALHA AO LER ARQUIVO DOS CADASTROS. na main depois");
 		sleep(5);
 		exit(1);
 	}else{
-		indice = contador_entradas = 0;
-		
-		while(1){
-			if(feof(arq)){
-				break;
-			}
-			contador_entradas = fread(funcionario, sizeof(struct dados_pessoais), MAX_FUNC, arq);	
-		}
-		
-	}//fim else fopen "rb"	
-	fclose(arq);
+		contador_entradas = fread(funcionario, sizeof(struct dados_pessoais), MAX_FUNC, arq);
+		fclose(arq);
+	}
 	return contador_entradas;
 }
+
 
 int cadastrarFuncionarios(struct dados_pessoais funcionario[], int contador_entradas){	
 	FILE *arq;

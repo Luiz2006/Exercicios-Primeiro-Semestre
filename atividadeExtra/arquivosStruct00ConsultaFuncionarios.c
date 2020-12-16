@@ -44,7 +44,7 @@ int main(void){
 
 //	põe todas as entradas na struct
 	contador_entradas = (int)porStruct(funcionario);
-	
+
 	if(contador_entradas > 0){		
 		menuConsulta(funcionario, contador_entradas);
 	}else{
@@ -564,6 +564,7 @@ void pesquisarFuncionarios(struct dados_pessoais funcionario[], int contador_ent
 
 int porStruct(struct dados_pessoais funcionario[]){
 	int indice, contador_entradas;
+
 	FILE *arq;
 	arq = fopen("dados_funcionarios.bin", "rb");
 	if(arq == NULL){
