@@ -49,7 +49,7 @@ int main(void){
 	zerarBackups();
 	contador_entradas = contarEntradas(funcionario);
 	do{
-		deletarFuncionario(funcionario, contador_entradas, "MENU");
+		contador_entradas = deletarFuncionario(funcionario, contador_entradas, "MENU");
 		
 		printf("\nNOVA OPERACAO?\n(s para sim) ");
 		fflush(stdin);
@@ -182,7 +182,7 @@ int contarEntradas(struct dados_pessoais funcionario[]){
 int deletarFuncionario(struct dados_pessoais funcionario[], int contador_entradas, char tipo[10]){	
 	FILE *arq, *bkp;
 	char continuar, opcao;
-	int resultado, cod, controle_erros, contadorTemp, indice;
+	int resultado, cod, controle_erros, contadorTemp, indice, posicao;
 	struct dados_pessoais c[MAX_FUNC];
 
 	zerarBackups();
@@ -241,8 +241,8 @@ int deletarFuncionario(struct dados_pessoais funcionario[], int contador_entrada
 		}
 
 		if(opcao == '0'){
-//			strcpy(tipo, "APAGAR");
-			deletarFuncionario(funcionario, contador_entradas, "APAGAR");
+//			strcpy(tipo, "TODOS");
+			deletarFuncionario(funcionario, contador_entradas, "TODOS");
 		}
 		if(opcao == '1'){
 //			strcpy(tipo, "LISTAR");
@@ -259,7 +259,7 @@ int deletarFuncionario(struct dados_pessoais funcionario[], int contador_entrada
 	}	//fim if menu
 
 	    
-	if(strcmp(tipo, "APAGAR") == 0){	
+	if(strcmp(tipo, "TODOS") == 0){	
 	    char arquivo_anterior[32];
 	    char arquivo_novo[32];
 	    char arquivo_temp[32];
@@ -305,12 +305,78 @@ int deletarFuncionario(struct dados_pessoais funcionario[], int contador_entrada
 			    }	
 			}
 		}	//fim if pagar
-		if(strcmp(tipo, "LISTAR") == 0){
+	if(strcmp(tipo, "LISTAR") == 0){
+		listarFuncionarios(funcionario, contador_entradas);
+	}	//fim if listar
+	
+	if(strcmp(tipo, "INSERIR") == 0){	
+		puts("\nPOSSUI O CODIGO DO FUNCIONARIO?");
+		printf("'s' para sim: ");
+		fflush(stdin);
+		continuar = getchar();
+		contador_entradas = contarEntradas(funcionario);	//atualizar funcionario e contador
+		if(continuar != 's' && continuar != 'S'){
 			listarFuncionarios(funcionario, contador_entradas);
-		}	//fim if listar
-		if(strcmp(tipo, "INSERIR") == 0){	
+		}
+		
+		puts("\nINFORME O CODIGO DO FUNCIONARIO:");
+		scanf("%u", &cod);
+		
+		controle_erros = 0;
+		for(indice = 0; indice < contador_entradas; indice++){
+			if(funcionario[indice].codigo == cod){
+				posicao = indice;
+				controle_erros++;
+			}
+		}
+		if(controle_erros == 0){
+			puts("\nNENHUM FUNCIONARIO ENCONTRADO!");
+		}else{
 			
-		}	//fim if inserir
+			
+			printf("\nCodigo : %03u ", funcionario[posicao].codigo);
+			printf("\nNome   : %s",funcionario[posicao].nome);
+			printf("\nIdade  : %d",funcionario[posicao].idade);
+			if(funcionario[posicao].sexo == 'f'){
+				printf("\nSexo   : feminino");
+			}else if(funcionario[posicao].sexo == 'm'){
+				printf("\nSexo   : masculino");
+			}else{
+				printf("\nSexo   : indefinido");
+			}
+			printf("\nCargo  : %s",funcionario[posicao].cargo);
+			printf("\nSALARIO: R$ %10.2f",funcionario[posicao].salario);
+			printf("\n");
+			
+			
+			
+			
+			puts("DESEJA APAGAR DADOS DESSE FUNCIONARIO?");
+			fflush(stdin);
+			continuar = getchar();
+			if(continuar == 's' || continuar == 'S'){				
+				
+				for(indice = posicao; indice < (contador_entradas - 1); indice++){
+					funcionario[indice] = funcionario[indice + 1];
+				}
+							
+				arq = fopen("dados_funcionarios.bin", "wb");
+				if(arq == NULL){
+					printf("\a\a\nFALHA AO DELETAR! NÂO FOI POSSIVEL ACESSAR O BANCO DE DADOS.");
+					sleep(5);
+					exit(1);
+				}			
+				fwrite(funcionario, sizeof(struct dados_pessoais), (contador_entradas - 1), arq);
+				fclose(arq);
+				puts("CADASTRO APAGADO COM SUCESSO!");
+				struct dados_pessoais funcionario_temp[contador_entradas];
+				for(indice = posicao; indice < (contador_entradas - 1); indice++){
+					funcionario_temp[indice] = funcionario[indice];
+				}
+			}
+			
+		}
+	}	//fim if inserir
 			
 	if(strcmp(tipo, "RESTAURAR") == 0){
 	    char arquivo_anterior[32];
@@ -391,5 +457,9 @@ int deletarFuncionario(struct dados_pessoais funcionario[], int contador_entrada
 		}
 	}	// fim if restaurar
 	
+
+	contador_entradas = contarEntradas(funcionario);
 	return contador_entradas;
 }
+
+
