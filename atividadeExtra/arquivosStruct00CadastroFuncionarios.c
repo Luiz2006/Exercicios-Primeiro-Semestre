@@ -12,7 +12,7 @@ Description: Manipulação de Arquivos - cadastro de funcionarios que persista, ut
 #include<ctype.h>
 #include<locale.h>
 
-#define MAX_FUNC 100
+#define MAX_FUNC 100//se mais que 30.000 alterar de unsigned short para unsigned int
 
 struct dados_pessoais{
 	unsigned short codigo;	//2bytes
@@ -21,7 +21,6 @@ struct dados_pessoais{
 	char sexo;				//1bytes
 	char cargo[21];			//21bytes
 	float salario;			//4bytes
-	char pad[3];			//pra alinhar
 };
 	
 void lerValidarNome();
@@ -31,6 +30,7 @@ void lerValidarCargo();
 float lerValidarSalario();
 void cadastrarFuncionarios();
 void listarFuncionarios(char tipo);
+unsigned short int lerArquivo(struct dados_pessoais funcionario[]);
 
 int main(void){
 	setlocale(LC_COLLATE, "Portuguese");
@@ -47,21 +47,26 @@ int main(void){
 	return 0;
 }
 
+unsigned short int lerArquivo(struct dados_pessoais funcionario[]){
+	unsigned short int contador_entradas;
+	
+	FILE *arq;
+	arq = fopen("dados_funcionarios.bin", "rb");
+	if(arq == NULL){
+		puts("\a\a\a\nSEM FUNCIONARIOS CADASTRADOS, VERIFIQUE OS DADOS SALVOS E TENTE NOVAMENTE!");
+		sleep(3);
+		exit(1);
+	}
+	contador_entradas = fread(funcionario, sizeof(struct dados_pessoais), MAX_FUNC, arq);
+	fclose(arq);	
+	return contador_entradas;
+}
+
 void lerValidarNome(char nome[]){
 	struct dados_pessoais funcionario[MAX_FUNC];	
-	int contador_entradas, indice;
-	
+	unsigned short int contador_entradas, indice;	
 	do{
-		FILE *arq;
-		arq = fopen("dados_funcionarios.bin", "rb");
-		if(arq == NULL){
-			printf("\a\nERRO AO ACESSAR O BANCO DE DADOS.");
-			sleep(5);
-			exit(0);
-		}
-		contador_entradas = fread(funcionario, sizeof(struct dados_pessoais), MAX_FUNC, arq);
-		fclose(arq);
-		
+		contador_entradas = lerArquivo(funcionario);		
 		puts("\nNOME COMPLETO:");
 		fflush(stdin);
 		gets(nome);
@@ -87,24 +92,22 @@ void lerValidarNome(char nome[]){
 }
 
 int lerValidarIdade(){
-	int idade;	
-	
+	unsigned int idade;	
 	do{
 		puts("IDADE:");
 		scanf("%d", &idade);
 		if(idade < 14){
-			puts("Na CLT, a idade mínima prevista é de 14 anos, desde que o menor seja contratado na condição de aprendiz.");
+			puts("Na CLT, a idade mínima prevista é de 14 anos, desde que o \nmenor seja contratado na condição de aprendiz.");
 		}
-		if(idade > 120){
-			puts("Informe uma idade válida, pois com mais de 120 anos é improvável que ainda esteja trabalhando.");
+		if(idade > 100){
+			puts("Informe uma idade válida, pois com mais de 100 anos é \nimprovável que ainda esteja trabalhando.");
 		}
 	}while((idade < 14) || (idade > 120));
 	return idade;
 }
 
 char lerValidarSexo(){
-	char sexo;
-	
+	char sexo;	
 	do{
 		puts("SEXO: ");
 		fflush(stdin);
@@ -133,12 +136,11 @@ void lerValidarCargo(char cargo[]){
 
 float lerValidarSalario(){
 	float salario;
-
 	do{
 		printf("SALARIO:\nR$ ");
 		scanf("%f", &salario);
 		if(salario < 400){
-			puts("Informe um salário válido, pois menos que R$ 400,00 nem jovem aprendiz recebe...");
+			puts("Informe um salário válido, pois menos que R$ 400,00 \nnem jovem aprendiz recebe...");
 		}
 	}while(salario < 400);
 	return salario;
@@ -146,22 +148,13 @@ float lerValidarSalario(){
 
 void listarFuncionarios(char tipo){	
 	struct dados_pessoais funcionario[MAX_FUNC];
-	int indice, contador_entradas;
-	FILE *arq;
+	unsigned short int indice, contador_entradas;
 	
-	arq = fopen("dados_funcionarios.bin", "rb");
-	if(arq == NULL){
-		printf("\aNENHUM FUNCIONARIO ENCONTRADO, VERIFIQUE O BANCO DE DADOS.");
-		sleep(5);
-		exit(0);
-	}
-	contador_entradas = fread(funcionario, sizeof(struct dados_pessoais), MAX_FUNC, arq);
-	fclose(arq);
-	
+	contador_entradas = lerArquivo(funcionario);	
 	system("CLS");
 	printf("QUANTIDADE DE FUNCIONARIOS: %i\n", contador_entradas);
 	if((tipo == 'v') || (tipo == 'V')){
-//		VERTICALIZADO
+//		LISTA VERTICALIZADA
 		for(indice = 0; indice < contador_entradas; indice++){//mostra nome de todos os func
 			printf("\nCodigo : %03u ", funcionario[indice].codigo);
 			printf("\nNome   : %s",funcionario[indice].nome);
@@ -177,12 +170,10 @@ void listarFuncionarios(char tipo){
 			printf("\nSALARIO: R$ %10.2f",funcionario[indice].salario);
 			printf("\n");
 		}
-		printf("\n");
 	}else{
 //		LISTA HORIZONTAL
 		printf("COD %-30s%-6s%-6s%-20s%-10s\n","NOME","IDADE","SEXO","CARGO","SALARIO(R$)");
-		for(indice = 0; indice < contador_entradas; indice++){//mostra nome de todos os func
-	
+		for(indice = 0; indice < contador_entradas; indice++){//mostra nome de todos os func	
 			printf("%03u ", funcionario[indice].codigo);
 			printf("%-30s",funcionario[indice].nome);
 			printf("%-6d",funcionario[indice].idade);
@@ -197,30 +188,22 @@ void listarFuncionarios(char tipo){
 			printf("%10.2f",funcionario[indice].salario);
 			printf("\n");
 		}
-		printf("\n");
 	}
 }
 
 void cadastrarFuncionarios(){	
 	FILE *arq;
 	char continuar = 's';
-	int contador_entradas;
+	unsigned short int contador_entradas;
 	struct dados_pessoais funcionario_gravar, funcionario[MAX_FUNC];
+	
 	puts("CADASTRO DE FUNCIONARIOS");
-
 	do{
-		arq = fopen("dados_funcionarios.bin", "rb");
-		if(arq == NULL){
-			printf("\a\nERRO AO ACESSAR O BANCO DE DADOS.");
-			sleep(5);
-			exit(0);
-		}
-		contador_entradas = fread(funcionario, sizeof(struct dados_pessoais), MAX_FUNC, arq);
-		fclose(arq);
+		contador_entradas = lerArquivo(funcionario);	
 		
 		unsigned short entradas_temp = (funcionario[contador_entradas - 1].codigo);
 		funcionario_gravar.codigo =  entradas_temp + 1;
-		printf("\nFUNCIONARIO %d",  contador_entradas);	
+		printf("\nFUNCIONARIO %d", (contador_entradas + 1));	
 		lerValidarNome(funcionario_gravar.nome);
 		funcionario_gravar.idade = lerValidarIdade();
 		funcionario_gravar.sexo = lerValidarSexo();
@@ -228,18 +211,16 @@ void cadastrarFuncionarios(){
 		funcionario_gravar.salario = lerValidarSalario();
 		
 		arq = fopen("dados_funcionarios.bin", "ab");
-		if(arq == NULL){
-			printf("\a\nERRO AO ABRIR O ARQUIVO: dados_funcionarios.bin!");
+		contador_entradas = fwrite(&funcionario_gravar, sizeof(struct dados_pessoais), 1, arq);
+		if((arq == NULL) || (contador_entradas == 0)){
+			printf("\a\nERRO AO SALVAR CADASTRO!");
 			sleep(5);
-			exit(0);
+			exit(1);
 		}
-		fwrite(&funcionario_gravar, sizeof(struct dados_pessoais), 1, arq);
-		fclose(arq);
-		
+		fclose(arq);		
 		printf("Novo cadastro? (s para continuar) ");
 		fflush(stdin);
 		continuar = getchar();
-
 		if(continuar != 's' && continuar != 'S'){
 			break;
 		}			

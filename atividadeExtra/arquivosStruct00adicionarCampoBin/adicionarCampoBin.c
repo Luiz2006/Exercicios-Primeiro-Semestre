@@ -15,14 +15,14 @@ Description:
 
 #define MAX_FUNC 100
 
+//struct dados_pessoais1{
+//	char nome[31];
+//	int idade;
+//	char sexo;
+//	char cargo[21];
+//	float salario;
+//};
 struct dados_pessoais1{
-	char nome[31];
-	int idade;
-	char sexo;
-	char cargo[21];
-	float salario;
-};
-struct dados_pessoais{
 	//alinhar depois	
 	unsigned short codigo;	//2bytes
 	char nome[31];			//31bytes
@@ -32,7 +32,18 @@ struct dados_pessoais{
 	float salario;			//4bytes
 	char pad[3];			//pra alinhar
 };
+struct dados_pessoais{
+	//alinhar depois	
+	unsigned short codigo;	//2bytes
+	char nome[31];			//31bytes
+	unsigned short idade;	//2bytes
+	char sexo;				//1bytes
+	char cargo[21];			//21bytes
+	float salario;			//4bytes
+};
  
+ 
+
 int main(void){
 	int tamanho;
 	unsigned short age;
@@ -41,13 +52,17 @@ int main(void){
 	struct dados_pessoais c[MAX_FUNC];
 	
 	
+	int tam = sizeof(struct dados_pessoais);
+printf("TAMANHO STRUCT: %d", tam);
+
+
 //===========================================================//
 //		CONTAR QUANTOS FUNCIONARIOS CADASTRADOS				 //
 //===========================================================//
 
 	int indice, contador_entradas;
 	FILE *fp;
-	fp = fopen("novo\\dados_funcionarios.bin", "rb");
+	fp = fopen("anterior\\dados_funcionarios.bin", "rb");
 	if(fp == NULL){
 //		fp = fopen("dados_funcionarios.bin", "wb");
 		printf("\a\nERRO AO LER O ARQUIVO ANTERIOR na raiz!");
@@ -69,7 +84,7 @@ int main(void){
 	
 	FILE *arq_anterior, *arq;
 	
-	arq_anterior = fopen("novo\\dados_funcionarios.bin", "rb");
+	arq_anterior = fopen("anterior\\dados_funcionarios.bin", "rb");
 	if(arq_anterior == NULL){
 		puts("Erro ao abrir o arquivo anterior, na raiz.");
 	}
